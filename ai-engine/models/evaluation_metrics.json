@@ -1,0 +1,95 @@
+{
+  "model_name": "tfidf-svm-calibrated-v1",
+  "train_samples": 2400,
+  "test_samples": 600,
+  "accuracy": 1.0,
+  "labels": [
+    "Custom Handuk",
+    "Custom Sajadah",
+    "Hampers",
+    "Other",
+    "Ready Stock"
+  ],
+  "confusion_matrix": [
+    [
+      120,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      120,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      120,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      120,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      120
+    ]
+  ],
+  "classification_report": {
+    "Custom Handuk": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 120.0
+    },
+    "Custom Sajadah": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 120.0
+    },
+    "Hampers": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 120.0
+    },
+    "Other": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 120.0
+    },
+    "Ready Stock": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 120.0
+    },
+    "accuracy": 1.0,
+    "macro avg": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 600.0
+    },
+    "weighted avg": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 600.0
+    }
+  }
+}

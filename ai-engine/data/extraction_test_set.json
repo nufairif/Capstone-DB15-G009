@@ -1,0 +1,2702 @@
+[
+  {
+    "id": "TST-EXT-0001",
+    "raw_message": "Kak mau order Sajadah Custom ukuran Dewasa wrn biru muda sebanyak 1 pcs. Request bordir nama 'Keluarga Bpk. Bambang' pake font sambung posisi posisi standar tengah. Atas nama Bapak Suharto.",
+    "expected_category": "Custom Sajadah",
+    "expected_extraction": {
+      "customer_name": "Bapak Suharto",
+      "customer_phone": "085711223344",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Custom",
+          "quantity": 1,
+          "color": "Biru Muda",
+          "size": "Dewasa",
+          "custom_text": "Keluarga Bpk. Bambang",
+          "font_style": "Sambung",
+          "layout_notes": "Posisi standar tengah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0002",
+    "raw_message": "Kak mau order Handuk Custom ukuran 50x100 warna ungu lilac sebanyak 2 pcs. Request bordir nama 'Dewi Sartika' pake font script posisi pojok kanan bawah. Atas nama Ibu Kartini.",
+    "expected_category": "Custom Handuk",
+    "expected_extraction": {
+      "customer_name": "Ibu Kartini",
+      "customer_phone": "081399887766",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Custom",
+          "quantity": 2,
+          "color": "Ungu Lilac",
+          "size": "50x100",
+          "custom_text": "Dewi Sartika",
+          "font_style": "Script",
+          "layout_notes": "Pojok kanan bawah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0003",
+    "raw_message": "Assalamualaikum min, saya Dr. Andika mau pesen hampers tasyakuran pernikahan 3 paket kelir gold size Reguler. ukir nama tulisan 'Fajar Nugroho' pake font kapital semua di tengah atas. Tolong buatkan kartu untuk acara tasyakuran pernikahan dari Dr. Andika buat Fajar Nugroho.",
+    "expected_category": "Hampers",
+    "expected_extraction": {
+      "customer_name": "Dr. Andika",
+      "customer_phone": "082144556677",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Hampers Custom Firaza",
+          "quantity": 3,
+          "color": "Gold",
+          "size": "Reguler",
+          "custom_text": "Fajar Nugroho",
+          "font_style": "Kapital Semua",
+          "layout_notes": "Tengah atas"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": true,
+        "occasion": "Tasyakuran Pernikahan",
+        "sender_name": "Dr. Andika",
+        "recipient_name": "Fajar Nugroho",
+        "draft_message": "Selamat menempuh hidup baru untuk Fajar Nugroho. Semoga cinta dan kasih sayang selalu menyertai langkah kalian menuju keluarga yang sakinah, mawaddah, warahmah. Salam hangat dari Dr. Andika."
+      },
+      "additional_notes": "Paket hampers acara Tasyakuran Pernikahan"
+    }
+  },
+  {
+    "id": "TST-EXT-0004",
+    "raw_message": "Halo kak, saya Ustadz Yusuf mau pesan Handuk Mandi Polos warna Tosca ukuran Dewasa sebanyak 4 pcs yang ready stock polos tanpa bordir nama ya.",
+    "expected_category": "Ready Stock",
+    "expected_extraction": {
+      "customer_name": "Ustadz Yusuf",
+      "customer_phone": "087812341234",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Mandi Polos",
+          "quantity": 4,
+          "color": "Tosca",
+          "size": "Dewasa",
+          "custom_text": null,
+          "font_style": null,
+          "layout_notes": null
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pesanan ready stock langsung kirim"
+    }
+  },
+  {
+    "id": "TST-EXT-0005",
+    "raw_message": "Kak mau tanya dong, katalog harga paket hampers lebaran sama pilihan wrn handk dewasa bisa minta dikirim brosur PDF-nya dulu gak buat dirapatin di kantor?",
+    "expected_category": "Other",
+    "expected_extraction": {
+      "customer_name": null,
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pertanyaan umum pelanggan"
+    }
+  },
+  {
+    "id": "TST-EXT-0006",
+    "raw_message": "Kak mau order Sajadah Custom ukuran Dewasa warnanya burgundy sebanyak 6 pcs. Request bdr nama 'Syifa Hadju' pake font latin tegak posisi di bagian kubah sajadah. Atas nama Rina Wati.",
+    "expected_category": "Custom Sajadah",
+    "expected_extraction": {
+      "customer_name": "Rina Wati",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Custom",
+          "quantity": 6,
+          "color": "Burgundy",
+          "size": "Dewasa",
+          "custom_text": "Syifa Hadju",
+          "font_style": "Latin Tegak",
+          "layout_notes": "Di bagian kubah sajadah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0007",
+    "raw_message": "Kak mau order Handuk Custom ukuran 50x100 warna olive sebanyak 10 pcs. Request bordir nama 'Reza Rahadian' pake font font nomor 2 posisi di list bawah handuk. Atas nama Hendri & Lestari.",
+    "expected_category": "Custom Handuk",
+    "expected_extraction": {
+      "customer_name": "Hendri & Lestari",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Custom",
+          "quantity": 10,
+          "color": "Olive",
+          "size": "50x100",
+          "custom_text": "Reza Rahadian",
+          "font_style": "Font Nomor 2",
+          "layout_notes": "Di list bawah handuk"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0008",
+    "raw_message": "Assalamualaikum min, saya Keluarga Bpk. Bambang mau pesen hmpers kelulusan wisuda 12 paket warnanya mocca ukuran Travel. bdr tulisan 'Taufik Hidayat' pake font font elegan di posisi standar tengah. Tolong buatkan greeting card untuk acara kelulusan wisuda dari Keluarga Bpk. Bambang buat Taufik Hidayat.",
+    "expected_category": "Hampers",
+    "expected_extraction": {
+      "customer_name": "Keluarga Bpk. Bambang",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Hampers Custom Firaza",
+          "quantity": 12,
+          "color": "Mocca",
+          "size": "Travel",
+          "custom_text": "Taufik Hidayat",
+          "font_style": "Font Elegan",
+          "layout_notes": "Posisi standar tengah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": true,
+        "occasion": "Kelulusan Wisuda",
+        "sender_name": "Keluarga Bpk. Bambang",
+        "recipient_name": "Taufik Hidayat",
+        "draft_message": "Bingkisan spesial untuk Taufik Hidayat di momen Kelulusan Wisuda ini. Semoga bermanfaat dan selalu membawa kebahagiaan serta keberkahan. Salam hangat dari Keluarga Bpk. Bambang."
+      },
+      "additional_notes": "Paket hampers acara Kelulusan Wisuda"
+    }
+  },
+  {
+    "id": "TST-EXT-0009",
+    "raw_message": "Halo kak, saya Dewi Sartika mau pesan Sajadah Travel kelir Navy ukuran Travel sebanyak 15 pcs yang ready stock polos tanpa bdr nama ya.",
+    "expected_category": "Ready Stock",
+    "expected_extraction": {
+      "customer_name": "Dewi Sartika",
+      "customer_phone": "081234567890",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Travel",
+          "quantity": 15,
+          "color": "Navy",
+          "size": "Travel",
+          "custom_text": null,
+          "font_style": null,
+          "layout_notes": null
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pesanan ready stock langsung kirim"
+    }
+  },
+  {
+    "id": "TST-EXT-0010",
+    "raw_message": "Halo kak, pesanan saya kemarin salah satu warnanya ketuker, prosedur retur atau tukar barang gimana ya?",
+    "expected_category": "Other",
+    "expected_extraction": {
+      "customer_name": null,
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pertanyaan umum pelanggan"
+    }
+  },
+  {
+    "id": "TST-EXT-0011",
+    "raw_message": "Kak mau order Sajadah Custom ukuran Dewasa warna hijau emerald sebanyak 1 pcs. Request bordir nama 'dr. Nadia' pake font sambung posisi bawah tengah. Atas nama Ilham Ramadhan.",
+    "expected_category": "Custom Sajadah",
+    "expected_extraction": {
+      "customer_name": "Ilham Ramadhan",
+      "customer_phone": "081399887766",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Custom",
+          "quantity": 1,
+          "color": "Hijau Emerald",
+          "size": "Dewasa",
+          "custom_text": "dr. Nadia",
+          "font_style": "Sambung",
+          "layout_notes": "Bawah tengah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0012",
+    "raw_message": "Kak mau order Handuk Custom ukuran 50x100 warna hitam sebanyak 2 pcs. Request bordir nama 'Ir. Kurniawan' pake font script posisi pojok kiri bawah. Atas nama Putri Maharani.",
+    "expected_category": "Custom Handuk",
+    "expected_extraction": {
+      "customer_name": "Putri Maharani",
+      "customer_phone": "082144556677",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Custom",
+          "quantity": 2,
+          "color": "Hitam",
+          "size": "50x100",
+          "custom_text": "Ir. Kurniawan",
+          "font_style": "Script",
+          "layout_notes": "Pojok kiri bawah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0013",
+    "raw_message": "Assalamualaikum min, saya Syifa Hadju mau pesen hampers pernikahan 3 paket warna putih tulang ukuran Dewasa. Bordir tulisan 'Alya & Bagas' pake font kapital semua di di bagian kubah sajadah. Tolong buatkan kartu ucapan untuk acara pernikahan dari Syifa Hadju buat Alya & Bagas.",
+    "expected_category": "Hampers",
+    "expected_extraction": {
+      "customer_name": "Syifa Hadju",
+      "customer_phone": "087812341234",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Hampers Custom Firaza",
+          "quantity": 3,
+          "color": "Putih Tulang",
+          "size": "Dewasa",
+          "custom_text": "Alya & Bagas",
+          "font_style": "Kapital Semua",
+          "layout_notes": "Di bagian kubah sajadah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": true,
+        "occasion": "Pernikahan",
+        "sender_name": "Syifa Hadju",
+        "recipient_name": "Alya & Bagas",
+        "draft_message": "Selamat menempuh hidup baru untuk Alya & Bagas. Semoga cinta dan kasih sayang selalu menyertai langkah kalian menuju keluarga yang sakinah, mawaddah, warahmah. Salam hangat dari Syifa Hadju."
+      },
+      "additional_notes": "Paket hampers acara Pernikahan"
+    }
+  },
+  {
+    "id": "TST-EXT-0014",
+    "raw_message": "Halo kak, saya Reza Rahadian mau pesan Handuk Mandi Polos kelir Cream ukuran Dewasa sebanyak 4 pcs yang ready stock polos tanpa bordir nama ya.",
+    "expected_category": "Ready Stock",
+    "expected_extraction": {
+      "customer_name": "Reza Rahadian",
+      "customer_phone": "089655443322",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Mandi Polos",
+          "quantity": 4,
+          "color": "Cream",
+          "size": "Dewasa",
+          "custom_text": null,
+          "font_style": null,
+          "layout_notes": null
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pesanan ready stock langsung kirim"
+    }
+  },
+  {
+    "id": "TST-EXT-0015",
+    "raw_message": "Halo kak, katalog warna dan pilihan font lengkapnya bisa dilihat di mana ya? Boleh minta PDF-nya?",
+    "expected_category": "Other",
+    "expected_extraction": {
+      "customer_name": null,
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pertanyaan umum pelanggan"
+    }
+  },
+  {
+    "id": "TST-EXT-0016",
+    "raw_message": "Kak mau order Sajadah Custom ukuran Dewasa warna abu-abu sebanyak 6 pcs. Request bordir nama 'Rizky Pratama' pake font latin tegak posisi pojok kanan bawah. Atas nama H. Sulaiman.",
+    "expected_category": "Custom Sajadah",
+    "expected_extraction": {
+      "customer_name": "H. Sulaiman",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Custom",
+          "quantity": 6,
+          "color": "Abu-Abu",
+          "size": "Dewasa",
+          "custom_text": "Rizky Pratama",
+          "font_style": "Latin Tegak",
+          "layout_notes": "Pojok kanan bawah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0017",
+    "raw_message": "Kak mau order Handuk Custom ukuran 50x100 warna dusty pink sebanyak 10 pcs. Request bordir nama 'Aisyah Putri' pake font font nomor 2 posisi tengah atas. Atas nama Hj. Khadijah.",
+    "expected_category": "Custom Handuk",
+    "expected_extraction": {
+      "customer_name": "Hj. Khadijah",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Custom",
+          "quantity": 10,
+          "color": "Dusty Pink",
+          "size": "50x100",
+          "custom_text": "Aisyah Putri",
+          "font_style": "Font Nomor 2",
+          "layout_notes": "Tengah atas"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0018",
+    "raw_message": "Assalamualaikum min, saya dr. Nadia mau pesen hampers aqiqah anak 12 paket warna sage green ukuran 70x140. Bordir tulisan 'Keluarga Hendra' pake font font elegan di bawah tengah. Tolong buatkan kartu ucapan untuk acara aqiqah anak dari dr. Nadia buat Keluarga Hendra.",
+    "expected_category": "Hampers",
+    "expected_extraction": {
+      "customer_name": "dr. Nadia",
+      "customer_phone": "081234567890",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Hampers Custom Firaza",
+          "quantity": 12,
+          "color": "Sage Green",
+          "size": "70x140",
+          "custom_text": "Keluarga Hendra",
+          "font_style": "Font Elegan",
+          "layout_notes": "Bawah tengah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": true,
+        "occasion": "Aqiqah Anak",
+        "sender_name": "dr. Nadia",
+        "recipient_name": "Keluarga Hendra",
+        "draft_message": "Bingkisan spesial untuk Keluarga Hendra di momen Aqiqah Anak ini. Semoga bermanfaat dan selalu membawa kebahagiaan serta keberkahan. Salam hangat dari dr. Nadia."
+      },
+      "additional_notes": "Paket hampers acara Aqiqah Anak"
+    }
+  },
+  {
+    "id": "TST-EXT-0019",
+    "raw_message": "Halo kak, saya Ir. Kurniawan mau pesan sejadah Travel warna Biru Muda ukrn Travel sebanyak 15 pcs yang rdy polos tanpa bdr nama ya.",
+    "expected_category": "Ready Stock",
+    "expected_extraction": {
+      "customer_name": "Ir. Kurniawan",
+      "customer_phone": "085711223344",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Travel",
+          "quantity": 15,
+          "color": "Biru Muda",
+          "size": "Travel",
+          "custom_text": null,
+          "font_style": null,
+          "layout_notes": null
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pesanan ready stock langsung kirim"
+    }
+  },
+  {
+    "id": "TST-EXT-0020",
+    "raw_message": "Min, resi pesanan saya yang kemarin atas nama Budi kok belum update ya di aplikasi?",
+    "expected_category": "Other",
+    "expected_extraction": {
+      "customer_name": null,
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pertanyaan umum pelanggan"
+    }
+  },
+  {
+    "id": "TST-EXT-0021",
+    "raw_message": "Kak mau order Sajadah Custom ukuran Dewasa warna gold sebanyak 1 pcs. Request bordir nama 'Hj. Fatimah' pake font sambung posisi di list bawah handuk. Atas nama Budi Santoso.",
+    "expected_category": "Custom Sajadah",
+    "expected_extraction": {
+      "customer_name": "Budi Santoso",
+      "customer_phone": "082144556677",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Custom",
+          "quantity": 1,
+          "color": "Gold",
+          "size": "Dewasa",
+          "custom_text": "Hj. Fatimah",
+          "font_style": "Sambung",
+          "layout_notes": "Di list bawah handuk"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0022",
+    "raw_message": "Kak mau order handk Custom ukrn 50x100 warna tosca sebanyak 2 pcs. Request ukir nama nama 'Farhan Nufairi' pake font script posisi posisi standar tengah. Atas nama Siti Aminah.",
+    "expected_category": "Custom Handuk",
+    "expected_extraction": {
+      "customer_name": "Siti Aminah",
+      "customer_phone": "087812341234",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Custom",
+          "quantity": 2,
+          "color": "Tosca",
+          "size": "50x100",
+          "custom_text": "Farhan Nufairi",
+          "font_style": "Script",
+          "layout_notes": "Posisi standar tengah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0023",
+    "raw_message": "Assalamualaikum min, saya Rizky Pratama mau pesen hampers pindah rumah baru 3 paket warna terracotta ukuran Reguler. Bordir tulisan 'Mikail Zakaria' pake font kapital semua di pojok kanan bawah. Tolong buatkan kartu ucapan untuk acara pindah rumah baru dari Rizky Pratama buat Mikail Zakaria.",
+    "expected_category": "Hampers",
+    "expected_extraction": {
+      "customer_name": "Rizky Pratama",
+      "customer_phone": "089655443322",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Hampers Custom Firaza",
+          "quantity": 3,
+          "color": "Terracotta",
+          "size": "Reguler",
+          "custom_text": "Mikail Zakaria",
+          "font_style": "Kapital Semua",
+          "layout_notes": "Pojok kanan bawah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": true,
+        "occasion": "Pindah Rumah Baru",
+        "sender_name": "Rizky Pratama",
+        "recipient_name": "Mikail Zakaria",
+        "draft_message": "Bingkisan spesial untuk Mikail Zakaria di momen Pindah Rumah Baru ini. Semoga bermanfaat dan selalu membawa kebahagiaan serta keberkahan. Salam hangat dari Rizky Pratama."
+      },
+      "additional_notes": "Paket hampers acara Pindah Rumah Baru"
+    }
+  },
+  {
+    "id": "TST-EXT-0024",
+    "raw_message": "Halo kak, saya Aisyah Putri mau pesan handk Mandi Polos warna Burgundy ukuran Dewasa sebanyak 4 pcs yang ready stock polos tanpa bordr nama ya.",
+    "expected_category": "Ready Stock",
+    "expected_extraction": {
+      "customer_name": "Aisyah Putri",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Mandi Polos",
+          "quantity": 4,
+          "color": "Burgundy",
+          "size": "Dewasa",
+          "custom_text": null,
+          "font_style": null,
+          "layout_notes": null
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pesanan ready stock langsung kirim"
+    }
+  },
+  {
+    "id": "TST-EXT-0025",
+    "raw_message": "Kak, toko offline Firaza yang jual sjdh dan handk custom di Bandung itu sebelah mana ya? Mau mampir liat bahan dulu.",
+    "expected_category": "Other",
+    "expected_extraction": {
+      "customer_name": null,
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pertanyaan umum pelanggan"
+    }
+  },
+  {
+    "id": "TST-EXT-0026",
+    "raw_message": "Kak mau order Sajadah Custom ukuran Dewasa warna mocca sebanyak 6 pcs. Request bordir nama 'Daffa Putra' pake font latin tegak posisi pojok kiri bawah. Atas nama Nabila & Dimas.",
+    "expected_category": "Custom Sajadah",
+    "expected_extraction": {
+      "customer_name": "Nabila & Dimas",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Custom",
+          "quantity": 6,
+          "color": "Mocca",
+          "size": "Dewasa",
+          "custom_text": "Daffa Putra",
+          "font_style": "Latin Tegak",
+          "layout_notes": "Pojok kiri bawah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0027",
+    "raw_message": "Kak mau order Handuk Custom ukuran 50x100 warna navy sebanyak 10 pcs. Request bordir nama 'Zahra Aulia' pake font font nomor 2 posisi di bagian kubah sajadah. Atas nama H. Ahmad Dahlan.",
+    "expected_category": "Custom Handuk",
+    "expected_extraction": {
+      "customer_name": "H. Ahmad Dahlan",
+      "customer_phone": "081234567890",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Custom",
+          "quantity": 10,
+          "color": "Navy",
+          "size": "50x100",
+          "custom_text": "Zahra Aulia",
+          "font_style": "Font Nomor 2",
+          "layout_notes": "Di bagian kubah sajadah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0028",
+    "raw_message": "Assalamualaikum min, saya Hj. Fatimah mau pesen hampers pulang haji / umroh 12 paket warna maroon ukuran Travel. Bordir tulisan 'Bapak Suharto' pake font font elegan di di list bawah handuk. Tolong buatkan kartu ucapan untuk acara pulang haji / umroh dari Hj. Fatimah buat Bapak Suharto.",
+    "expected_category": "Hampers",
+    "expected_extraction": {
+      "customer_name": "Hj. Fatimah",
+      "customer_phone": "085711223344",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Hampers Custom Firaza",
+          "quantity": 12,
+          "color": "Maroon",
+          "size": "Travel",
+          "custom_text": "Bapak Suharto",
+          "font_style": "Font Elegan",
+          "layout_notes": "Di list bawah handuk"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": true,
+        "occasion": "Pulang Haji / Umroh",
+        "sender_name": "Hj. Fatimah",
+        "recipient_name": "Bapak Suharto",
+        "draft_message": "Selamat atas kepulangan ibadah Haji/Umroh untuk Bapak Suharto. Semoga menjadi ibadah yang mabrur dan membawa keberkahan bagi seluruh keluarga. Salam hangat dari Hj. Fatimah."
+      },
+      "additional_notes": "Paket hampers acara Pulang Haji / Umroh"
+    }
+  },
+  {
+    "id": "TST-EXT-0029",
+    "raw_message": "Halo kak, saya Farhan Nufairi mau pesan Sajadah Travel warnanya Hijau Emerald size Travel sebanyak 15 pcs yang ready stock polos tanpa bordir nama ya.",
+    "expected_category": "Ready Stock",
+    "expected_extraction": {
+      "customer_name": "Farhan Nufairi",
+      "customer_phone": "081399887766",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Travel",
+          "quantity": 15,
+          "color": "Hijau Emerald",
+          "size": "Travel",
+          "custom_text": null,
+          "font_style": null,
+          "layout_notes": null
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pesanan ready stock langsung kirim"
+    }
+  },
+  {
+    "id": "TST-EXT-0030",
+    "raw_message": "Halo Firaza, kalau mau jadi reseller atau dropshipper Toko Firaza syaratnya apa aja min?",
+    "expected_category": "Other",
+    "expected_extraction": {
+      "customer_name": null,
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pertanyaan umum pelanggan"
+    }
+  },
+  {
+    "id": "TST-EXT-0031",
+    "raw_message": "Kak mau order Sajadah Custom ukuran Dewasa warna putih tulang sebanyak 1 pcs. Request bordir nama 'Ustadz Yusuf' pake font sambung posisi tengah atas. Atas nama Guruh Hizbullah.",
+    "expected_category": "Custom Sajadah",
+    "expected_extraction": {
+      "customer_name": "Guruh Hizbullah",
+      "customer_phone": "087812341234",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Custom",
+          "quantity": 1,
+          "color": "Putih Tulang",
+          "size": "Dewasa",
+          "custom_text": "Ustadz Yusuf",
+          "font_style": "Sambung",
+          "layout_notes": "Tengah atas"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0032",
+    "raw_message": "Kak mau order Handuk Custom ukuran 50x100 warna cream sebanyak 2 pcs. Request bordir nama 'Keluarga Besar Sutrisno' pake font script posisi bawah tengah. Atas nama Anisa Rahma.",
+    "expected_category": "Custom Handuk",
+    "expected_extraction": {
+      "customer_name": "Anisa Rahma",
+      "customer_phone": "089655443322",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Custom",
+          "quantity": 2,
+          "color": "Cream",
+          "size": "50x100",
+          "custom_text": "Keluarga Besar Sutrisno",
+          "font_style": "Script",
+          "layout_notes": "Bawah tengah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0033",
+    "raw_message": "Assalamualaikum min, saya Daffa Putra mau pesen hampers tahlilan 40 hari 3 paket warnanya coklat susu sz Dewasa. bordr tulisan 'Rina Wati' pake font kapital semua di pojok kiri bawah. Tolong buatkan kartu ucapan buat acara tahlilan 40 hari dari Daffa Putra buat Rina Wati.",
+    "expected_category": "Hampers",
+    "expected_extraction": {
+      "customer_name": "Daffa Putra",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Hampers Custom Firaza",
+          "quantity": 3,
+          "color": "Coklat Susu",
+          "size": "Dewasa",
+          "custom_text": "Rina Wati",
+          "font_style": "Kapital Semua",
+          "layout_notes": "Pojok kiri bawah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": true,
+        "occasion": "Tahlilan 40 Hari",
+        "sender_name": "Daffa Putra",
+        "recipient_name": "Rina Wati",
+        "draft_message": "Bingkisan spesial untuk Rina Wati di momen Tahlilan 40 Hari ini. Semoga bermanfaat dan selalu membawa kebahagiaan serta keberkahan. Salam hangat dari Daffa Putra."
+      },
+      "additional_notes": "Paket hampers acara Tahlilan 40 Hari"
+    }
+  },
+  {
+    "id": "TST-EXT-0034",
+    "raw_message": "Halo kak, saya Zahra Aulia mau pesan Handuk Mandi Polos warna Abu-Abu ukuran Dewasa sebanyak 4 pcs yang ready stock polos tanpa bordir nama ya.",
+    "expected_category": "Ready Stock",
+    "expected_extraction": {
+      "customer_name": "Zahra Aulia",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Mandi Polos",
+          "quantity": 4,
+          "color": "Abu-Abu",
+          "size": "Dewasa",
+          "custom_text": null,
+          "font_style": null,
+          "layout_notes": null
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pesanan ready stock langsung kirim"
+    }
+  },
+  {
+    "id": "TST-EXT-0035",
+    "raw_message": "Kak admin, cara pencucian sajadah dan handuk bordir biar benangnya awet dan gak luntur gimana ya?",
+    "expected_category": "Other",
+    "expected_extraction": {
+      "customer_name": null,
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pertanyaan umum pelanggan"
+    }
+  },
+  {
+    "id": "TST-EXT-0036",
+    "raw_message": "Kak mau order Sajadah Custom ukuran Dewasa warna sage green sebanyak 6 pcs. Request bordir nama 'Dewi Sartika' pake font latin tegak posisi posisi standar tengah. Atas nama Ibu Kartini.",
+    "expected_category": "Custom Sajadah",
+    "expected_extraction": {
+      "customer_name": "Ibu Kartini",
+      "customer_phone": "081234567890",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Custom",
+          "quantity": 6,
+          "color": "Sage Green",
+          "size": "Dewasa",
+          "custom_text": "Dewi Sartika",
+          "font_style": "Latin Tegak",
+          "layout_notes": "Posisi standar tengah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0037",
+    "raw_message": "Kak mau order Handuk Custom ukuran 50x100 warna biru muda sebanyak 10 pcs. Request bordir nama 'Fajar Nugroho' pake font font nomor 2 posisi pojok kanan bawah. Atas nama Dr. Andika.",
+    "expected_category": "Custom Handuk",
+    "expected_extraction": {
+      "customer_name": "Dr. Andika",
+      "customer_phone": "085711223344",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Custom",
+          "quantity": 10,
+          "color": "Biru Muda",
+          "size": "50x100",
+          "custom_text": "Fajar Nugroho",
+          "font_style": "Font Nomor 2",
+          "layout_notes": "Pojok kanan bawah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0038",
+    "raw_message": "Assalamualaikum min, saya Ustadz Yusuf mau pesen hampers lebaran idul fitri 12 paket warna ungu lilac ukuran 70x140. Bordir tulisan 'Ilham Ramadhan' pake font font elegan di tengah atas. Tolong buatkan greeting card buat acara lebaran idul fitri dari Ustadz Yusuf buat Ilham Ramadhan.",
+    "expected_category": "Hampers",
+    "expected_extraction": {
+      "customer_name": "Ustadz Yusuf",
+      "customer_phone": "081399887766",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Hampers Custom Firaza",
+          "quantity": 12,
+          "color": "Ungu Lilac",
+          "size": "70x140",
+          "custom_text": "Ilham Ramadhan",
+          "font_style": "Font Elegan",
+          "layout_notes": "Tengah atas"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": true,
+        "occasion": "Lebaran Idul Fitri",
+        "sender_name": "Ustadz Yusuf",
+        "recipient_name": "Ilham Ramadhan",
+        "draft_message": "Selamat Hari Raya Idul Fitri untuk Ilham Ramadhan. Taqabbalallahu minna wa minkum, mohon maaf lahir dan batin. Semoga keberkahan dan kebahagiaan senantiasa menyertai. Salam hangat dari Ustadz Yusuf."
+      },
+      "additional_notes": "Paket hampers acara Lebaran Idul Fitri"
+    }
+  },
+  {
+    "id": "TST-EXT-0039",
+    "raw_message": "Halo kak, saya Keluarga Besar Sutrisno mau pesan Sajadah Travel warna Gold ukuran Travel sebanyak 15 pcs yang ready stock polos tanpa bordir nama ya.",
+    "expected_category": "Ready Stock",
+    "expected_extraction": {
+      "customer_name": "Keluarga Besar Sutrisno",
+      "customer_phone": "082144556677",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Travel",
+          "quantity": 15,
+          "color": "Gold",
+          "size": "Travel",
+          "custom_text": null,
+          "font_style": null,
+          "layout_notes": null
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pesanan ready stock langsung kirim"
+    }
+  },
+  {
+    "id": "TST-EXT-0040",
+    "raw_message": "Halo admin Firaza, kalau mau jadi reseller atau dropshipper Toko Firaza syaratnya apa aja min?",
+    "expected_category": "Other",
+    "expected_extraction": {
+      "customer_name": null,
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pertanyaan umum pelanggan"
+    }
+  },
+  {
+    "id": "TST-EXT-0041",
+    "raw_message": "Kak mau order Sajadah Custom ukuran Dewasa warna terracotta sebanyak 1 pcs. Request bordir nama 'Reza Rahadian' pake font sambung posisi di bagian kubah sajadah. Atas nama Hendri & Lestari.",
+    "expected_category": "Custom Sajadah",
+    "expected_extraction": {
+      "customer_name": "Hendri & Lestari",
+      "customer_phone": "089655443322",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Custom",
+          "quantity": 1,
+          "color": "Terracotta",
+          "size": "Dewasa",
+          "custom_text": "Reza Rahadian",
+          "font_style": "Sambung",
+          "layout_notes": "Di bagian kubah sajadah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0042",
+    "raw_message": "Kak mau order Handuk Custom ukuran 50x100 warna burgundy sebanyak 2 pcs. Request bordir nama 'Taufik Hidayat' pake font script posisi di list bawah handuk. Atas nama Keluarga Bpk. Bambang.",
+    "expected_category": "Custom Handuk",
+    "expected_extraction": {
+      "customer_name": "Keluarga Bpk. Bambang",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Custom",
+          "quantity": 2,
+          "color": "Burgundy",
+          "size": "50x100",
+          "custom_text": "Taufik Hidayat",
+          "font_style": "Script",
+          "layout_notes": "Di list bawah handuk"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0043",
+    "raw_message": "Assalamualaikum min, saya Dewi Sartika mau pesen hampers kenang-kenangan kantor 3 paket warna olive ukuran Reguler. Bordir tulisan 'H. Sulaiman' pake font kapital semua di posisi standar tengah. Tolong buatkan kartu ucapan untuk acara kenang-kenangan kantor dari Dewi Sartika buat H. Sulaiman.",
+    "expected_category": "Hampers",
+    "expected_extraction": {
+      "customer_name": "Dewi Sartika",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Hampers Custom Firaza",
+          "quantity": 3,
+          "color": "Olive",
+          "size": "Reguler",
+          "custom_text": "H. Sulaiman",
+          "font_style": "Kapital Semua",
+          "layout_notes": "Posisi standar tengah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": true,
+        "occasion": "Kenang-Kenangan Kantor",
+        "sender_name": "Dewi Sartika",
+        "recipient_name": "H. Sulaiman",
+        "draft_message": "Bingkisan spesial untuk H. Sulaiman di momen Kenang-Kenangan Kantor ini. Semoga bermanfaat dan selalu membawa kebahagiaan serta keberkahan. Salam hangat dari Dewi Sartika."
+      },
+      "additional_notes": "Paket hampers acara Kenang-Kenangan Kantor"
+    }
+  },
+  {
+    "id": "TST-EXT-0044",
+    "raw_message": "Halo kak, saya Fajar Nugroho mau pesan hndk Mandi Polos wrn Mocca size Dewasa sebanyak 4 pcs yang polosan polos tanpa bordir nama ya.",
+    "expected_category": "Ready Stock",
+    "expected_extraction": {
+      "customer_name": "Fajar Nugroho",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Mandi Polos",
+          "quantity": 4,
+          "color": "Mocca",
+          "size": "Dewasa",
+          "custom_text": null,
+          "font_style": null,
+          "layout_notes": null
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pesanan ready stock langsung kirim"
+    }
+  },
+  {
+    "id": "TST-EXT-0045",
+    "raw_message": "Halo Firaza, pesanan hndk custom bordr nama saya yang warna maroon kemarin kok resinya belum jalan-jalan ya di ekspedisi?",
+    "expected_category": "Other",
+    "expected_extraction": {
+      "customer_name": null,
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pertanyaan umum pelanggan"
+    }
+  },
+  {
+    "id": "TST-EXT-0046",
+    "raw_message": "Kak mau order Sajadah Custom ukuran Dewasa warna maroon sebanyak 6 pcs. Request bordir nama 'Ir. Kurniawan' pake font latin tegak posisi bawah tengah. Atas nama Putri Maharani.",
+    "expected_category": "Custom Sajadah",
+    "expected_extraction": {
+      "customer_name": "Putri Maharani",
+      "customer_phone": "085711223344",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Custom",
+          "quantity": 6,
+          "color": "Maroon",
+          "size": "Dewasa",
+          "custom_text": "Ir. Kurniawan",
+          "font_style": "Latin Tegak",
+          "layout_notes": "Bawah tengah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0047",
+    "raw_message": "Kak mau order anduk Custom ukrn 50x100 warna hijau emerald sebanyak 10 pcs. Request bordir nama 'Alya & Bagas' pake font font nomor 2 posisi pojok kiri bawah. Atas nama Syifa Hadju.",
+    "expected_category": "Custom Handuk",
+    "expected_extraction": {
+      "customer_name": "Syifa Hadju",
+      "customer_phone": "081399887766",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Custom",
+          "quantity": 10,
+          "color": "Hijau Emerald",
+          "size": "50x100",
+          "custom_text": "Alya & Bagas",
+          "font_style": "Font Nomor 2",
+          "layout_notes": "Pojok kiri bawah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0048",
+    "raw_message": "Assalamualaikum min, saya Reza Rahadian mau pesen hampers ulang tahun 12 paket kelir hitam sz Travel. ukir nama tulisan 'Budi Santoso' pake font font elegan di di bagian kubah sajdah. Tolong buatkan greeting card buat acara ulang tahun dari Reza Rahadian buat Budi Santoso.",
+    "expected_category": "Hampers",
+    "expected_extraction": {
+      "customer_name": "Reza Rahadian",
+      "customer_phone": "082144556677",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Hampers Custom Firaza",
+          "quantity": 12,
+          "color": "Hitam",
+          "size": "Travel",
+          "custom_text": "Budi Santoso",
+          "font_style": "Font Elegan",
+          "layout_notes": "Di bagian kubah sajadah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": true,
+        "occasion": "Ulang Tahun",
+        "sender_name": "Reza Rahadian",
+        "recipient_name": "Budi Santoso",
+        "draft_message": "Selamat Ulang Tahun untuk Budi Santoso! Semoga panjang umur, sehat selalu, dan segala impian terbaik segera tercapai. Salam hangat dari Reza Rahadian."
+      },
+      "additional_notes": "Paket hampers acara Ulang Tahun"
+    }
+  },
+  {
+    "id": "TST-EXT-0049",
+    "raw_message": "Halo kak, saya Taufik Hidayat mau pesan sejadah Travel wrn Putih Tulang ukuran Travel sebanyak 15 pcs yang rdy polos tanpa bordr nama ya.",
+    "expected_category": "Ready Stock",
+    "expected_extraction": {
+      "customer_name": "Taufik Hidayat",
+      "customer_phone": "087812341234",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Travel",
+          "quantity": 15,
+          "color": "Putih Tulang",
+          "size": "Travel",
+          "custom_text": null,
+          "font_style": null,
+          "layout_notes": null
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pesanan ready stock langsung kirim"
+    }
+  },
+  {
+    "id": "TST-EXT-0050",
+    "raw_message": "Permisi min, katalog wrna dan pilihan font lengkapnya bisa dilihat di mana ya? Boleh minta PDF-nya?",
+    "expected_category": "Other",
+    "expected_extraction": {
+      "customer_name": null,
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pertanyaan umum pelanggan"
+    }
+  },
+  {
+    "id": "TST-EXT-0051",
+    "raw_message": "Kak mau order Sajadah Custom ukuran Dewasa warna coklat susu sebanyak 1 pcs. Request bordir nama 'Aisyah Putri' pake font sambung posisi pojok kanan bawah. Atas nama Hj. Khadijah.",
+    "expected_category": "Custom Sajadah",
+    "expected_extraction": {
+      "customer_name": "Hj. Khadijah",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Custom",
+          "quantity": 1,
+          "color": "Coklat Susu",
+          "size": "Dewasa",
+          "custom_text": "Aisyah Putri",
+          "font_style": "Sambung",
+          "layout_notes": "Pojok kanan bawah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0052",
+    "raw_message": "Kak mau order Handuk Custom ukuran 50x100 warna abu-abu sebanyak 2 pcs. Request bordir nama 'Keluarga Hendra' pake font script posisi tengah atas. Atas nama dr. Nadia.",
+    "expected_category": "Custom Handuk",
+    "expected_extraction": {
+      "customer_name": "dr. Nadia",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Custom",
+          "quantity": 2,
+          "color": "Abu-Abu",
+          "size": "50x100",
+          "custom_text": "Keluarga Hendra",
+          "font_style": "Script",
+          "layout_notes": "Tengah atas"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0053",
+    "raw_message": "Assalamualaikum min, saya Ir. Kurniawan mau pesen hampers anniversary 3 paket warna dusty pink ukuran Dewasa. Bordir tulisan 'Nabila & Dimas' pake font kapital semua di bawah tengah. Tolong buatkan kartu ucapan untuk acara anniversary dari Ir. Kurniawan buat Nabila & Dimas.",
+    "expected_category": "Hampers",
+    "expected_extraction": {
+      "customer_name": "Ir. Kurniawan",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Hampers Custom Firaza",
+          "quantity": 3,
+          "color": "Dusty Pink",
+          "size": "Dewasa",
+          "custom_text": "Nabila & Dimas",
+          "font_style": "Kapital Semua",
+          "layout_notes": "Bawah tengah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": true,
+        "occasion": "Anniversary",
+        "sender_name": "Ir. Kurniawan",
+        "recipient_name": "Nabila & Dimas",
+        "draft_message": "Bingkisan spesial untuk Nabila & Dimas di momen Anniversary ini. Semoga bermanfaat dan selalu membawa kebahagiaan serta keberkahan. Salam hangat dari Ir. Kurniawan."
+      },
+      "additional_notes": "Paket hampers acara Anniversary"
+    }
+  },
+  {
+    "id": "TST-EXT-0054",
+    "raw_message": "Halo kak, saya Alya & Bagas mau pesan Handuk Mandi Polos warna Sage Green ukuran Dewasa sebanyak 4 pcs yang ready stock polos tanpa bordir nama ya.",
+    "expected_category": "Ready Stock",
+    "expected_extraction": {
+      "customer_name": "Alya & Bagas",
+      "customer_phone": "081234567890",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Mandi Polos",
+          "quantity": 4,
+          "color": "Sage Green",
+          "size": "Dewasa",
+          "custom_text": null,
+          "font_style": null,
+          "layout_notes": null
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pesanan ready stock langsung kirim"
+    }
+  },
+  {
+    "id": "TST-EXT-0055",
+    "raw_message": "Halo Firaza, katalog warna dan pilihan font lengkapnya bisa dilihat di mana ya? Boleh minta PDF-nya?",
+    "expected_category": "Other",
+    "expected_extraction": {
+      "customer_name": null,
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pertanyaan umum pelanggan"
+    }
+  },
+  {
+    "id": "TST-EXT-0056",
+    "raw_message": "Kak mau order Sajadah Custom ukuran Dewasa warna ungu lilac sebanyak 6 pcs. Request bordir nama 'Farhan Nufairi' pake font latin tegak posisi di list bawah handuk. Atas nama Siti Aminah.",
+    "expected_category": "Custom Sajadah",
+    "expected_extraction": {
+      "customer_name": "Siti Aminah",
+      "customer_phone": "081399887766",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Custom",
+          "quantity": 6,
+          "color": "Ungu Lilac",
+          "size": "Dewasa",
+          "custom_text": "Farhan Nufairi",
+          "font_style": "Latin Tegak",
+          "layout_notes": "Di list bawah handuk"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0057",
+    "raw_message": "Kak mau order Handuk Custom ukuran 50x100 warna gold sebanyak 10 pcs. Request bordir nama 'Mikail Zakaria' pake font font nomor 2 posisi posisi standar tengah. Atas nama Rizky Pratama.",
+    "expected_category": "Custom Handuk",
+    "expected_extraction": {
+      "customer_name": "Rizky Pratama",
+      "customer_phone": "082144556677",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Custom",
+          "quantity": 10,
+          "color": "Gold",
+          "size": "50x100",
+          "custom_text": "Mikail Zakaria",
+          "font_style": "Font Nomor 2",
+          "layout_notes": "Posisi standar tengah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0058",
+    "raw_message": "Assalamualaikum min, saya Aisyah Putri mau pesen hampers tasyakuran pernikahan 12 paket warna tosca ukuran 70x140. Bordir tulisan 'Guruh Hizbullah' pake font font elegan di pojok kanan bawah. Tolong buatkan kartu ucapan untuk acara tasyakuran pernikahan dari Aisyah Putri buat Guruh Hizbullah.",
+    "expected_category": "Hampers",
+    "expected_extraction": {
+      "customer_name": "Aisyah Putri",
+      "customer_phone": "087812341234",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Hampers Custom Firaza",
+          "quantity": 12,
+          "color": "Tosca",
+          "size": "70x140",
+          "custom_text": "Guruh Hizbullah",
+          "font_style": "Font Elegan",
+          "layout_notes": "Pojok kanan bawah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": true,
+        "occasion": "Tasyakuran Pernikahan",
+        "sender_name": "Aisyah Putri",
+        "recipient_name": "Guruh Hizbullah",
+        "draft_message": "Selamat menempuh hidup baru untuk Guruh Hizbullah. Semoga cinta dan kasih sayang selalu menyertai langkah kalian menuju keluarga yang sakinah, mawaddah, warahmah. Salam hangat dari Aisyah Putri."
+      },
+      "additional_notes": "Paket hampers acara Tasyakuran Pernikahan"
+    }
+  },
+  {
+    "id": "TST-EXT-0059",
+    "raw_message": "Halo kak, saya Keluarga Hendra mau pesan sejadah Travel wrn Terracotta uk Travel sebanyak 15 pcs yang ready stock polos tanpa tulisan nama ya.",
+    "expected_category": "Ready Stock",
+    "expected_extraction": {
+      "customer_name": "Keluarga Hendra",
+      "customer_phone": "089655443322",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Travel",
+          "quantity": 15,
+          "color": "Terracotta",
+          "size": "Travel",
+          "custom_text": null,
+          "font_style": null,
+          "layout_notes": null
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pesanan ready stock langsung kirim"
+    }
+  },
+  {
+    "id": "TST-EXT-0060",
+    "raw_message": "Min, pembayaran bisa lewat transfer bank apa aja? Bisa COD gak kalau daerah Bandung?",
+    "expected_category": "Other",
+    "expected_extraction": {
+      "customer_name": null,
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pertanyaan umum pelanggan"
+    }
+  },
+  {
+    "id": "TST-EXT-0061",
+    "raw_message": "Kak mau order Sajadah Custom ukuran Dewasa warna olive sebanyak 1 pcs. Request bordir nama 'Zahra Aulia' pake font sambung posisi pojok kiri bawah. Atas nama H. Ahmad Dahlan.",
+    "expected_category": "Custom Sajadah",
+    "expected_extraction": {
+      "customer_name": "H. Ahmad Dahlan",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Custom",
+          "quantity": 1,
+          "color": "Olive",
+          "size": "Dewasa",
+          "custom_text": "Zahra Aulia",
+          "font_style": "Sambung",
+          "layout_notes": "Pojok kiri bawah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0062",
+    "raw_message": "Kak mau order Handuk Custom ukuran 50x100 warna mocca sebanyak 2 pcs. Request bordir nama 'Bapak Suharto' pake font script posisi di bagian kubah sajadah. Atas nama Hj. Fatimah.",
+    "expected_category": "Custom Handuk",
+    "expected_extraction": {
+      "customer_name": "Hj. Fatimah",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Custom",
+          "quantity": 2,
+          "color": "Mocca",
+          "size": "50x100",
+          "custom_text": "Bapak Suharto",
+          "font_style": "Script",
+          "layout_notes": "Di bagian kubah sajadah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0063",
+    "raw_message": "Assalamualaikum min, saya Farhan Nufairi mau pesen hampers kelulusan wisuda 3 paket wrna navy ukrn Reguler. bordr tulisan 'Ibu Kartini' pake font kapital semua di di list bawah hndk. Tolong buatkan krtu ucapan untuk acara kelulusan wisuda dari Farhan Nufairi buat Ibu Kartini.",
+    "expected_category": "Hampers",
+    "expected_extraction": {
+      "customer_name": "Farhan Nufairi",
+      "customer_phone": "081234567890",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Hampers Custom Firaza",
+          "quantity": 3,
+          "color": "Navy",
+          "size": "Reguler",
+          "custom_text": "Ibu Kartini",
+          "font_style": "Kapital Semua",
+          "layout_notes": "Di list bawah handuk"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": true,
+        "occasion": "Kelulusan Wisuda",
+        "sender_name": "Farhan Nufairi",
+        "recipient_name": "Ibu Kartini",
+        "draft_message": "Bingkisan spesial untuk Ibu Kartini di momen Kelulusan Wisuda ini. Semoga bermanfaat dan selalu membawa kebahagiaan serta keberkahan. Salam hangat dari Farhan Nufairi."
+      },
+      "additional_notes": "Paket hampers acara Kelulusan Wisuda"
+    }
+  },
+  {
+    "id": "TST-EXT-0064",
+    "raw_message": "Halo kak, saya Mikail Zakaria mau pesan Handuk Mandi Polos warna Maroon ukuran Dewasa sebanyak 4 pcs yang ready stock polos tanpa bordir nama ya.",
+    "expected_category": "Ready Stock",
+    "expected_extraction": {
+      "customer_name": "Mikail Zakaria",
+      "customer_phone": "085711223344",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Mandi Polos",
+          "quantity": 4,
+          "color": "Maroon",
+          "size": "Dewasa",
+          "custom_text": null,
+          "font_style": null,
+          "layout_notes": null
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pesanan ready stock langsung kirim"
+    }
+  },
+  {
+    "id": "TST-EXT-0065",
+    "raw_message": "Pagi kak, katalog harga paket hampers lebaran sama pilihan warna handuk dewasa bisa minta dikirim brosur PDF-nya dulu gak buat dirapatin di kantor?",
+    "expected_category": "Other",
+    "expected_extraction": {
+      "customer_name": null,
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pertanyaan umum pelanggan"
+    }
+  },
+  {
+    "id": "TST-EXT-0066",
+    "raw_message": "Kak mau order Sajadah Custom ukuran Dewasa warna hitam sebanyak 6 pcs. Request bordir nama 'Keluarga Besar Sutrisno' pake font latin tegak posisi tengah atas. Atas nama Anisa Rahma.",
+    "expected_category": "Custom Sajadah",
+    "expected_extraction": {
+      "customer_name": "Anisa Rahma",
+      "customer_phone": "082144556677",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Custom",
+          "quantity": 6,
+          "color": "Hitam",
+          "size": "Dewasa",
+          "custom_text": "Keluarga Besar Sutrisno",
+          "font_style": "Latin Tegak",
+          "layout_notes": "Tengah atas"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0067",
+    "raw_message": "Kak mau order Handuk Custom ukuran 50x100 warna putih tulang sebanyak 10 pcs. Request bordir nama 'Rina Wati' pake font font nomor 2 posisi bawah tengah. Atas nama Daffa Putra.",
+    "expected_category": "Custom Handuk",
+    "expected_extraction": {
+      "customer_name": "Daffa Putra",
+      "customer_phone": "087812341234",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Custom",
+          "quantity": 10,
+          "color": "Putih Tulang",
+          "size": "50x100",
+          "custom_text": "Rina Wati",
+          "font_style": "Font Nomor 2",
+          "layout_notes": "Bawah tengah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0068",
+    "raw_message": "Assalamualaikum min, saya Zahra Aulia mau pesen hampers pernikahan 12 paket warna cream ukuran Travel. Bordir tulisan 'Hendri & Lestari' pake font font elegan di pojok kiri bawah. Tolong buatkan kartu ucapan untuk acara pernikahan dari Zahra Aulia buat Hendri & Lestari.",
+    "expected_category": "Hampers",
+    "expected_extraction": {
+      "customer_name": "Zahra Aulia",
+      "customer_phone": "089655443322",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Hampers Custom Firaza",
+          "quantity": 12,
+          "color": "Cream",
+          "size": "Travel",
+          "custom_text": "Hendri & Lestari",
+          "font_style": "Font Elegan",
+          "layout_notes": "Pojok kiri bawah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": true,
+        "occasion": "Pernikahan",
+        "sender_name": "Zahra Aulia",
+        "recipient_name": "Hendri & Lestari",
+        "draft_message": "Selamat menempuh hidup baru untuk Hendri & Lestari. Semoga cinta dan kasih sayang selalu menyertai langkah kalian menuju keluarga yang sakinah, mawaddah, warahmah. Salam hangat dari Zahra Aulia."
+      },
+      "additional_notes": "Paket hampers acara Pernikahan"
+    }
+  },
+  {
+    "id": "TST-EXT-0069",
+    "raw_message": "Halo kak, saya Bapak Suharto mau pesan sejadah Travel warna Coklat Susu ukuran Travel sebanyak 15 pcs yang stok ready polos tanpa ukir nama nama ya.",
+    "expected_category": "Ready Stock",
+    "expected_extraction": {
+      "customer_name": "Bapak Suharto",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Travel",
+          "quantity": 15,
+          "color": "Coklat Susu",
+          "size": "Travel",
+          "custom_text": null,
+          "font_style": null,
+          "layout_notes": null
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pesanan ready stock langsung kirim"
+    }
+  },
+  {
+    "id": "TST-EXT-0070",
+    "raw_message": "Halo Firaza, lokasi toko offline Firaza di sebelah mana ya? Bisa dateng langsung gak?",
+    "expected_category": "Other",
+    "expected_extraction": {
+      "customer_name": null,
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pertanyaan umum pelanggan"
+    }
+  },
+  {
+    "id": "TST-EXT-0071",
+    "raw_message": "Kak mau order Sajadah Custom ukuran Dewasa warna dusty pink sebanyak 1 pcs. Request bordir nama 'Fajar Nugroho' pake font sambung posisi posisi standar tengah. Atas nama Dr. Andika.",
+    "expected_category": "Custom Sajadah",
+    "expected_extraction": {
+      "customer_name": "Dr. Andika",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Custom",
+          "quantity": 1,
+          "color": "Dusty Pink",
+          "size": "Dewasa",
+          "custom_text": "Fajar Nugroho",
+          "font_style": "Sambung",
+          "layout_notes": "Posisi standar tengah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0072",
+    "raw_message": "Kak mau order hndk Custom ukuran 50x100 warnanya sage green sebanyak 2 pcs. Request bdr nama 'Ilham Ramadhan' pake font script posisi pojok kanan bawah. Atas nama Ustadz Yusuf.",
+    "expected_category": "Custom Handuk",
+    "expected_extraction": {
+      "customer_name": "Ustadz Yusuf",
+      "customer_phone": "081234567890",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Custom",
+          "quantity": 2,
+          "color": "Sage Green",
+          "size": "50x100",
+          "custom_text": "Ilham Ramadhan",
+          "font_style": "Script",
+          "layout_notes": "Pojok kanan bawah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0073",
+    "raw_message": "Assalamualaikum min, saya Keluarga Besar Sutrisno mau pesen hampers aqiqah anak 3 paket warna biru muda ukuran Dewasa. Bordir tulisan 'Putri Maharani' pake font kapital semua di tengah atas. Tolong buatkan kartu ucapan untuk acara aqiqah anak dari Keluarga Besar Sutrisno buat Putri Maharani.",
+    "expected_category": "Hampers",
+    "expected_extraction": {
+      "customer_name": "Keluarga Besar Sutrisno",
+      "customer_phone": "085711223344",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Hampers Custom Firaza",
+          "quantity": 3,
+          "color": "Biru Muda",
+          "size": "Dewasa",
+          "custom_text": "Putri Maharani",
+          "font_style": "Kapital Semua",
+          "layout_notes": "Tengah atas"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": true,
+        "occasion": "Aqiqah Anak",
+        "sender_name": "Keluarga Besar Sutrisno",
+        "recipient_name": "Putri Maharani",
+        "draft_message": "Bingkisan spesial untuk Putri Maharani di momen Aqiqah Anak ini. Semoga bermanfaat dan selalu membawa kebahagiaan serta keberkahan. Salam hangat dari Keluarga Besar Sutrisno."
+      },
+      "additional_notes": "Paket hampers acara Aqiqah Anak"
+    }
+  },
+  {
+    "id": "TST-EXT-0074",
+    "raw_message": "Halo kak, saya Rina Wati mau pesan handk Mandi Polos warnanya Ungu Lilac ukuran Dewasa sebanyak 4 pcs yang polosan polos tanpa bordr nama ya.",
+    "expected_category": "Ready Stock",
+    "expected_extraction": {
+      "customer_name": "Rina Wati",
+      "customer_phone": "081399887766",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Mandi Polos",
+          "quantity": 4,
+          "color": "Ungu Lilac",
+          "size": "Dewasa",
+          "custom_text": null,
+          "font_style": null,
+          "layout_notes": null
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pesanan ready stock langsung kirim"
+    }
+  },
+  {
+    "id": "TST-EXT-0075",
+    "raw_message": "Assalamu'alaikum kak, cara pencucian sajadah dan handuk bordir biar benangnya awet dan gak luntur gimana ya?",
+    "expected_category": "Other",
+    "expected_extraction": {
+      "customer_name": null,
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pertanyaan umum pelanggan"
+    }
+  },
+  {
+    "id": "TST-EXT-0076",
+    "raw_message": "Kak mau order Sajadah Custom ukuran Dewasa warna tosca sebanyak 6 pcs. Request bdr nama 'Taufik Hidayat' pake font latin tegak posisi di bagian kubah sajadah. Atas nama Keluarga Bpk. Bambang.",
+    "expected_category": "Custom Sajadah",
+    "expected_extraction": {
+      "customer_name": "Keluarga Bpk. Bambang",
+      "customer_phone": "087812341234",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Custom",
+          "quantity": 6,
+          "color": "Tosca",
+          "size": "Dewasa",
+          "custom_text": "Taufik Hidayat",
+          "font_style": "Latin Tegak",
+          "layout_notes": "Di bagian kubah sajadah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0077",
+    "raw_message": "Kak mau order Handuk Custom ukuran 50x100 warna terracotta sebanyak 10 pcs. Request bordir nama 'H. Sulaiman' pake font font nomor 2 posisi di list bawah handuk. Atas nama Dewi Sartika.",
+    "expected_category": "Custom Handuk",
+    "expected_extraction": {
+      "customer_name": "Dewi Sartika",
+      "customer_phone": "089655443322",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Custom",
+          "quantity": 10,
+          "color": "Terracotta",
+          "size": "50x100",
+          "custom_text": "H. Sulaiman",
+          "font_style": "Font Nomor 2",
+          "layout_notes": "Di list bawah handuk"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0078",
+    "raw_message": "Assalamualaikum min, saya Fajar Nugroho mau pesen paket kado pindah rumah baru 12 paket warna burgundy uk 70x140. ukir nama tulisan 'Hj. Khadijah' pake font font elegan di posisi standar tengah. Tolong buatkan kartu ucapan untuk acara pindah rumah baru dari Fajar Nugroho buat Hj. Khadijah.",
+    "expected_category": "Hampers",
+    "expected_extraction": {
+      "customer_name": "Fajar Nugroho",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Hampers Custom Firaza",
+          "quantity": 12,
+          "color": "Burgundy",
+          "size": "70x140",
+          "custom_text": "Hj. Khadijah",
+          "font_style": "Font Elegan",
+          "layout_notes": "Posisi standar tengah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": true,
+        "occasion": "Pindah Rumah Baru",
+        "sender_name": "Fajar Nugroho",
+        "recipient_name": "Hj. Khadijah",
+        "draft_message": "Bingkisan spesial untuk Hj. Khadijah di momen Pindah Rumah Baru ini. Semoga bermanfaat dan selalu membawa kebahagiaan serta keberkahan. Salam hangat dari Fajar Nugroho."
+      },
+      "additional_notes": "Paket hampers acara Pindah Rumah Baru"
+    }
+  },
+  {
+    "id": "TST-EXT-0079",
+    "raw_message": "Halo kak, saya Ilham Ramadhan mau pesan Sajadah Travel kelir Olive uk Travel sebanyak 15 pcs yang polosan polos tanpa ukir nama nama ya.",
+    "expected_category": "Ready Stock",
+    "expected_extraction": {
+      "customer_name": "Ilham Ramadhan",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Travel",
+          "quantity": 15,
+          "color": "Olive",
+          "size": "Travel",
+          "custom_text": null,
+          "font_style": null,
+          "layout_notes": null
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pesanan ready stock langsung kirim"
+    }
+  },
+  {
+    "id": "TST-EXT-0080",
+    "raw_message": "Kak mau tanya dong, lokasi toko offline Firaza di sebelah mana ya? Bisa dateng langsung gak?",
+    "expected_category": "Other",
+    "expected_extraction": {
+      "customer_name": null,
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pertanyaan umum pelanggan"
+    }
+  },
+  {
+    "id": "TST-EXT-0081",
+    "raw_message": "Kak mau order Sajadah Custom ukuran Dewasa warna navy sebanyak 1 pcs. Request bordir nama 'Alya & Bagas' pake font sambung posisi bawah tengah. Atas nama Syifa Hadju.",
+    "expected_category": "Custom Sajadah",
+    "expected_extraction": {
+      "customer_name": "Syifa Hadju",
+      "customer_phone": "081234567890",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Custom",
+          "quantity": 1,
+          "color": "Navy",
+          "size": "Dewasa",
+          "custom_text": "Alya & Bagas",
+          "font_style": "Sambung",
+          "layout_notes": "Bawah tengah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0082",
+    "raw_message": "Kak mau order Handuk Custom ukuran 50x100 warna maroon sebanyak 2 pcs. Request bordir nama 'Budi Santoso' pake font script posisi pojok kiri bawah. Atas nama Reza Rahadian.",
+    "expected_category": "Custom Handuk",
+    "expected_extraction": {
+      "customer_name": "Reza Rahadian",
+      "customer_phone": "085711223344",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Custom",
+          "quantity": 2,
+          "color": "Maroon",
+          "size": "50x100",
+          "custom_text": "Budi Santoso",
+          "font_style": "Script",
+          "layout_notes": "Pojok kiri bawah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0083",
+    "raw_message": "Assalamualaikum min, saya Taufik Hidayat mau pesen hampers pulang haji / umroh 3 paket warna hijau emerald ukuran Reguler. Bordir tulisan 'Siti Aminah' pake font kapital semua di di bagian kubah sajadah. Tolong buatkan kartu ucapan untuk acara pulang haji / umroh dari Taufik Hidayat buat Siti Aminah.",
+    "expected_category": "Hampers",
+    "expected_extraction": {
+      "customer_name": "Taufik Hidayat",
+      "customer_phone": "081399887766",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Hampers Custom Firaza",
+          "quantity": 3,
+          "color": "Hijau Emerald",
+          "size": "Reguler",
+          "custom_text": "Siti Aminah",
+          "font_style": "Kapital Semua",
+          "layout_notes": "Di bagian kubah sajadah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": true,
+        "occasion": "Pulang Haji / Umroh",
+        "sender_name": "Taufik Hidayat",
+        "recipient_name": "Siti Aminah",
+        "draft_message": "Selamat atas kepulangan ibadah Haji/Umroh untuk Siti Aminah. Semoga menjadi ibadah yang mabrur dan membawa keberkahan bagi seluruh keluarga. Salam hangat dari Taufik Hidayat."
+      },
+      "additional_notes": "Paket hampers acara Pulang Haji / Umroh"
+    }
+  },
+  {
+    "id": "TST-EXT-0084",
+    "raw_message": "Halo kak, saya H. Sulaiman mau pesan Handuk Mandi Polos warna Hitam ukuran Dewasa sebanyak 4 pcs yang ready stock polos tanpa bordir nama ya.",
+    "expected_category": "Ready Stock",
+    "expected_extraction": {
+      "customer_name": "H. Sulaiman",
+      "customer_phone": "082144556677",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Mandi Polos",
+          "quantity": 4,
+          "color": "Hitam",
+          "size": "Dewasa",
+          "custom_text": null,
+          "font_style": null,
+          "layout_notes": null
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pesanan ready stock langsung kirim"
+    }
+  },
+  {
+    "id": "TST-EXT-0085",
+    "raw_message": "Min, kalau sajadah custom kelir sage green yang udah dibordir itu cara nyucinya boleh pake mesin cuci gak biar gak rusak?",
+    "expected_category": "Other",
+    "expected_extraction": {
+      "customer_name": null,
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pertanyaan umum pelanggan"
+    }
+  },
+  {
+    "id": "TST-EXT-0086",
+    "raw_message": "Kak mau order sjdh Custom sz Dewasa kelir cream sebanyak 6 pcs. Request bordir nama 'Keluarga Hendra' pake font latin tegak posisi pojok kanan bawah. Atas nama dr. Nadia.",
+    "expected_category": "Custom Sajadah",
+    "expected_extraction": {
+      "customer_name": "dr. Nadia",
+      "customer_phone": "089655443322",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Custom",
+          "quantity": 6,
+          "color": "Cream",
+          "size": "Dewasa",
+          "custom_text": "Keluarga Hendra",
+          "font_style": "Latin Tegak",
+          "layout_notes": "Pojok kanan bawah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0087",
+    "raw_message": "Kak mau order anduk Custom ukrn 50x100 warnanya coklat susu sebanyak 10 pcs. Request tulisan nama 'Nabila & Dimas' pake font font nomor 2 posisi tengah atas. Atas nama Ir. Kurniawan.",
+    "expected_category": "Custom Handuk",
+    "expected_extraction": {
+      "customer_name": "Ir. Kurniawan",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Custom",
+          "quantity": 10,
+          "color": "Coklat Susu",
+          "size": "50x100",
+          "custom_text": "Nabila & Dimas",
+          "font_style": "Font Nomor 2",
+          "layout_notes": "Tengah atas"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0088",
+    "raw_message": "Assalamualaikum min, saya Alya & Bagas mau pesen hampers tahlilan 40 hari 12 paket warna abu-abu ukuran Travel. Bordir tulisan 'H. Ahmad Dahlan' pake font font elegan di bawah tengah. Tolong buatkan kartu ucapan untuk acara tahlilan 40 hari dari Alya & Bagas buat H. Ahmad Dahlan.",
+    "expected_category": "Hampers",
+    "expected_extraction": {
+      "customer_name": "Alya & Bagas",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Hampers Custom Firaza",
+          "quantity": 12,
+          "color": "Abu-Abu",
+          "size": "Travel",
+          "custom_text": "H. Ahmad Dahlan",
+          "font_style": "Font Elegan",
+          "layout_notes": "Bawah tengah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": true,
+        "occasion": "Tahlilan 40 Hari",
+        "sender_name": "Alya & Bagas",
+        "recipient_name": "H. Ahmad Dahlan",
+        "draft_message": "Bingkisan spesial untuk H. Ahmad Dahlan di momen Tahlilan 40 Hari ini. Semoga bermanfaat dan selalu membawa kebahagiaan serta keberkahan. Salam hangat dari Alya & Bagas."
+      },
+      "additional_notes": "Paket hampers acara Tahlilan 40 Hari"
+    }
+  },
+  {
+    "id": "TST-EXT-0089",
+    "raw_message": "Halo kak, saya Budi Santoso mau pesan Sajadah Travel wrn Dusty Pink sz Travel sebanyak 15 pcs yang rdy polos tanpa bdr nama ya.",
+    "expected_category": "Ready Stock",
+    "expected_extraction": {
+      "customer_name": "Budi Santoso",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Travel",
+          "quantity": 15,
+          "color": "Dusty Pink",
+          "size": "Travel",
+          "custom_text": null,
+          "font_style": null,
+          "layout_notes": null
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pesanan ready stock langsung kirim"
+    }
+  },
+  {
+    "id": "TST-EXT-0090",
+    "raw_message": "Halo kak, cara pencucian sajdah dan handuk bordir biar benangnya awet dan gak luntur gimana ya?",
+    "expected_category": "Other",
+    "expected_extraction": {
+      "customer_name": null,
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pertanyaan umum pelanggan"
+    }
+  },
+  {
+    "id": "TST-EXT-0091",
+    "raw_message": "Kak mau order Sajadah Custom ukuran Dewasa warna biru muda sebanyak 1 pcs. Request bordir nama 'Mikail Zakaria' pake font sambung posisi di list bawah handuk. Atas nama Rizky Pratama.",
+    "expected_category": "Custom Sajadah",
+    "expected_extraction": {
+      "customer_name": "Rizky Pratama",
+      "customer_phone": "085711223344",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Custom",
+          "quantity": 1,
+          "color": "Biru Muda",
+          "size": "Dewasa",
+          "custom_text": "Mikail Zakaria",
+          "font_style": "Sambung",
+          "layout_notes": "Di list bawah handuk"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0092",
+    "raw_message": "Kak mau order Handuk Custom size 50x100 kelir ungu lilac sebanyak 2 pcs. Request bordir nama 'Guruh Hizbullah' pake font script posisi posisi standar tengah. Atas nama Aisyah Putri.",
+    "expected_category": "Custom Handuk",
+    "expected_extraction": {
+      "customer_name": "Aisyah Putri",
+      "customer_phone": "081399887766",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Custom",
+          "quantity": 2,
+          "color": "Ungu Lilac",
+          "size": "50x100",
+          "custom_text": "Guruh Hizbullah",
+          "font_style": "Script",
+          "layout_notes": "Posisi standar tengah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0093",
+    "raw_message": "Assalamualaikum min, saya Keluarga Hendra mau pesen hampers lebaran idul fitri 3 paket warna gold ukuran Dewasa. Bordir tulisan 'Anisa Rahma' pake font kapital semua di pojok kanan bawah. Tolong buatkan kartu ucapan untuk acara lebaran idul fitri dari Keluarga Hendra buat Anisa Rahma.",
+    "expected_category": "Hampers",
+    "expected_extraction": {
+      "customer_name": "Keluarga Hendra",
+      "customer_phone": "082144556677",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Hampers Custom Firaza",
+          "quantity": 3,
+          "color": "Gold",
+          "size": "Dewasa",
+          "custom_text": "Anisa Rahma",
+          "font_style": "Kapital Semua",
+          "layout_notes": "Pojok kanan bawah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": true,
+        "occasion": "Lebaran Idul Fitri",
+        "sender_name": "Keluarga Hendra",
+        "recipient_name": "Anisa Rahma",
+        "draft_message": "Selamat Hari Raya Idul Fitri untuk Anisa Rahma. Taqabbalallahu minna wa minkum, mohon maaf lahir dan batin. Semoga keberkahan dan kebahagiaan senantiasa menyertai. Salam hangat dari Keluarga Hendra."
+      },
+      "additional_notes": "Paket hampers acara Lebaran Idul Fitri"
+    }
+  },
+  {
+    "id": "TST-EXT-0094",
+    "raw_message": "Halo kak, saya Nabila & Dimas mau pesan Handuk Mandi Polos warna Tosca ukuran Dewasa sebanyak 4 pcs yang ready stock polos tanpa bordir nama ya.",
+    "expected_category": "Ready Stock",
+    "expected_extraction": {
+      "customer_name": "Nabila & Dimas",
+      "customer_phone": "087812341234",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Mandi Polos",
+          "quantity": 4,
+          "color": "Tosca",
+          "size": "Dewasa",
+          "custom_text": null,
+          "font_style": null,
+          "layout_notes": null
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pesanan ready stock langsung kirim"
+    }
+  },
+  {
+    "id": "TST-EXT-0095",
+    "raw_message": "Kak, katalog warna dan pilihan font lengkapnya bisa dilihat di mana ya? Boleh minta PDF-nya?",
+    "expected_category": "Other",
+    "expected_extraction": {
+      "customer_name": null,
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pertanyaan umum pelanggan"
+    }
+  },
+  {
+    "id": "TST-EXT-0096",
+    "raw_message": "Kak mau order Sajadah Custom ukuran Dewasa warna burgundy sebanyak 6 pcs. Request bordir nama 'Bapak Suharto' pake font latin tegak posisi pojok kiri bawah. Atas nama Hj. Fatimah.",
+    "expected_category": "Custom Sajadah",
+    "expected_extraction": {
+      "customer_name": "Hj. Fatimah",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Custom",
+          "quantity": 6,
+          "color": "Burgundy",
+          "size": "Dewasa",
+          "custom_text": "Bapak Suharto",
+          "font_style": "Latin Tegak",
+          "layout_notes": "Pojok kiri bawah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0097",
+    "raw_message": "Kak mau order Handuk Custom ukuran 50x100 warna olive sebanyak 10 pcs. Request bordir nama 'Ibu Kartini' pake font font nomor 2 posisi di bagian kubah sajadah. Atas nama Farhan Nufairi.",
+    "expected_category": "Custom Handuk",
+    "expected_extraction": {
+      "customer_name": "Farhan Nufairi",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Handuk Custom",
+          "quantity": 10,
+          "color": "Olive",
+          "size": "50x100",
+          "custom_text": "Ibu Kartini",
+          "font_style": "Font Nomor 2",
+          "layout_notes": "Di bagian kubah sajadah"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": null
+    }
+  },
+  {
+    "id": "TST-EXT-0098",
+    "raw_message": "Assalamualaikum min, saya Mikail Zakaria mau pesen hampers kenang-kenangan kantor 12 paket warna mocca ukuran 70x140. Bordir tulisan 'Dr. Andika' pake font font elegan di di list bawah handuk. Tolong buatkan kartu ucapan untuk acara kenang-kenangan kantor dari Mikail Zakaria buat Dr. Andika.",
+    "expected_category": "Hampers",
+    "expected_extraction": {
+      "customer_name": "Mikail Zakaria",
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Hampers Custom Firaza",
+          "quantity": 12,
+          "color": "Mocca",
+          "size": "70x140",
+          "custom_text": "Dr. Andika",
+          "font_style": "Font Elegan",
+          "layout_notes": "Di list bawah handuk"
+        }
+      ],
+      "greeting_card": {
+        "is_requested": true,
+        "occasion": "Kenang-Kenangan Kantor",
+        "sender_name": "Mikail Zakaria",
+        "recipient_name": "Dr. Andika",
+        "draft_message": "Bingkisan spesial untuk Dr. Andika di momen Kenang-Kenangan Kantor ini. Semoga bermanfaat dan selalu membawa kebahagiaan serta keberkahan. Salam hangat dari Mikail Zakaria."
+      },
+      "additional_notes": "Paket hampers acara Kenang-Kenangan Kantor"
+    }
+  },
+  {
+    "id": "TST-EXT-0099",
+    "raw_message": "Halo kak, saya Guruh Hizbullah mau pesan Sajadah Travel warna Navy ukuran Travel sebanyak 15 pcs yang ready stock polos tanpa bordir nama ya.",
+    "expected_category": "Ready Stock",
+    "expected_extraction": {
+      "customer_name": "Guruh Hizbullah",
+      "customer_phone": "081234567890",
+      "order_status": "New",
+      "items": [
+        {
+          "product_type": "Sajadah Travel",
+          "quantity": 15,
+          "color": "Navy",
+          "size": "Travel",
+          "custom_text": null,
+          "font_style": null,
+          "layout_notes": null
+        }
+      ],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pesanan ready stock langsung kirim"
+    }
+  },
+  {
+    "id": "TST-EXT-0100",
+    "raw_message": "Halo kak, toko buka dari jam brpa sampai jam berapa? Hari minggu libur atau tetap buka?",
+    "expected_category": "Other",
+    "expected_extraction": {
+      "customer_name": null,
+      "customer_phone": null,
+      "order_status": "New",
+      "items": [],
+      "greeting_card": {
+        "is_requested": false,
+        "occasion": null,
+        "sender_name": null,
+        "recipient_name": null,
+        "draft_message": null
+      },
+      "additional_notes": "Pertanyaan umum pelanggan"
+    }
+  }
+]

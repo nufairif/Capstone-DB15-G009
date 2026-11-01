@@ -1,0 +1,979 @@
+import React, { useState, useEffect } from "react";
+import {
+  LayoutGrid,
+  Wand2,
+  BarChart3,
+  Users,
+  HelpCircle,
+  Settings,
+} from "lucide-react";
+import {
+  API_BASE,
+  CATEGORIES,
+  PRESET_CHATS,
+  DEMO_ACCOUNTS,
+} from "./constants";
+import Toast from "./components/layout/Toast";
+import Sidebar from "./components/layout/Sidebar";
+import Header from "./components/layout/Header";
+import LoginView from "./components/auth/LoginView";
+import DashboardView from "./components/views/DashboardView";
+import CreateOrderView from "./components/views/CreateOrderView";
+import OrdersView from "./components/views/OrdersView";
+import CustomersView from "./components/views/CustomersView";
+import RagCatalogView from "./components/views/RagCatalogView";
+import DatasetsView from "./components/views/DatasetsView";
+
+export default function App() {
+  const [authUser, setAuthUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem("firaza_auth_user");
+      if (!saved) return null;
+      const parsed = JSON.parse(saved);
+      const matched = DEMO_ACCOUNTS.find((a) => a.username === parsed.username);
+      if (matched) {
+        const updated = {
+          ...parsed,
+          full_name: matched.full_name,
+          role: matched.role,
+        };
+        localStorage.setItem("firaza_auth_user", JSON.stringify(updated));
+        return updated;
+      }
+      return parsed;
+    } catch {
+      return null;
+    }
+  });
+
+  const [loginForm, setLoginForm] = useState({
+    username: "admin",
+    password: "admin123",
+  });
+  const [authLoading, setAuthLoading] = useState(false);
+  const [authError, setAuthError] = useState("");
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(() => {
+    if (typeof window !== "undefined" && window.innerWidth < 768) return false;
+    const saved = localStorage.getItem("firaza_sidebar_open");
+    return saved !== null ? saved === "true" : true;
+  });
+
+  const toggleSidebar = () => {
+    setSidebarOpen((prev) => {
+      const next = !prev;
+      localStorage.setItem("firaza_sidebar_open", String(next));
+      return next;
+    });
+  };
+
+  // Clean URL Path Routing (HTML5 History API: /datasets, /create-order, /orders, etc.)
+  const getTabFromPath = () => {
+    if (typeof window === "undefined") return "dashboard";
+    const path = window.location.pathname.replace(/^\/+|\/+$/g, "").trim();
+    const validTabs = [
+      "create-order",
+      "orders",
+      "customers",
+      "rag",
+      "datasets",
+      "login",
+    ];
+    if (validTabs.includes(path)) return path;
+    if (path === "dashboard" || path === "") return "dashboard";
+
+    // Auto-migrate legacy hash if user previously opened /#/datasets or /#/login
+    const hash = window.location.hash.replace(/^#\/?/, "").trim();
+    if (validTabs.includes(hash)) return hash;
+
+    return "dashboard";
+  };
+
+  const [activeTab, setActiveTabState] = useState(() => getTabFromPath());
+
+  const setActiveTab = (tabId) => {
+    setActiveTabState(tabId);
+    if (typeof window !== "undefined") {
+      const targetPath = tabId === "dashboard" ? "/" : `/${tabId}`;
+      if (window.location.pathname !== targetPath || window.location.hash) {
+        window.history.pushState({ tab: tabId }, "", targetPath);
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  // If user is not logged in, enforce clean /login URL
+  useEffect(() => {
+    if (!authUser) {
+      if (typeof window !== "undefined" && window.location.pathname !== "/login") {
+        const prev = window.location.pathname;
+        if (prev && prev !== "/" && prev !== "/login") {
+          try {
+            sessionStorage.setItem("firaza_login_redirect", prev);
+          } catch {}
+        }
+        window.history.replaceState({ tab: "login" }, "", "/login");
+      }
+      setActiveTabState("login");
+    } else if (
+      typeof window !== "undefined" &&
+      window.location.pathname === "/login"
+    ) {
+      let target = "/";
+      try {
+        const saved = sessionStorage.getItem("firaza_login_redirect");
+        if (saved && saved !== "/login") {
+          target = saved;
+          sessionStorage.removeItem("firaza_login_redirect");
+        }
+      } catch {}
+      const targetTab = target.replace(/^\/+/, "") || "dashboard";
+      window.history.replaceState({ tab: targetTab }, "", target);
+      setActiveTabState(targetTab);
+    }
+  }, [authUser]);
+
+  useEffect(() => {
+    // Clean up any legacy hash on load and normalize to clean path
+    if (typeof window !== "undefined" && window.location.hash) {
+      const hashTab = window.location.hash.replace(/^#\/?/, "").trim();
+      const validTabs = [
+        "create-order",
+        "orders",
+        "customers",
+        "rag",
+        "datasets",
+        "login",
+      ];
+      if (validTabs.includes(hashTab) || hashTab === "dashboard") {
+        const cleanPath = hashTab === "dashboard" ? "/" : `/${hashTab}`;
+        window.history.replaceState({ tab: hashTab }, "", cleanPath);
+        setActiveTabState(hashTab === "dashboard" ? "dashboard" : hashTab);
+      }
+    }
+
+    const handlePopState = () => {
+      setActiveTabState(getTabFromPath());
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
+
+  const [stats, setStats] = useState(() => {
+    try {
+      const cached = localStorage.getItem("tf_dashboard_stats");
+      return cached ? JSON.parse(cached) : null;
+    } catch {
+      return null;
+    }
+  });
+  const [orders, setOrders] = useState([]);
+  const [customers, setCustomers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [notification, setNotification] = useState(null);
+
+  // Chart interactive state on Dashboard
+  const [chartMode, setChartMode] = useState("monthly"); // "monthly" | "category"
+  const [selectedBarIdx, setSelectedBarIdx] = useState(4);
+
+  // Filter state for Orders
+  const [filterStatus, setFilterStatus] = useState("ALL");
+  const [filterCategory, setFilterCategory] = useState("ALL");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // AI Smart Order Extractor & Form Order
+  const [rawChat, setRawChat] = useState(PRESET_CHATS[0].text);
+  const [aiAnalyzing, setAiAnalyzing] = useState(false);
+  const [aiResultMeta, setAiResultMeta] = useState(null);
+  const [editingOrderId, setEditingOrderId] = useState(null);
+
+  const [orderForm, setOrderForm] = useState({
+    customer_name: "",
+    customer_phone: "",
+    category: "Custom Sajadah",
+    ai_confidence: 0.95,
+    status: "New",
+    greeting_card_requested: false,
+    greeting_occasion: "",
+    greeting_sender: "",
+    greeting_recipient: "",
+    greeting_draft: "",
+    additional_notes: "",
+    items: [
+      {
+        product_type: "Sajadah Custom",
+        quantity: 1,
+        color: "",
+        size: "",
+        custom_text: "",
+        font_style: "",
+        layout_notes: "",
+      },
+    ],
+  });
+
+  // Customer CRUD
+  const [customerForm, setCustomerForm] = useState({
+    id: null,
+    name: "",
+    phone: "",
+    email: "",
+    address: "",
+  });
+
+  // RAG Assistant
+  const [ragQuery, setRagQuery] = useState(
+    "Ukuran handuk custom dewasa berapa cm dan pilihan warnanya apa aja?"
+  );
+  const [ragResult, setRagResult] = useState(null);
+  const [ragLoading, setRagLoading] = useState(false);
+  const [datasetInfo, setDatasetInfo] = useState(() => {
+    try {
+      const cached = localStorage.getItem("tf_dataset_info");
+      return cached ? JSON.parse(cached) : null;
+    } catch {
+      return null;
+    }
+  });
+  const [copiedId, setCopiedId] = useState(null);
+
+  // RBAC Helpers
+  const isSuperAdmin =
+    authUser?.username === "admin" || authUser?.role === "Super Admin";
+  const isCS =
+    authUser?.username === "cs" || authUser?.role?.includes("CS");
+  const isProduksi =
+    authUser?.username === "produksi" ||
+    authUser?.role?.includes("Production");
+
+  const canDelete = isSuperAdmin;
+  const canCreateOrEditOrder = isSuperAdmin || isCS;
+
+  const getGreetingName = () => {
+    if (!authUser) return "Admin";
+    if (authUser.username === "cs" || authUser.full_name?.includes("Rina"))
+      return "Rina";
+    if (
+      authUser.username === "produksi" ||
+      authUser.full_name?.includes("Farhan")
+    )
+      return "Farhan";
+    if (authUser.username === "admin") return "Admin";
+    const clean = (authUser.full_name || "")
+      .replace(/\s*\(.*?\)/, "")
+      .trim();
+    return clean.split(" ")[0] || authUser.username || "Admin";
+  };
+  const greetingName = getGreetingName();
+
+  const PAGE_TITLES = {
+    dashboard: {
+      title: `Good Morning, ${greetingName}!`,
+      subtitle: `${authUser?.role || "Pengguna"} • Toko Firaza (DB15-G009)`,
+    },
+    "create-order": {
+      title: editingOrderId ? "Edit Pesanan Custom" : "Ekstrak Order AI",
+      subtitle:
+        "Ekstraksi chat otomatis (WA/Shopee) & formulir spesifikasi pesanan",
+    },
+    orders: {
+      title: "Kanban & Pelacakan Pesanan",
+      subtitle:
+        "Monitoring 4 tahap alur produksi bordir & kartu ucapan pelanggan",
+    },
+    customers: {
+      title: "Data & Direktori Pelanggan",
+      subtitle:
+        "Manajemen kontak pemesan, preferensi & riwayat transaksi Toko Firaza",
+    },
+    rag: {
+      title: "Asisten Katalog & SOP Bordir (RAG)",
+      subtitle:
+        "Pencarian knowledge base semantik ke 75 dokumen katalog & panduan produksi",
+    },
+    datasets: {
+      title: "Dataset & Evaluasi Model AI",
+      subtitle:
+        "Transparansi 3.675 dataset latih/uji klasifikasi & model SVM terkalibrasi",
+    },
+  };
+  const currentPageInfo = PAGE_TITLES[activeTab] || PAGE_TITLES.dashboard;
+
+  const showToast = (msg, type = "success") => {
+    setNotification({ msg, type });
+    setTimeout(() => setNotification(null), 3200);
+  };
+
+  const fetchDatasetOverview = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/ai/dataset-overview`);
+      if (res.ok) {
+        const data = await res.json();
+        setDatasetInfo(data);
+        try {
+          localStorage.setItem("tf_dataset_info", JSON.stringify(data));
+        } catch {}
+      }
+    } catch (err) {
+      console.error("Gagal memuat dataset overview:", err);
+    }
+  };
+
+  const fetchAllData = async () => {
+    setLoading(true);
+    try {
+      const [statsRes, ordersRes, custRes] = await Promise.all([
+        fetch(`${API_BASE}/api/stats`),
+        fetch(
+          `${API_BASE}/api/orders?status=${encodeURIComponent(
+            filterStatus
+          )}&category=${encodeURIComponent(
+            filterCategory
+          )}&search=${encodeURIComponent(searchQuery)}`
+        ),
+        fetch(
+          `${API_BASE}/api/customers?search=${encodeURIComponent(searchQuery)}`
+        ),
+      ]);
+      if (statsRes.ok) {
+        const statsData = await statsRes.json();
+        setStats(statsData);
+        try {
+          localStorage.setItem("tf_dashboard_stats", JSON.stringify(statsData));
+        } catch {}
+      }
+      if (ordersRes.ok) setOrders(await ordersRes.json());
+      if (custRes.ok) setCustomers(await custRes.json());
+    } catch (err) {
+      console.error("Gagal memuat data dari backend:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDatasetOverview();
+  }, []);
+
+  useEffect(() => {
+    fetchAllData();
+  }, [filterStatus, filterCategory, searchQuery]);
+
+  // AI Smart Extraction
+  const handleRunAIExtraction = async () => {
+    if (!rawChat.trim()) return;
+    setAiAnalyzing(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/ai/analyze-order`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          raw_message: rawChat,
+          generate_greeting_card: true,
+        }),
+      });
+      const data = await res.json();
+      setAiResultMeta({
+        prediction: data.prediction,
+        meta: data.meta,
+      });
+
+      const ext = data.extraction;
+      const gCard = ext.greeting_card || {};
+      setOrderForm({
+        customer_name: ext.customer_name || "Pelanggan Firaza",
+        customer_phone: ext.customer_phone || "",
+        category: data.prediction.category,
+        ai_confidence: data.prediction.confidence,
+        status: ext.order_status || "New",
+        greeting_card_requested: Boolean(gCard.is_requested),
+        greeting_occasion: gCard.occasion || "",
+        greeting_sender: gCard.sender_name || ext.customer_name || "",
+        greeting_recipient: gCard.recipient_name || "",
+        greeting_draft: gCard.draft_message || "",
+        additional_notes: ext.additional_notes || "",
+        items:
+          ext.items && ext.items.length > 0
+            ? ext.items.map((it) => ({
+                product_type: it.product_type || data.prediction.category,
+                quantity: it.quantity || 1,
+                color: it.color || "",
+                size: it.size || "",
+                custom_text: it.custom_text || "",
+                font_style: it.font_style || "",
+                layout_notes: it.layout_notes || "",
+              }))
+            : [
+                {
+                  product_type: data.prediction.category,
+                  quantity: 1,
+                  color: "",
+                  size: "",
+                  custom_text: "",
+                  font_style: "",
+                  layout_notes: "",
+                },
+              ],
+      });
+      showToast("Berhasil mengekstrak detail pesanan & kartu ucapan dengan AI");
+    } catch {
+      showToast("Gagal menghubungi server AI di port 8000", "error");
+    } finally {
+      setAiAnalyzing(false);
+    }
+  };
+
+  const handleSaveOrder = async (e) => {
+    e.preventDefault();
+    if (!canCreateOrEditOrder) {
+      showToast(
+        "Role Production Lead hanya dapat mengubah status produksi",
+        "error"
+      );
+      return;
+    }
+    const url = editingOrderId
+      ? `${API_BASE}/api/orders/${editingOrderId}`
+      : `${API_BASE}/api/orders`;
+    const method = editingOrderId ? "PUT" : "POST";
+
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...orderForm,
+          raw_message: rawChat,
+        }),
+      });
+      if (res.ok) {
+        showToast(
+          editingOrderId
+            ? "Pesanan berhasil diperbarui"
+            : "Pesanan baru berhasil disimpan"
+        );
+        setEditingOrderId(null);
+        await fetchAllData();
+        setActiveTab("dashboard");
+      }
+    } catch {
+      showToast("Gagal menyimpan pesanan", "error");
+    }
+  };
+
+  const handleAdvanceStatus = async (orderId, nextStatus) => {
+    try {
+      const res = await fetch(`${API_BASE}/api/orders/${orderId}/status`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: nextStatus }),
+      });
+      if (res.ok) {
+        showToast(`Status pesanan diubah ke ${nextStatus}`);
+        fetchAllData();
+      }
+    } catch {
+      showToast("Gagal mengubah status", "error");
+    }
+  };
+
+  const handleDeleteOrder = async (orderId) => {
+    if (!canDelete) {
+      showToast(
+        "Akses ditolak: Hanya Business Manager / Super Admin yang dapat menghapus pesanan",
+        "error"
+      );
+      return;
+    }
+    try {
+      await fetch(`${API_BASE}/api/orders/${orderId}`, { method: "DELETE" });
+      showToast("Pesanan dihapus");
+      fetchAllData();
+    } catch {
+      showToast("Gagal menghapus pesanan", "error");
+    }
+  };
+
+  const handleStartEditOrder = (order) => {
+    setEditingOrderId(order.id);
+    setRawChat(order.raw_message || "");
+    setOrderForm({
+      customer_name: order.customer_name || "",
+      customer_phone: order.customer_phone || "",
+      category: order.category || "Custom Sajadah",
+      ai_confidence: order.ai_confidence || 0.95,
+      status: order.status || "New",
+      greeting_card_requested: Boolean(order.greeting_card_requested),
+      greeting_occasion: order.greeting_occasion || "",
+      greeting_sender: order.greeting_sender || "",
+      greeting_recipient: order.greeting_recipient || "",
+      greeting_draft: order.greeting_draft || "",
+      additional_notes: order.additional_notes || "",
+      items:
+        order.items && order.items.length > 0
+          ? order.items
+          : [
+              {
+                product_type: order.category,
+                quantity: 1,
+                color: "",
+                size: "",
+                custom_text: "",
+                font_style: "",
+                layout_notes: "",
+              },
+            ],
+    });
+    setActiveTab("create-order");
+  };
+
+  const handleAddItemRow = () => {
+    setOrderForm({
+      ...orderForm,
+      items: [
+        ...orderForm.items,
+        {
+          product_type: orderForm.category,
+          quantity: 1,
+          color: "",
+          size: "",
+          custom_text: "",
+          font_style: "",
+          layout_notes: "",
+        },
+      ],
+    });
+  };
+
+  const handleRemoveItemRow = (idx) => {
+    if (orderForm.items.length <= 1) return;
+    setOrderForm({
+      ...orderForm,
+      items: orderForm.items.filter((_, i) => i !== idx),
+    });
+  };
+
+  // Customer CRUD
+  const handleSaveCustomer = async (e) => {
+    e.preventDefault();
+    const isEdit = Boolean(customerForm.id);
+    const url = isEdit
+      ? `${API_BASE}/api/customers/${customerForm.id}`
+      : `${API_BASE}/api/customers`;
+    const method = isEdit ? "PUT" : "POST";
+
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(customerForm),
+      });
+      if (res.ok) {
+        showToast(
+          isEdit ? "Data pelanggan diperbarui" : "Pelanggan ditambahkan"
+        );
+        setCustomerForm({
+          id: null,
+          name: "",
+          phone: "",
+          email: "",
+          address: "",
+        });
+        fetchAllData();
+      }
+    } catch {
+      showToast("Gagal menyimpan pelanggan", "error");
+    }
+  };
+
+  const handleDeleteCustomer = async (id) => {
+    if (!canDelete) {
+      showToast(
+        "Akses ditolak: Hanya Business Manager yang dapat menghapus pelanggan",
+        "error"
+      );
+      return;
+    }
+    await fetch(`${API_BASE}/api/customers/${id}`, { method: "DELETE" });
+    showToast("Pelanggan dihapus");
+    fetchAllData();
+  };
+
+  // RAG Query
+  const handleAskRAG = async (e, customQuery = null) => {
+    if (e && e.preventDefault) e.preventDefault();
+    const qToUse = customQuery !== null ? customQuery : ragQuery;
+    if (!qToUse.trim()) return;
+    setRagLoading(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/ai/rag-catalog`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: qToUse, top_k: 3 }),
+      });
+      if (res.ok) {
+        setRagResult(await res.json());
+      }
+    } catch {
+      showToast("Gagal memanggil RAG Engine", "error");
+    } finally {
+      setRagLoading(false);
+    }
+  };
+
+  const handleCopyText = (text, id) => {
+    navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
+
+  const finishLogin = (userObj) => {
+    setAuthUser(userObj);
+    localStorage.setItem("firaza_auth_user", JSON.stringify(userObj));
+    let target = "/";
+    try {
+      const saved = sessionStorage.getItem("firaza_login_redirect");
+      if (saved && saved !== "/login") {
+        target = saved;
+        sessionStorage.removeItem("firaza_login_redirect");
+      }
+    } catch {}
+    const targetTab = target.replace(/^\/+/, "") || "dashboard";
+    if (typeof window !== "undefined") {
+      window.history.pushState({ tab: targetTab }, "", target);
+    }
+    setActiveTabState(targetTab);
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setAuthError("");
+    setAuthLoading(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: loginForm.username.trim(),
+          password: loginForm.password,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const matched = DEMO_ACCOUNTS.find(
+          (a) => a.username === data.user.username
+        );
+        const userObj = matched
+          ? {
+              ...data.user,
+              full_name: matched.full_name,
+              role: matched.role,
+            }
+          : data.user;
+        finishLogin(userObj);
+        return;
+      }
+      if (res.status === 401) {
+        setAuthError("Username atau password tidak sesuai.");
+        return;
+      }
+      throw new Error("Fallback");
+    } catch {
+      const ident = loginForm.username.trim().toLowerCase();
+      const matched = DEMO_ACCOUNTS.find(
+        (acc) =>
+          (acc.username === ident || acc.email === ident) &&
+          acc.password === loginForm.password
+      );
+      if (matched) {
+        const userObj = {
+          id: 1,
+          username: matched.username,
+          email: matched.email,
+          full_name: matched.full_name,
+          role: matched.role,
+        };
+        finishLogin(userObj);
+      } else {
+        setAuthError("Username atau password tidak sesuai.");
+      }
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await fetch(`${API_BASE}/api/auth/logout`, { method: "POST" });
+    } catch {
+      // ignore
+    }
+    localStorage.removeItem("firaza_auth_user");
+    setAuthUser(null);
+    setProfileMenuOpen(false);
+    setNotification(null);
+    if (typeof window !== "undefined") {
+      window.history.pushState({ tab: "login" }, "", "/login");
+    }
+    setActiveTabState("login");
+  };
+
+  // Sidebar Icon Navigation matching the reference design and RBAC
+  const allNavItems = [
+    { id: "dashboard", label: "Dashboard Utama", icon: LayoutGrid },
+    {
+      id: "create-order",
+      label: "Ekstrak Order AI",
+      icon: Wand2,
+      showFor: ["admin", "cs"],
+    },
+    {
+      id: "orders",
+      label: "Kanban & Pesanan",
+      icon: BarChart3,
+      showFor: ["admin", "cs", "produksi"],
+    },
+    {
+      id: "customers",
+      label: "Data Pelanggan",
+      icon: Users,
+      showFor: ["admin", "cs"],
+    },
+    {
+      id: "rag",
+      label: "Asisten Katalog RAG",
+      icon: HelpCircle,
+      showFor: ["admin", "cs", "produksi"],
+    },
+    { id: "datasets", label: "Dataset & Model AI", icon: Settings },
+  ];
+
+  const currentRoleKey = isSuperAdmin ? "admin" : isCS ? "cs" : "produksi";
+  const navItems = allNavItems.filter(
+    (item) => !item.showFor || item.showFor.includes(currentRoleKey)
+  );
+
+  // Computed metrics for the dashboard cards & chart
+  const totalOrdersCount = stats?.total_orders ?? orders.length;
+  const totalCustomersCount = stats?.total_customers ?? customers.length;
+  const totalPcsCount =
+    stats?.total_pcs ??
+    orders.reduce(
+      (acc, o) =>
+        acc +
+        (o.items || []).reduce(
+          (sum, it) => sum + (Number(it.quantity) || 1),
+          0
+        ),
+      0
+    );
+  const inProgressCount =
+    (stats?.by_status?.["Design/Preparation"] || 0) +
+    (stats?.by_status?.["Production"] || 0);
+  const completedCount = stats?.by_status?.["Completed"] || 0;
+  const progressPercent =
+    totalOrdersCount > 0
+      ? Math.min(
+          100,
+          Math.max(
+            25,
+            Math.round(
+              ((completedCount + inProgressCount * 0.6) / totalOrdersCount) *
+                100
+            )
+          )
+        )
+      : 72;
+
+  // Bar Chart Data (12 Bars)
+  const monthlyChartData = [
+    { label: "Jan", value: 42, detail: "42 Pcs Custom" },
+    { label: "Feb", value: 78, detail: "78 Pcs Custom" },
+    { label: "Mar", value: 65, detail: "65 Pcs Custom" },
+    { label: "Apr", value: 88, detail: "88 Pcs Custom" },
+    {
+      label: "Mei",
+      value: 112,
+      detail: `${totalPcsCount} Pcs Aktif`,
+      delta: "+98% AI",
+    },
+    { label: "Jun", value: 74, detail: "74 Pcs Custom" },
+    { label: "Jul", value: 94, detail: "94 Pcs Custom" },
+    { label: "Agu", value: 76, detail: "76 Pcs Custom" },
+    { label: "Sep", value: 52, detail: "52 Pcs Custom" },
+    { label: "Okt", value: 90, detail: "90 Pcs Custom" },
+    { label: "Nov", value: 72, detail: "72 Pcs Custom" },
+    { label: "Des", value: 98, detail: "98 Pcs Hampers" },
+  ];
+
+  const categoryChartData = CATEGORIES.map((cat) => {
+    const cnt = stats?.by_category?.[cat] || 0;
+    return {
+      label: cat.replace("Custom ", ""),
+      value: Math.min(120, Math.max(24, cnt * 28)),
+      detail: `${cnt} Pesanan (${cat})`,
+      delta: "AI 98%",
+    };
+  });
+
+  const activeBars =
+    chartMode === "monthly" ? monthlyChartData : categoryChartData;
+
+  // Unauthenticated view
+  if (!authUser) {
+    return (
+      <LoginView
+        loginForm={loginForm}
+        setLoginForm={setLoginForm}
+        handleLogin={handleLogin}
+        authLoading={authLoading}
+        authError={authError}
+        setAuthError={setAuthError}
+      />
+    );
+  }
+
+  // Authenticated workspace shell
+  return (
+    <div className="min-h-screen w-full bg-[#F8F9FC] text-[#111111] flex">
+      {/* Sidebar Navigation */}
+      <Sidebar
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+        toggleSidebar={toggleSidebar}
+        navItems={navItems}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        setEditingOrderId={setEditingOrderId}
+        handleAskRAG={handleAskRAG}
+        fetchDatasetOverview={fetchDatasetOverview}
+        ragResult={ragResult}
+        handleLogout={handleLogout}
+      />
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-w-0 px-4 sm:px-8 xl:px-10 py-5 sm:py-7">
+        {/* Top Header */}
+        <Header
+          sidebarOpen={sidebarOpen}
+          toggleSidebar={toggleSidebar}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          currentPageInfo={currentPageInfo}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          isProduksi={isProduksi}
+          setEditingOrderId={setEditingOrderId}
+          fetchAllData={fetchAllData}
+          loading={loading}
+          profileMenuOpen={profileMenuOpen}
+          setProfileMenuOpen={setProfileMenuOpen}
+          greetingName={greetingName}
+          authUser={authUser}
+          handleLogout={handleLogout}
+          orders={orders}
+          customers={customers}
+          handleStartEditOrder={handleStartEditOrder}
+          setCustomerForm={setCustomerForm}
+        />
+
+        {/* Global Toast Notification */}
+        <Toast notification={notification} />
+
+        {/* Tab 1: Dashboard Utama */}
+        {activeTab === "dashboard" && (
+          <DashboardView
+            totalPcsCount={totalPcsCount}
+            totalOrdersCount={totalOrdersCount}
+            datasetInfo={datasetInfo}
+            setActiveTab={setActiveTab}
+            fetchDatasetOverview={fetchDatasetOverview}
+            chartMode={chartMode}
+            setChartMode={setChartMode}
+            selectedBarIdx={selectedBarIdx}
+            setSelectedBarIdx={setSelectedBarIdx}
+            activeBars={activeBars}
+            orders={orders}
+            handleStartEditOrder={handleStartEditOrder}
+            inProgressCount={inProgressCount}
+            progressPercent={progressPercent}
+            isProduksi={isProduksi}
+            setEditingOrderId={setEditingOrderId}
+            handleAdvanceStatus={handleAdvanceStatus}
+            handleCopyText={handleCopyText}
+            copiedId={copiedId}
+            ragResult={ragResult}
+            handleAskRAG={handleAskRAG}
+          />
+        )}
+
+        {/* Tab 2: Ekstrak Order AI */}
+        {activeTab === "create-order" && (
+          <CreateOrderView
+            rawChat={rawChat}
+            setRawChat={setRawChat}
+            aiAnalyzing={aiAnalyzing}
+            handleRunAIExtraction={handleRunAIExtraction}
+            aiResultMeta={aiResultMeta}
+            handleSaveOrder={handleSaveOrder}
+            orderForm={orderForm}
+            setOrderForm={setOrderForm}
+            handleAddItemRow={handleAddItemRow}
+            handleRemoveItemRow={handleRemoveItemRow}
+            editingOrderId={editingOrderId}
+          />
+        )}
+
+        {/* Tab 3: Kanban & Daftar Pesanan */}
+        {activeTab === "orders" && (
+          <OrdersView
+            orders={orders}
+            filterStatus={filterStatus}
+            setFilterStatus={setFilterStatus}
+            filterCategory={filterCategory}
+            setFilterCategory={setFilterCategory}
+            handleStartEditOrder={handleStartEditOrder}
+            handleDeleteOrder={handleDeleteOrder}
+            handleAdvanceStatus={handleAdvanceStatus}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
+        )}
+
+        {/* Tab 4: Manajemen Pelanggan */}
+        {activeTab === "customers" && (
+          <CustomersView
+            handleSaveCustomer={handleSaveCustomer}
+            customerForm={customerForm}
+            setCustomerForm={setCustomerForm}
+            customers={customers}
+            handleDeleteCustomer={handleDeleteCustomer}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
+        )}
+
+        {/* Tab 5: Asisten Katalog RAG */}
+        {activeTab === "rag" && (
+          <RagCatalogView
+            handleAskRAG={handleAskRAG}
+            ragQuery={ragQuery}
+            setRagQuery={setRagQuery}
+            ragLoading={ragLoading}
+            ragResult={ragResult}
+          />
+        )}
+
+        {/* Tab 6: Dataset & Model AI */}
+        {activeTab === "datasets" && (
+          <DatasetsView
+            datasetInfo={datasetInfo}
+            fetchDatasetOverview={fetchDatasetOverview}
+          />
+        )}
+      </div>
+    </div>
+  );
+}

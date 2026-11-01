@@ -1,0 +1,452 @@
+[
+  {
+    "doc_id": "CAT-001",
+    "title": "Katalog Utama Sajadah Custom Bordir Toko Firaza",
+    "category": "Custom Sajadah",
+    "content": "Sajadah Custom Toko Firaza tersedia dalam ukuran Dewasa Reguler (70x110 cm), Besar/Turki (70x120 cm), Travel Lipat (50x100 cm), dan Anak (45x90 cm). Pilihan warna: Hijau Emerald, Navy, Maroon, Hitam, Gold, Cream, Dusty Pink, Sage Green, dan Tosca. Maksimal bordir nama 25 karakter. Pilihan font: Kaligrafi Arab, Sambung (Script), Latin Tegak, dan Huruf Balok."
+  },
+  {
+    "doc_id": "CAT-002",
+    "title": "Katalog Utama Handuk Personalisasi (Custom Bordir) Toko Firaza",
+    "category": "Custom Handuk",
+    "content": "Handuk Custom Toko Firaza menggunakan bahan 100% katun bambu dan microfiber premium daya serap tinggi. Ukuran tersedia: Handuk Mandi Dewasa (70x140 cm), Handuk Tanggung (50x100 cm), Handuk Olahraga/Muka (30x70 cm), dan Handuk Bayi/Jumbo. Pilihan warna: Putih Tulang, Navy, Maroon, Abu-abu, Coklat Susu, Biru Muda, Ungu Lilac, dan Terracotta. Bordir nama dapat diletakkan di bagian list bawah handuk, tengah bawah, atau pojok kanan bawah dengan pilihan font Script, Serif Klasik, Monoline, atau Kapital."
+  },
+  {
+    "doc_id": "CAT-003",
+    "title": "Katalog Paket Hampers & Gift Set Eksklusif Toko Firaza",
+    "category": "Hampers",
+    "content": "Paket Hampers Toko Firaza dirancang untuk acara Pernikahan, Tasyakuran, Lebaran Idul Fitri, Pulang Haji/Umroh, Aqiqah, Ulang Tahun, dan Anniversary. Pilihan paket: (1) Hampers Sajadah & Handuk Single, (2) Paket Kado Handuk Couple (2 pcs handuk 70x140 cm), (3) Box Hampers Lebaran Sajadah Turki, dan (4) Souvenir Hampers Tasyakuran. Setiap pemesanan Hampers sudah termasuk Exclusive Hardbox, pita satin, dan Gratis Kartu Ucapan (Greeting Card) cetak custom."
+  },
+  {
+    "doc_id": "CAT-004",
+    "title": "Katalog Produk Ready Stock (Polos Tanpa Bordir)",
+    "category": "Ready Stock",
+    "content": "Produk Ready Stock Toko Firaza merupakan sajadah travel, sajadah dewasa polos, handuk mandi dewasa, dan handuk microfiber tanpa kustomisasi bordir nama. Produk Ready Stock dapat langsung dikirim pada hari yang sama (same-day/instant delivery) selama pesanan masuk sebelum pukul 15.00 WIB."
+  },
+  {
+    "doc_id": "CAT-005",
+    "title": "SOP 4 Tahap Siklus Produksi & Pelacakan Status Pesanan",
+    "category": "Other",
+    "content": "Setiap pesanan di Toko Firaza melewati 4 tahapan siklus produksi di Web Dashboard: (1) New: Pesanan baru dicatat dan diekstrak oleh AI dari chat pelanggan, (2) Design/Preparation: Admin memvalidasi warna, ukuran, ejaan nama bordir, pilihan font, dan draf kartu ucapan, (3) Production: Proses pembordiran komputer, quality control benang, dan pengemasan box hampers, (4) Completed: Pesanan selesai dikemas dan siap diserahkan ke kurir/pelanggan."
+  },
+  {
+    "doc_id": "CAT-006",
+    "title": "Panduan Pencucian & Perawatan Sajadah serta Handuk Bordir",
+    "category": "Other",
+    "content": "Agar benang bordir nama pada sajadah dan handuk Toko Firaza tetap awet dan tidak luntur: cuci menggunakan air dingin atau hangat maksimal 30 derajat Celcius, hindari pemutih pakaian (bleach), jangan menyikat langsung area benang bordir, dan setrika dengan suhu rendah dari bagian belakang kain."
+  },
+  {
+    "doc_id": "SKU-SJD-01",
+    "title": "Sajadah Turki Bulu Premium Dewasa 70x120 cm",
+    "category": "Custom Sajadah",
+    "content": "Bahan bludru bulu lembut ketebalan 14mm anti-slip, cocok untuk bordir nama emas/gold di bagian kubah atas atau pojok kanan bawah. Harga Rp145.000 (sudah termasuk bordir nama 1 baris)."
+  },
+  {
+    "doc_id": "SKU-SJD-02",
+    "title": "Sajadah Dewasa Reguler Tenun Rajut 70x110 cm",
+    "category": "Custom Sajadah",
+    "content": "Bahan tenun rajut padat ringan dengan rumbai kepang, tersedia 12 pilihan warna. Harga Rp95.000 termasuk custom bordir nama maksimal 25 karakter."
+  },
+  {
+    "doc_id": "SKU-SJD-03",
+    "title": "Sajadah Travel Pouch Lipat Anti-Air 50x100 cm",
+    "category": "Custom Sajadah",
+    "content": "Bahan polyester taslan water-repellent dilengkapi pouch serut mini. Bordir nama bisa di sajadah sekaligus di pouch. Harga Rp65.000/pcs."
+  },
+  {
+    "doc_id": "SKU-SJD-04",
+    "title": "Sajadah Anak Custom Karakter & Nama 45x90 cm",
+    "category": "Custom Sajadah",
+    "content": "Dirancang khusus untuk anak-anak dengan warna cerah (Biru Muda, Dusty Pink, Tosca, Sage Green) dan bordir nama font Huruf Balok atau Sambung. Harga Rp75.000/pcs."
+  },
+  {
+    "doc_id": "SKU-SJD-05",
+    "title": "Sajadah Suede Minimalis Polos & Custom 70x110 cm",
+    "category": "Custom Sajadah",
+    "content": "Permukaan suede beludru halus tanpa motif ramai sehingga hasil bordir nama terlihat sangat kontras dan mewah. Harga Rp120.000/pcs."
+  },
+  {
+    "doc_id": "SKU-HND-01",
+    "title": "Handuk Mandi Dewasa Katun Bambu 70x140 cm",
+    "category": "Custom Handuk",
+    "content": "Gramasi tebal 550 gsm antibakteri alami dan super lembut. Sangat populer untuk bordir nama pasangan atau individu di bagian list bawah handuk. Harga Rp135.000/pcs."
+  },
+  {
+    "doc_id": "SKU-HND-02",
+    "title": "Handuk Tanggung Travel & Gym 50x100 cm",
+    "category": "Custom Handuk",
+    "content": "Ukuran medium praktis dibawa bepergian, bahan 100% combed cotton daya serap tinggi. Harga Rp85.000 termasuk bordir nama."
+  },
+  {
+    "doc_id": "SKU-HND-03",
+    "title": "Handuk Olahraga & Muka Sport 30x70 cm",
+    "category": "Custom Handuk",
+    "content": "Cocok untuk souvenir komunitas olahraga, lari, tenis, atau gym dengan bordir nama di pojok kanan bawah. Harga Rp45.000/pcs (diskon grosir untuk minimal 12 pcs)."
+  },
+  {
+    "doc_id": "SKU-HND-04",
+    "title": "Handuk Bayi Hooded & Jumbo Halus 60x120 cm",
+    "category": "Custom Handuk",
+    "content": "Hypoallergenic aman untuk kulit bayi baru lahir, sering dipesan untuk kado lahiran dan aqiqah dengan bordir nama bayi. Harga Rp110.000/pcs."
+  },
+  {
+    "doc_id": "SKU-HND-05",
+    "title": "Handuk Hotel Luxury Putih & Warna 70x140 cm",
+    "category": "Custom Handuk",
+    "content": "Standar hotel bintang 5 gramasi 600 gsm, tersedia warna Putih Tulang, Navy, Maroon, dan Abu-abu. Harga Rp150.000/pcs."
+  },
+  {
+    "doc_id": "SKU-HMP-01",
+    "title": "Paket Hampers Wedding Couple Handuk 70x140 (Isi 2)",
+    "category": "Hampers",
+    "content": "Berisi 2 pcs Handuk Dewasa 70x140 cm bordir nama pasangan (misal: Nabila & Dimas), dikemas dalam Exclusive Hardbox berpita satin + Gratis Kartu Ucapan Pernikahan. Harga Rp295.000/box."
+  },
+  {
+    "doc_id": "SKU-HMP-02",
+    "title": "Paket Hampers Lebaran Idul Fitri Sajadah & Tasbih",
+    "category": "Hampers",
+    "content": "Berisi 1 Sajadah Turki Custom Bordir Nama + Tasbih Kayu Kokka 33 butir + Hardbox Edisi Ramadhan + Kartu Ucapan Lebaran. Harga Rp185.000/box."
+  },
+  {
+    "doc_id": "SKU-HMP-03",
+    "title": "Paket Hampers Sajadah & Handuk Single Eksklusif",
+    "category": "Hampers",
+    "content": "Kombinasi 1 Sajadah Reguler Custom + 1 Handuk Tanggung 50x100 Custom Bordir senada dalam box mika/hardbox + Kartu Ucapan. Harga Rp210.000/box."
+  },
+  {
+    "doc_id": "SKU-HMP-04",
+    "title": "Paket Souvenir Tasyakuran Haji, Umroh & Pengajian",
+    "category": "Hampers",
+    "content": "Paket hemat pemesanan minimal 10 box, berisi Sajadah Travel atau Handuk 30x70 dengan bordir nama acara/keluarga + kemasan tile/box + kartu ucapan terima kasih. Harga mulai Rp55.000/paket."
+  },
+  {
+    "doc_id": "SKU-HMP-05",
+    "title": "Paket Gift Box Kelulusan Wisuda & Ulang Tahun",
+    "category": "Hampers",
+    "content": "Berisi Handuk Mandi Custom Bordir Nama + Gelar Wisuda (misal: Rizky Pratama, S.Kom) + Boneka Mini + Kartu Ucapan Selamat. Harga Rp165.000/box."
+  },
+  {
+    "doc_id": "CLR-001",
+    "title": "Spesifikasi Warna Produk Navy & Rekomendasi Benang Bordir",
+    "category": "Custom Sajadah",
+    "content": "Warna Navy tersedia untuk lini Sajadah Custom, Handuk Custom, Ready Stock, maupun Hampers Toko Firaza. Untuk produk warna dasar Navy, tim desain Firaza merekomendasikan warna benang bordir kontras: Emas (Gold), Putih, atau Silver agar tulisan nama terlihat jelas, elegan, dan mudah terbaca."
+  },
+  {
+    "doc_id": "CLR-002",
+    "title": "Spesifikasi Warna Produk Maroon & Rekomendasi Benang Bordir",
+    "category": "Custom Handuk",
+    "content": "Warna Maroon tersedia untuk lini Sajadah Custom, Handuk Custom, Ready Stock, maupun Hampers Toko Firaza. Untuk produk warna dasar Maroon, tim desain Firaza merekomendasikan warna benang bordir kontras: Emas (Gold), Putih, atau Silver agar tulisan nama terlihat jelas, elegan, dan mudah terbaca."
+  },
+  {
+    "doc_id": "CLR-003",
+    "title": "Spesifikasi Warna Produk Hijau Emerald & Rekomendasi Benang Bordir",
+    "category": "Custom Sajadah",
+    "content": "Warna Hijau Emerald tersedia untuk lini Sajadah Custom, Handuk Custom, Ready Stock, maupun Hampers Toko Firaza. Untuk produk warna dasar Hijau Emerald, tim desain Firaza merekomendasikan warna benang bordir kontras: Emas (Gold), Putih, atau Silver agar tulisan nama terlihat jelas, elegan, dan mudah terbaca."
+  },
+  {
+    "doc_id": "CLR-004",
+    "title": "Spesifikasi Warna Produk Hitam & Rekomendasi Benang Bordir",
+    "category": "Custom Handuk",
+    "content": "Warna Hitam tersedia untuk lini Sajadah Custom, Handuk Custom, Ready Stock, maupun Hampers Toko Firaza. Untuk produk warna dasar Hitam, tim desain Firaza merekomendasikan warna benang bordir kontras: Emas (Gold), Putih, atau Silver agar tulisan nama terlihat jelas, elegan, dan mudah terbaca."
+  },
+  {
+    "doc_id": "CLR-005",
+    "title": "Spesifikasi Warna Produk Putih Tulang & Rekomendasi Benang Bordir",
+    "category": "Custom Sajadah",
+    "content": "Warna Putih Tulang tersedia untuk lini Sajadah Custom, Handuk Custom, Ready Stock, maupun Hampers Toko Firaza. Untuk produk warna dasar Putih Tulang, tim desain Firaza merekomendasikan warna benang bordir kontras: Hitam, Navy, Coklat Tua, atau Gold Gelap agar tulisan nama terlihat jelas, elegan, dan mudah terbaca."
+  },
+  {
+    "doc_id": "CLR-006",
+    "title": "Spesifikasi Warna Produk Cream & Rekomendasi Benang Bordir",
+    "category": "Custom Handuk",
+    "content": "Warna Cream tersedia untuk lini Sajadah Custom, Handuk Custom, Ready Stock, maupun Hampers Toko Firaza. Untuk produk warna dasar Cream, tim desain Firaza merekomendasikan warna benang bordir kontras: Hitam, Navy, Coklat Tua, atau Gold Gelap agar tulisan nama terlihat jelas, elegan, dan mudah terbaca."
+  },
+  {
+    "doc_id": "CLR-007",
+    "title": "Spesifikasi Warna Produk Coklat Susu & Rekomendasi Benang Bordir",
+    "category": "Custom Sajadah",
+    "content": "Warna Coklat Susu tersedia untuk lini Sajadah Custom, Handuk Custom, Ready Stock, maupun Hampers Toko Firaza. Untuk produk warna dasar Coklat Susu, tim desain Firaza merekomendasikan warna benang bordir kontras: Emas (Gold), Putih, atau Silver agar tulisan nama terlihat jelas, elegan, dan mudah terbaca."
+  },
+  {
+    "doc_id": "CLR-008",
+    "title": "Spesifikasi Warna Produk Abu-Abu & Rekomendasi Benang Bordir",
+    "category": "Custom Handuk",
+    "content": "Warna Abu-Abu tersedia untuk lini Sajadah Custom, Handuk Custom, Ready Stock, maupun Hampers Toko Firaza. Untuk produk warna dasar Abu-Abu, tim desain Firaza merekomendasikan warna benang bordir kontras: Hitam, Navy, Coklat Tua, atau Gold Gelap agar tulisan nama terlihat jelas, elegan, dan mudah terbaca."
+  },
+  {
+    "doc_id": "CLR-009",
+    "title": "Spesifikasi Warna Produk Dusty Pink & Rekomendasi Benang Bordir",
+    "category": "Custom Sajadah",
+    "content": "Warna Dusty Pink tersedia untuk lini Sajadah Custom, Handuk Custom, Ready Stock, maupun Hampers Toko Firaza. Untuk produk warna dasar Dusty Pink, tim desain Firaza merekomendasikan warna benang bordir kontras: Hitam, Navy, Coklat Tua, atau Gold Gelap agar tulisan nama terlihat jelas, elegan, dan mudah terbaca."
+  },
+  {
+    "doc_id": "CLR-010",
+    "title": "Spesifikasi Warna Produk Sage Green & Rekomendasi Benang Bordir",
+    "category": "Custom Handuk",
+    "content": "Warna Sage Green tersedia untuk lini Sajadah Custom, Handuk Custom, Ready Stock, maupun Hampers Toko Firaza. Untuk produk warna dasar Sage Green, tim desain Firaza merekomendasikan warna benang bordir kontras: Hitam, Navy, Coklat Tua, atau Gold Gelap agar tulisan nama terlihat jelas, elegan, dan mudah terbaca."
+  },
+  {
+    "doc_id": "CLR-011",
+    "title": "Spesifikasi Warna Produk Biru Muda & Rekomendasi Benang Bordir",
+    "category": "Custom Sajadah",
+    "content": "Warna Biru Muda tersedia untuk lini Sajadah Custom, Handuk Custom, Ready Stock, maupun Hampers Toko Firaza. Untuk produk warna dasar Biru Muda, tim desain Firaza merekomendasikan warna benang bordir kontras: Hitam, Navy, Coklat Tua, atau Gold Gelap agar tulisan nama terlihat jelas, elegan, dan mudah terbaca."
+  },
+  {
+    "doc_id": "CLR-012",
+    "title": "Spesifikasi Warna Produk Ungu Lilac & Rekomendasi Benang Bordir",
+    "category": "Custom Handuk",
+    "content": "Warna Ungu Lilac tersedia untuk lini Sajadah Custom, Handuk Custom, Ready Stock, maupun Hampers Toko Firaza. Untuk produk warna dasar Ungu Lilac, tim desain Firaza merekomendasikan warna benang bordir kontras: Hitam, Navy, Coklat Tua, atau Gold Gelap agar tulisan nama terlihat jelas, elegan, dan mudah terbaca."
+  },
+  {
+    "doc_id": "CLR-013",
+    "title": "Spesifikasi Warna Produk Gold & Rekomendasi Benang Bordir",
+    "category": "Custom Sajadah",
+    "content": "Warna Gold tersedia untuk lini Sajadah Custom, Handuk Custom, Ready Stock, maupun Hampers Toko Firaza. Untuk produk warna dasar Gold, tim desain Firaza merekomendasikan warna benang bordir kontras: Hitam, Navy, Coklat Tua, atau Gold Gelap agar tulisan nama terlihat jelas, elegan, dan mudah terbaca."
+  },
+  {
+    "doc_id": "CLR-014",
+    "title": "Spesifikasi Warna Produk Tosca & Rekomendasi Benang Bordir",
+    "category": "Custom Handuk",
+    "content": "Warna Tosca tersedia untuk lini Sajadah Custom, Handuk Custom, Ready Stock, maupun Hampers Toko Firaza. Untuk produk warna dasar Tosca, tim desain Firaza merekomendasikan warna benang bordir kontras: Hitam, Navy, Coklat Tua, atau Gold Gelap agar tulisan nama terlihat jelas, elegan, dan mudah terbaca."
+  },
+  {
+    "doc_id": "CLR-015",
+    "title": "Spesifikasi Warna Produk Terracotta & Rekomendasi Benang Bordir",
+    "category": "Custom Sajadah",
+    "content": "Warna Terracotta tersedia untuk lini Sajadah Custom, Handuk Custom, Ready Stock, maupun Hampers Toko Firaza. Untuk produk warna dasar Terracotta, tim desain Firaza merekomendasikan warna benang bordir kontras: Hitam, Navy, Coklat Tua, atau Gold Gelap agar tulisan nama terlihat jelas, elegan, dan mudah terbaca."
+  },
+  {
+    "doc_id": "CLR-016",
+    "title": "Spesifikasi Warna Produk Burgundy & Rekomendasi Benang Bordir",
+    "category": "Custom Handuk",
+    "content": "Warna Burgundy tersedia untuk lini Sajadah Custom, Handuk Custom, Ready Stock, maupun Hampers Toko Firaza. Untuk produk warna dasar Burgundy, tim desain Firaza merekomendasikan warna benang bordir kontras: Emas (Gold), Putih, atau Silver agar tulisan nama terlihat jelas, elegan, dan mudah terbaca."
+  },
+  {
+    "doc_id": "CLR-017",
+    "title": "Spesifikasi Warna Produk Olive & Rekomendasi Benang Bordir",
+    "category": "Custom Sajadah",
+    "content": "Warna Olive tersedia untuk lini Sajadah Custom, Handuk Custom, Ready Stock, maupun Hampers Toko Firaza. Untuk produk warna dasar Olive, tim desain Firaza merekomendasikan warna benang bordir kontras: Hitam, Navy, Coklat Tua, atau Gold Gelap agar tulisan nama terlihat jelas, elegan, dan mudah terbaca."
+  },
+  {
+    "doc_id": "CLR-018",
+    "title": "Spesifikasi Warna Produk Mocca & Rekomendasi Benang Bordir",
+    "category": "Custom Handuk",
+    "content": "Warna Mocca tersedia untuk lini Sajadah Custom, Handuk Custom, Ready Stock, maupun Hampers Toko Firaza. Untuk produk warna dasar Mocca, tim desain Firaza merekomendasikan warna benang bordir kontras: Hitam, Navy, Coklat Tua, atau Gold Gelap agar tulisan nama terlihat jelas, elegan, dan mudah terbaca."
+  },
+  {
+    "doc_id": "FNT-001",
+    "title": "Aturan Bordir Gaya Huruf / Font Sambung",
+    "category": "Custom Sajadah",
+    "content": "Pilihan font 'Sambung' di Toko Firaza mendukung bordir komputer presisi tinggi. Batas maksimal yang disarankan untuk 1 baris adalah 20-25 karakter agar ukuran huruf tidak terlalu kecil. Jika nama lebih panjang (misal nama keluarga atau gelar lengkap), admin akan menyusun menjadi 2 baris simetris pada tahap Design/Preparation."
+  },
+  {
+    "doc_id": "FNT-002",
+    "title": "Aturan Bordir Gaya Huruf / Font Script",
+    "category": "Custom Sajadah",
+    "content": "Pilihan font 'Script' di Toko Firaza mendukung bordir komputer presisi tinggi. Batas maksimal yang disarankan untuk 1 baris adalah 20-25 karakter agar ukuran huruf tidak terlalu kecil. Jika nama lebih panjang (misal nama keluarga atau gelar lengkap), admin akan menyusun menjadi 2 baris simetris pada tahap Design/Preparation."
+  },
+  {
+    "doc_id": "FNT-003",
+    "title": "Aturan Bordir Gaya Huruf / Font Kapital Semua",
+    "category": "Custom Sajadah",
+    "content": "Pilihan font 'Kapital Semua' di Toko Firaza mendukung bordir komputer presisi tinggi. Batas maksimal yang disarankan untuk 1 baris adalah 20-25 karakter agar ukuran huruf tidak terlalu kecil. Jika nama lebih panjang (misal nama keluarga atau gelar lengkap), admin akan menyusun menjadi 2 baris simetris pada tahap Design/Preparation."
+  },
+  {
+    "doc_id": "FNT-004",
+    "title": "Aturan Bordir Gaya Huruf / Font Huruf Balok",
+    "category": "Custom Sajadah",
+    "content": "Pilihan font 'Huruf Balok' di Toko Firaza mendukung bordir komputer presisi tinggi. Batas maksimal yang disarankan untuk 1 baris adalah 20-25 karakter agar ukuran huruf tidak terlalu kecil. Jika nama lebih panjang (misal nama keluarga atau gelar lengkap), admin akan menyusun menjadi 2 baris simetris pada tahap Design/Preparation."
+  },
+  {
+    "doc_id": "FNT-005",
+    "title": "Aturan Bordir Gaya Huruf / Font Kaligrafi Arab",
+    "category": "Custom Sajadah",
+    "content": "Pilihan font 'Kaligrafi Arab' di Toko Firaza mendukung bordir komputer presisi tinggi. Batas maksimal yang disarankan untuk 1 baris adalah 20-25 karakter agar ukuran huruf tidak terlalu kecil. Jika nama lebih panjang (misal nama keluarga atau gelar lengkap), admin akan menyusun menjadi 2 baris simetris pada tahap Design/Preparation."
+  },
+  {
+    "doc_id": "FNT-006",
+    "title": "Aturan Bordir Gaya Huruf / Font Latin Tegak",
+    "category": "Custom Sajadah",
+    "content": "Pilihan font 'Latin Tegak' di Toko Firaza mendukung bordir komputer presisi tinggi. Batas maksimal yang disarankan untuk 1 baris adalah 20-25 karakter agar ukuran huruf tidak terlalu kecil. Jika nama lebih panjang (misal nama keluarga atau gelar lengkap), admin akan menyusun menjadi 2 baris simetris pada tahap Design/Preparation."
+  },
+  {
+    "doc_id": "FNT-007",
+    "title": "Aturan Bordir Gaya Huruf / Font Font Nomor 2",
+    "category": "Custom Sajadah",
+    "content": "Pilihan font 'Font Nomor 2' di Toko Firaza mendukung bordir komputer presisi tinggi. Batas maksimal yang disarankan untuk 1 baris adalah 20-25 karakter agar ukuran huruf tidak terlalu kecil. Jika nama lebih panjang (misal nama keluarga atau gelar lengkap), admin akan menyusun menjadi 2 baris simetris pada tahap Design/Preparation."
+  },
+  {
+    "doc_id": "FNT-008",
+    "title": "Aturan Bordir Gaya Huruf / Font Font Elegan",
+    "category": "Custom Sajadah",
+    "content": "Pilihan font 'Font Elegan' di Toko Firaza mendukung bordir komputer presisi tinggi. Batas maksimal yang disarankan untuk 1 baris adalah 20-25 karakter agar ukuran huruf tidak terlalu kecil. Jika nama lebih panjang (misal nama keluarga atau gelar lengkap), admin akan menyusun menjadi 2 baris simetris pada tahap Design/Preparation."
+  },
+  {
+    "doc_id": "FNT-009",
+    "title": "Aturan Bordir Gaya Huruf / Font Monoline",
+    "category": "Custom Sajadah",
+    "content": "Pilihan font 'Monoline' di Toko Firaza mendukung bordir komputer presisi tinggi. Batas maksimal yang disarankan untuk 1 baris adalah 20-25 karakter agar ukuran huruf tidak terlalu kecil. Jika nama lebih panjang (misal nama keluarga atau gelar lengkap), admin akan menyusun menjadi 2 baris simetris pada tahap Design/Preparation."
+  },
+  {
+    "doc_id": "FNT-010",
+    "title": "Aturan Bordir Gaya Huruf / Font Serif Klasik",
+    "category": "Custom Sajadah",
+    "content": "Pilihan font 'Serif Klasik' di Toko Firaza mendukung bordir komputer presisi tinggi. Batas maksimal yang disarankan untuk 1 baris adalah 20-25 karakter agar ukuran huruf tidak terlalu kecil. Jika nama lebih panjang (misal nama keluarga atau gelar lengkap), admin akan menyusun menjadi 2 baris simetris pada tahap Design/Preparation."
+  },
+  {
+    "doc_id": "CRD-001",
+    "title": "Standar & Contoh Draf Kartu Ucapan Momen Pernikahan",
+    "category": "Hampers",
+    "content": "Untuk pesanan Hampers atau kado bertema Pernikahan, sistem Generative AI Toko Firaza otomatis membuat draf kartu ucapan. Contoh draf resmi: \"Selamat menempuh hidup baru untuk Nama Penerima. Semoga cinta dan kasih sayang selalu menyertai langkah kalian menuju keluarga yang sakinah, mawaddah, warahmah. Salam hangat dari Nama Pengirim.\" Kartu dicetak di atas kertas Art Carton 260gr bertekstur mewah ukuran A6."
+  },
+  {
+    "doc_id": "CRD-002",
+    "title": "Standar & Contoh Draf Kartu Ucapan Momen Tasyakuran Pernikahan",
+    "category": "Hampers",
+    "content": "Untuk pesanan Hampers atau kado bertema Tasyakuran Pernikahan, sistem Generative AI Toko Firaza otomatis membuat draf kartu ucapan. Contoh draf resmi: \"Selamat menempuh hidup baru untuk Nama Penerima. Semoga cinta dan kasih sayang selalu menyertai langkah kalian menuju keluarga yang sakinah, mawaddah, warahmah. Salam hangat dari Nama Pengirim.\" Kartu dicetak di atas kertas Art Carton 260gr bertekstur mewah ukuran A6."
+  },
+  {
+    "doc_id": "CRD-003",
+    "title": "Standar & Contoh Draf Kartu Ucapan Momen Ulang Tahun",
+    "category": "Hampers",
+    "content": "Untuk pesanan Hampers atau kado bertema Ulang Tahun, sistem Generative AI Toko Firaza otomatis membuat draf kartu ucapan. Contoh draf resmi: \"Selamat Ulang Tahun untuk Nama Penerima! Semoga panjang umur, sehat selalu, dan segala impian terbaik segera tercapai. Salam hangat dari Nama Pengirim.\" Kartu dicetak di atas kertas Art Carton 260gr bertekstur mewah ukuran A6."
+  },
+  {
+    "doc_id": "CRD-004",
+    "title": "Standar & Contoh Draf Kartu Ucapan Momen Lebaran Idul Fitri",
+    "category": "Hampers",
+    "content": "Untuk pesanan Hampers atau kado bertema Lebaran Idul Fitri, sistem Generative AI Toko Firaza otomatis membuat draf kartu ucapan. Contoh draf resmi: \"Selamat Hari Raya Idul Fitri untuk Nama Penerima. Taqabbalallahu minna wa minkum, mohon maaf lahir dan batin. Semoga keberkahan dan kebahagiaan senantiasa menyertai. Salam hangat dari Nama Pengirim.\" Kartu dicetak di atas kertas Art Carton 260gr bertekstur mewah ukuran A6."
+  },
+  {
+    "doc_id": "CRD-005",
+    "title": "Standar & Contoh Draf Kartu Ucapan Momen Pulang Haji / Umroh",
+    "category": "Hampers",
+    "content": "Untuk pesanan Hampers atau kado bertema Pulang Haji / Umroh, sistem Generative AI Toko Firaza otomatis membuat draf kartu ucapan. Contoh draf resmi: \"Selamat atas kepulangan ibadah Haji/Umroh untuk Nama Penerima. Semoga menjadi ibadah yang mabrur dan membawa keberkahan bagi seluruh keluarga. Salam hangat dari Nama Pengirim.\" Kartu dicetak di atas kertas Art Carton 260gr bertekstur mewah ukuran A6."
+  },
+  {
+    "doc_id": "CRD-006",
+    "title": "Standar & Contoh Draf Kartu Ucapan Momen Aqiqah Anak",
+    "category": "Hampers",
+    "content": "Untuk pesanan Hampers atau kado bertema Aqiqah Anak, sistem Generative AI Toko Firaza otomatis membuat draf kartu ucapan. Contoh draf resmi: \"Bingkisan spesial untuk Nama Penerima di momen Aqiqah Anak ini. Semoga bermanfaat dan selalu membawa kebahagiaan serta keberkahan. Salam hangat dari Nama Pengirim.\" Kartu dicetak di atas kertas Art Carton 260gr bertekstur mewah ukuran A6."
+  },
+  {
+    "doc_id": "CRD-007",
+    "title": "Standar & Contoh Draf Kartu Ucapan Momen Kelulusan Wisuda",
+    "category": "Hampers",
+    "content": "Untuk pesanan Hampers atau kado bertema Kelulusan Wisuda, sistem Generative AI Toko Firaza otomatis membuat draf kartu ucapan. Contoh draf resmi: \"Bingkisan spesial untuk Nama Penerima di momen Kelulusan Wisuda ini. Semoga bermanfaat dan selalu membawa kebahagiaan serta keberkahan. Salam hangat dari Nama Pengirim.\" Kartu dicetak di atas kertas Art Carton 260gr bertekstur mewah ukuran A6."
+  },
+  {
+    "doc_id": "CRD-008",
+    "title": "Standar & Contoh Draf Kartu Ucapan Momen Anniversary",
+    "category": "Hampers",
+    "content": "Untuk pesanan Hampers atau kado bertema Anniversary, sistem Generative AI Toko Firaza otomatis membuat draf kartu ucapan. Contoh draf resmi: \"Bingkisan spesial untuk Nama Penerima di momen Anniversary ini. Semoga bermanfaat dan selalu membawa kebahagiaan serta keberkahan. Salam hangat dari Nama Pengirim.\" Kartu dicetak di atas kertas Art Carton 260gr bertekstur mewah ukuran A6."
+  },
+  {
+    "doc_id": "CRD-009",
+    "title": "Standar & Contoh Draf Kartu Ucapan Momen Kenang-Kenangan Kantor",
+    "category": "Hampers",
+    "content": "Untuk pesanan Hampers atau kado bertema Kenang-Kenangan Kantor, sistem Generative AI Toko Firaza otomatis membuat draf kartu ucapan. Contoh draf resmi: \"Bingkisan spesial untuk Nama Penerima di momen Kenang-Kenangan Kantor ini. Semoga bermanfaat dan selalu membawa kebahagiaan serta keberkahan. Salam hangat dari Nama Pengirim.\" Kartu dicetak di atas kertas Art Carton 260gr bertekstur mewah ukuran A6."
+  },
+  {
+    "doc_id": "CRD-010",
+    "title": "Standar & Contoh Draf Kartu Ucapan Momen Tahlilan 40 Hari",
+    "category": "Hampers",
+    "content": "Untuk pesanan Hampers atau kado bertema Tahlilan 40 Hari, sistem Generative AI Toko Firaza otomatis membuat draf kartu ucapan. Contoh draf resmi: \"Bingkisan spesial untuk Nama Penerima di momen Tahlilan 40 Hari ini. Semoga bermanfaat dan selalu membawa kebahagiaan serta keberkahan. Salam hangat dari Nama Pengirim.\" Kartu dicetak di atas kertas Art Carton 260gr bertekstur mewah ukuran A6."
+  },
+  {
+    "doc_id": "CRD-011",
+    "title": "Standar & Contoh Draf Kartu Ucapan Momen Pindah Rumah Baru",
+    "category": "Hampers",
+    "content": "Untuk pesanan Hampers atau kado bertema Pindah Rumah Baru, sistem Generative AI Toko Firaza otomatis membuat draf kartu ucapan. Contoh draf resmi: \"Bingkisan spesial untuk Nama Penerima di momen Pindah Rumah Baru ini. Semoga bermanfaat dan selalu membawa kebahagiaan serta keberkahan. Salam hangat dari Nama Pengirim.\" Kartu dicetak di atas kertas Art Carton 260gr bertekstur mewah ukuran A6."
+  },
+  {
+    "doc_id": "FAQ-001",
+    "title": "Kebijakan Minimal Order & Diskon Grosir Souvenir",
+    "category": "Other",
+    "content": "Pemesanan satuan (1 pcs) tetap dilayani untuk semua produk Ready Stock maupun Custom Bordir. Untuk pemesanan souvenir/grosir minimal 12 pcs mendapat diskon 10%, dan minimal 50 pcs mendapat diskon 20%."
+  },
+  {
+    "doc_id": "FAQ-002",
+    "title": "Estimasi Waktu Pengerjaan (SLA Produksi Custom)",
+    "category": "Other",
+    "content": "Pesanan Ready Stock dikirim di hari yang sama (maksimal H+1). Pesanan Custom Sajadah & Handuk satuan (1-5 pcs) membutuhkan waktu produksi 2-3 hari kerja. Pesanan Hampers partai besar (>20 paket) membutuhkan waktu 4-7 hari kerja."
+  },
+  {
+    "doc_id": "FAQ-003",
+    "title": "Garansi Kesalahan Ejaan Bordir dari Pihak Toko",
+    "category": "Other",
+    "content": "Jika terjadi kesalahan ejaan nama, warna, atau jenis font yang disebabkan oleh kelalaian produksi Toko Firaza (tidak sesuai dengan ringkasan order yang telah disetujui), Toko Firaza memberikan garansi 100% ganti baru gratis tanpa biaya ongkir tambahan."
+  },
+  {
+    "doc_id": "FAQ-004",
+    "title": "Ketentuan Revisi Desain Sebelum Masuk Tahap Production",
+    "category": "Other",
+    "content": "Pelanggan dapat mengajukan revisi ejaan nama atau ganti font selama status pesanan di Web Dashboard masih berada di tahap 'New' atau 'Design/Preparation'. Jika status sudah berubah menjadi 'Production' (sedang dibordir), tulisan tidak dapat diubah."
+  },
+  {
+    "doc_id": "FAQ-005",
+    "title": "Pilihan Ekspedisi & Pengiriman Instan / Kargo",
+    "category": "Other",
+    "content": "Toko Firaza melayani pengiriman reguler (JNE, J&T, SiCepat), pengiriman kargo hemat untuk pesanan hampers partai besar (JNE Trucking / Indah Cargo), serta pengiriman Instan/Same-Day (GoSend/GrabExpress) khusus area dalam kota."
+  },
+  {
+    "doc_id": "FAQ-006",
+    "title": "Lokasi Workshop & Jam Operasional Admin Toko Firaza",
+    "category": "Other",
+    "content": "Workshop dan layanan admin Toko Firaza beroperasi setiap hari Senin - Sabtu pukul 08.00 - 17.00 WIB. Pesanan chat yang masuk di luar jam kerja atau hari Minggu tetap tercatat otomatis oleh sistem AI dan diproses pada hari kerja berikutnya."
+  },
+  {
+    "doc_id": "FAQ-007",
+    "title": "Aturan Penulisan Gelar, Simbol (&), dan Huruf Arab",
+    "category": "Other",
+    "content": "Mesin bordir komputer Toko Firaza mendukung huruf alfabet Latin (A-Z), angka, tanda baca titik/koma, simbol '&' untuk nama pasangan (misal: Nabila & Dimas), serta aksara Arab/Kaligrafi."
+  },
+  {
+    "doc_id": "FAQ-008",
+    "title": "Perbedaan Posisi Layout Bordir Sajadah vs Handuk",
+    "category": "Other",
+    "content": "Pada sajadah, posisi bordir paling favorit adalah Pojok Kanan Bawah atau Tengah Atas (area kubah). Pada handuk, posisi bordir standar adalah Tengah Bawah (di atas list tenun sekitar 10 cm dari tepi bawah) agar terlihat rapi saat handuk dilipat atau digantung."
+  },
+  {
+    "doc_id": "FAQ-009",
+    "title": "Cara Pemesanan Multi-Item (Banyak Nama Berbeda dalam Satu Chat)",
+    "category": "Other",
+    "content": "Pelanggan dapat mengirimkan daftar nama bordir dalam bentuk list bernomor di satu pesan chat. Sistem AI Order Management Toko Firaza akan mengekstrak daftar item beserta masing-masing detail warnanya untuk memudahkan rekap produksi admin."
+  },
+  {
+    "doc_id": "FAQ-010",
+    "title": "Ketersediaan Bungkus Plastik Mika, Tile, dan Paperbag",
+    "category": "Other",
+    "content": "Selain kemasan Hardbox pada kategori Hampers, pesanan Sajadah Custom dan Handuk Custom reguler sudah dikemas rapi menggunakan plastik opp bening per potong. Penambahan tas tile atau paperbag satuan dapat dicantumkan pada catatan tambahan (additional_notes)."
+  },
+  {
+    "doc_id": "FAQ-011",
+    "title": "Metode Pembayaran Resmi Toko Firaza",
+    "category": "Other",
+    "content": "Pembayaran pesanan dapat dilakukan melalui transfer bank resmi maupun e-wallet/QRIS. Untuk pesanan custom bordir nama, produksi akan dimulai setelah pembayaran terkonfirmasi karena produk yang sudah dibordir nama pribadi tidak dapat dijual kembali ke pelanggan lain."
+  },
+  {
+    "doc_id": "FAQ-012",
+    "title": "Standar Quality Control (QC) Sebelum Status Completed",
+    "category": "Other",
+    "content": "Sebelum status pesanan diubah menjadi 'Completed' di Web Dashboard, tim QC melakukan pembersihan sisa benang lompat (trimming), pemeriksaan kerapian jahitan bordir, pengecekan kesesuaian kartu ucapan, serta pelipatan rapi."
+  },
+  {
+    "doc_id": "FAQ-013",
+    "title": "Program Reseller & Dropshipper UMKM Toko Firaza",
+    "category": "Other",
+    "content": "Toko Firaza membuka kemitraan reseller dan dropshipper tanpa biaya pendaftaran. Pengiriman dropship dapat menggunakan nama dan nomor telepon pengirim milik mitra dropshipper pada label pengiriman maupun kartu ucapan."
+  },
+  {
+    "doc_id": "FAQ-014",
+    "title": "Ukuran Maksimal Area Bordir Mesin Komputer",
+    "category": "Other",
+    "content": "Area frame bordir standar untuk nama pada handuk dan sajadah adalah lebar maksimal 22 cm dan tinggi huruf 2,5 cm hingga 4 cm (menyesuaikan jumlah huruf pada nama yang dipesan)."
+  },
+  {
+    "doc_id": "FAQ-015",
+    "title": "Penanganan Pesanan Urgent / Express Selesai 24 Jam",
+    "category": "Other",
+    "content": "Untuk kebutuhan mendadak (misal kado pernikahan/ulang tahun besok), pelanggan dapat menuliskan catatan 'Express/Urgent' pada chat. Admin akan memprioritaskan antrean di tahap Design/Preparation dan Production sesuai kapasitas harian."
+  }
+]

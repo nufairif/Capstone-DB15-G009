@@ -1,0 +1,12 @@
+[tool.pyrefly]
+search-path = [
+    "ai-engine",
+    "backend"
+]
+
+[tool.pyright]
+extraPaths = [
+    "ai-engine",
+    "backend"
+]
+

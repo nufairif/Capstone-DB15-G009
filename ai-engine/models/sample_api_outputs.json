@@ -1,0 +1,143 @@
+[
+  {
+    "id": "TST-EXT-0001",
+    "raw_message": "Kak mau order Sajadah Custom ukuran Dewasa wrn biru muda sebanyak 1 pcs. Request bordir nama 'Keluarga Bpk. Bambang' pake font sambung posisi posisi standar tengah. Atas nama Bapak Suharto.",
+    "response": {
+      "status": "success",
+      "prediction": {
+        "category": "Custom Sajadah",
+        "confidence": 0.9666,
+        "all_probabilities": {
+          "Custom Handuk": 0.0255,
+          "Custom Sajadah": 0.9666,
+          "Hampers": 0.0048,
+          "Other": 0.0017,
+          "Ready Stock": 0.0014
+        }
+      },
+      "extraction": {
+        "customer_name": "Keluarga Bpk. Bambang",
+        "customer_phone": null,
+        "order_status": "New",
+        "items": [
+          {
+            "product_type": "Sajadah Custom",
+            "quantity": 1,
+            "color": "Biru Muda",
+            "size": "Dewasa",
+            "custom_text": "Keluarga Bpk. Bambang",
+            "font_style": "Sambung",
+            "layout_notes": "Tengah"
+          }
+        ],
+        "greeting_card": {
+          "is_requested": false,
+          "occasion": null,
+          "sender_name": null,
+          "recipient_name": null,
+          "draft_message": null
+        },
+        "additional_notes": null
+      },
+      "meta": {
+        "classifier_model": "tfidf-svm-calibrated-v1",
+        "llm_model": "llama3.2:3b",
+        "used_fallback": true
+      }
+    }
+  },
+  {
+    "id": "TST-EXT-0002",
+    "raw_message": "Kak mau order Handuk Custom ukuran 50x100 warna ungu lilac sebanyak 2 pcs. Request bordir nama 'Dewi Sartika' pake font script posisi pojok kanan bawah. Atas nama Ibu Kartini.",
+    "response": {
+      "status": "success",
+      "prediction": {
+        "category": "Custom Handuk",
+        "confidence": 0.916,
+        "all_probabilities": {
+          "Custom Handuk": 0.916,
+          "Custom Sajadah": 0.0762,
+          "Hampers": 0.0049,
+          "Other": 0.0018,
+          "Ready Stock": 0.001
+        }
+      },
+      "extraction": {
+        "customer_name": "Dewi Sartika",
+        "customer_phone": null,
+        "order_status": "New",
+        "items": [
+          {
+            "product_type": "Handuk Custom",
+            "quantity": 2,
+            "color": "Ungu Lilac",
+            "size": "50x100",
+            "custom_text": "Dewi Sartika",
+            "font_style": "Script",
+            "layout_notes": "Pojok kanan bawah"
+          }
+        ],
+        "greeting_card": {
+          "is_requested": false,
+          "occasion": null,
+          "sender_name": null,
+          "recipient_name": null,
+          "draft_message": null
+        },
+        "additional_notes": null
+      },
+      "meta": {
+        "classifier_model": "tfidf-svm-calibrated-v1",
+        "llm_model": "llama3.2:3b",
+        "used_fallback": true
+      }
+    }
+  },
+  {
+    "id": "TST-EXT-0003",
+    "raw_message": "Assalamualaikum min, saya Dr. Andika mau pesen hampers tasyakuran pernikahan 3 paket kelir gold size Reguler. ukir nama tulisan 'Fajar Nugroho' pake font kapital semua di tengah atas. Tolong buatkan kartu untuk acara tasyakuran pernikahan dari Dr. Andika buat Fajar Nugroho.",
+    "response": {
+      "status": "success",
+      "prediction": {
+        "category": "Hampers",
+        "confidence": 0.9237,
+        "all_probabilities": {
+          "Custom Handuk": 0.0114,
+          "Custom Sajadah": 0.0595,
+          "Hampers": 0.9237,
+          "Other": 0.0042,
+          "Ready Stock": 0.0012
+        }
+      },
+      "extraction": {
+        "customer_name": "Dr",
+        "customer_phone": null,
+        "order_status": "New",
+        "items": [
+          {
+            "product_type": "Hampers Custom Firaza",
+            "quantity": 3,
+            "color": "Gold",
+            "size": "Reguler",
+            "custom_text": "Fajar Nugroho",
+            "font_style": "Kapital",
+            "layout_notes": "Tengah atas"
+          }
+        ],
+        "greeting_card": {
+          "is_requested": true,
+          "occasion": "Tasyakuran Pernikahan",
+          "sender_name": "Dr",
+          "recipient_name": "Fajar Nugroho",
+          "draft_message": "Selamat menempuh hidup baru untuk Fajar Nugroho. Semoga cinta dan kasih sayang selalu menyertai langkah kalian menuju keluarga yang sakinah, mawaddah, warahmah. Salam hangat dari Dr."
+        },
+        "additional_notes": null
+      },
+      "meta": {
+        "classifier_model": "tfidf-svm-calibrated-v1",
+        "llm_model": "llama3.2:3b",
+        "used_fallback": true
+      }
+    }
+  }
+]
