@@ -3,10 +3,10 @@ export const API_BASE = "http://localhost:8000";
 export const STATUS_FLOW = ["New", "Design/Preparation", "Production", "Completed"];
 
 export const STATUS_PILL = {
-  New: "bg-blue-50 text-blue-600",
-  "Design/Preparation": "bg-amber-50 text-amber-600",
-  Production: "bg-purple-50 text-purple-600",
-  Completed: "bg-[#E7F8EE] text-[#16A34A]",
+  New: "bg-sky-50 text-sky-700 border border-sky-200/60",
+  "Design/Preparation": "bg-amber-50 text-amber-700 border border-amber-200/60",
+  Production: "bg-indigo-50 text-indigo-700 border border-indigo-200/60",
+  Completed: "bg-emerald-50 text-emerald-700 border border-emerald-200/60",
 };
 
 export const CATEGORIES = [
@@ -68,5 +68,5 @@ export const DEMO_ACCOUNTS = [
 ];
 
 export const inputSoftClass =
-  "w-full rounded-2xl border border-neutral-200/80 bg-[#F8F9FC] px-4 py-3 text-sm text-[#111111] placeholder:text-neutral-400 focus:bg-white focus:border-[#111111] focus:outline-none transition-all";
+  "w-full rounded-2xl border border-slate-200/90 bg-slate-50/50 px-4 py-3 text-xs font-medium text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-slate-900 focus:ring-2 focus:ring-slate-900/10 focus:outline-none transition-all shadow-sm";
 

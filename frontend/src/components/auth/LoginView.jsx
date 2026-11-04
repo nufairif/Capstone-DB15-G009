@@ -38,12 +38,12 @@ export default function LoginView({
       </div>
 
       {/* Center Login Card */}
-      <div className="max-w-[440px] w-full mx-auto my-auto bg-white rounded-[32px] p-8 md:p-10 shadow-soft space-y-6">
+      <div className="max-w-[440px] w-full mx-auto my-auto bg-white rounded-[32px] border border-slate-200/80 p-8 md:p-10 shadow-sm space-y-6">
         <div className="space-y-1.5">
-          <h1 className="text-2xl font-extrabold tracking-tight text-[#111111]">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">
             Masuk ke Akun 👋
           </h1>
-          <p className="text-xs text-neutral-400 leading-relaxed">
+          <p className="text-xs text-slate-400 leading-relaxed">
             Masuk ke workspace manajemen pesanan bordir & ekstraksi AI Toko Firaza.
           </p>
         </div>
@@ -53,13 +53,13 @@ export default function LoginView({
             <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
             <span>
               Silakan login untuk membuka halaman{" "}
-              <strong className="font-mono text-black">{redirectTarget}</strong>
+              <strong className="font-mono text-slate-900">{redirectTarget}</strong>
             </span>
           </div>
         )}
 
         {authError && (
-          <div className="px-4 py-3 rounded-2xl bg-red-50 text-red-600 text-xs font-semibold flex items-center justify-between">
+          <div className="px-4 py-3 rounded-2xl bg-red-50 border border-red-200/60 text-red-600 text-xs font-semibold flex items-center justify-between">
             <span>{authError}</span>
             <button type="button" onClick={() => setAuthError("")}>
               <X className="w-4 h-4" />
@@ -69,7 +69,7 @@ export default function LoginView({
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold text-neutral-700 mb-1.5">
+            <label className="block text-xs font-semibold text-slate-700 mb-1.5">
               Username atau Email
             </label>
             <input
@@ -85,7 +85,7 @@ export default function LoginView({
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-neutral-700 mb-1.5">
+            <label className="block text-xs font-semibold text-slate-700 mb-1.5">
               Password
             </label>
             <div className="relative">
@@ -102,7 +102,7 @@ export default function LoginView({
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-3.5 text-neutral-400 hover:text-[#111111]"
+                className="absolute right-4 top-3.5 text-slate-400 hover:text-slate-900 transition-colors"
               >
                 {showPassword ? (
                   <EyeOff className="w-4 h-4" />
@@ -116,7 +116,7 @@ export default function LoginView({
           <button
             type="submit"
             disabled={authLoading}
-            className="w-full py-3.5 px-6 rounded-2xl bg-[#0A0A0A] hover:bg-neutral-800 text-white font-bold text-sm shadow-lg transition-all flex items-center justify-center gap-2"
+            className="w-full py-3.5 px-6 rounded-2xl bg-[#0B0F19] hover:bg-slate-800 text-white font-bold text-xs shadow-md active:scale-[0.99] transition-all flex items-center justify-center gap-2"
           >
             <span>{authLoading ? "Memverifikasi..." : "Masuk ke Dashboard"}</span>
             <ArrowRight className="w-4 h-4" />
@@ -124,8 +124,8 @@ export default function LoginView({
         </form>
 
         {/* Role Switcher Pills (RBAC Demo) */}
-        <div className="pt-4 border-t border-neutral-100 space-y-2.5">
-          <p className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider">
+        <div className="pt-4 border-t border-slate-100 space-y-2.5">
+          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
             Pilih Role Akun Demo (RBAC Aktif):
           </p>
           <div className="space-y-2">
@@ -142,17 +142,17 @@ export default function LoginView({
                     });
                     setAuthError("");
                   }}
-                  className={`w-full px-4 py-2.5 rounded-2xl text-left text-xs flex items-center justify-between transition-all ${
+                  className={`w-full px-4 py-2.5 rounded-xl text-left text-xs flex items-center justify-between transition-all border ${
                     active
-                      ? "bg-[#0A0A0A] text-white font-semibold shadow-sm"
-                      : "bg-[#F8F9FC] hover:bg-neutral-100 text-neutral-700"
+                      ? "bg-[#0B0F19] text-white font-semibold border-[#0B0F19] shadow-sm"
+                      : "bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200/70"
                   }`}
                 >
                   <div>
                     <span className="font-bold">{acc.full_name}</span>
                     <span
                       className={`ml-2 text-[11px] ${
-                        active ? "text-neutral-300" : "text-neutral-400"
+                        active ? "text-slate-300" : "text-slate-400"
                       }`}
                     >
                       • {acc.role}
@@ -160,7 +160,7 @@ export default function LoginView({
                   </div>
                   <span
                     className={`font-mono text-[11px] ${
-                      active ? "text-neutral-300" : "text-neutral-400"
+                      active ? "text-slate-300" : "text-slate-400"
                     }`}
                   >
                     {acc.username}

@@ -815,7 +815,7 @@ export default function App() {
 
   // Authenticated workspace shell
   return (
-    <div className="min-h-screen w-full bg-[#F8F9FC] text-[#111111] flex">
+    <div className="flex h-screen w-screen overflow-hidden bg-[#F4F5F9] text-slate-900 select-none">
       {/* Sidebar Navigation */}
       <Sidebar
         sidebarOpen={sidebarOpen}
@@ -831,36 +831,37 @@ export default function App() {
         handleLogout={handleLogout}
       />
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 px-4 sm:px-8 xl:px-10 py-5 sm:py-7">
-        {/* Top Header */}
-        <Header
-          sidebarOpen={sidebarOpen}
-          toggleSidebar={toggleSidebar}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          currentPageInfo={currentPageInfo}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          isProduksi={isProduksi}
-          setEditingOrderId={setEditingOrderId}
-          fetchAllData={fetchAllData}
-          loading={loading}
-          profileMenuOpen={profileMenuOpen}
-          setProfileMenuOpen={setProfileMenuOpen}
-          greetingName={greetingName}
-          authUser={authUser}
-          handleLogout={handleLogout}
-          orders={orders}
-          customers={customers}
-          handleStartEditOrder={handleStartEditOrder}
-          setCustomerForm={setCustomerForm}
-        />
+      {/* Main Content Scroll Area */}
+      <div className="flex-1 flex flex-col min-w-0 h-full overflow-y-auto select-auto">
+        <div className="w-full max-w-[1520px] mx-auto px-4 sm:px-8 xl:px-10 py-6 sm:py-8 flex-1 flex flex-col">
+          {/* Top Header */}
+          <Header
+            sidebarOpen={sidebarOpen}
+            toggleSidebar={toggleSidebar}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            currentPageInfo={currentPageInfo}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            isProduksi={isProduksi}
+            setEditingOrderId={setEditingOrderId}
+            fetchAllData={fetchAllData}
+            loading={loading}
+            profileMenuOpen={profileMenuOpen}
+            setProfileMenuOpen={setProfileMenuOpen}
+            greetingName={greetingName}
+            authUser={authUser}
+            handleLogout={handleLogout}
+            orders={orders}
+            customers={customers}
+            handleStartEditOrder={handleStartEditOrder}
+            setCustomerForm={setCustomerForm}
+          />
 
-        {/* Global Toast Notification */}
-        <Toast notification={notification} />
+          {/* Global Toast Notification */}
+          <Toast notification={notification} />
 
-        {/* Tab 1: Dashboard Utama */}
+          {/* Tab 1: Dashboard Utama */}
         {activeTab === "dashboard" && (
           <DashboardView
             totalPcsCount={totalPcsCount}
@@ -951,6 +952,7 @@ export default function App() {
             fetchDatasetOverview={fetchDatasetOverview}
           />
         )}
+        </div>
       </div>
     </div>
   );

@@ -3,9 +3,15 @@
 @tailwind utilities;
 
 @layer base {
+  html,
   body {
+    background-color: #F4F5F9;
+    color: #0F172A;
     font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
     letter-spacing: -0.015em;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
   }
 }
 
