@@ -13,6 +13,7 @@ import {
   PRESET_CHATS,
   DEMO_ACCOUNTS,
 } from "./constants";
+import apiClient from "./api/client";
 import Toast from "./components/layout/Toast";
 import Sidebar from "./components/layout/Sidebar";
 import Header from "./components/layout/Header";
@@ -308,14 +309,11 @@ export default function App() {
 
   const fetchDatasetOverview = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/v1/ai/dataset-overview`);
-      if (res.ok) {
-        const data = await res.json();
-        setDatasetInfo(data);
-        try {
-          localStorage.setItem("tf_dataset_info", JSON.stringify(data));
-        } catch {}
-      }
+      const res = await apiClient.get("/api/v1/ai/dataset-overview");
+      setDatasetInfo(res.data);
+      try {
+        localStorage.setItem("tf_dataset_info", JSON.stringify(res.data));
+      } catch {}
     } catch (err) {
       console.error("Gagal memuat dataset overview:", err);
     }
@@ -325,27 +323,24 @@ export default function App() {
     setLoading(true);
     try {
       const [statsRes, ordersRes, custRes] = await Promise.all([
-        fetch(`${API_BASE}/api/stats`),
-        fetch(
-          `${API_BASE}/api/orders?status=${encodeURIComponent(
-            filterStatus
-          )}&category=${encodeURIComponent(
-            filterCategory
-          )}&search=${encodeURIComponent(searchQuery)}`
-        ),
-        fetch(
-          `${API_BASE}/api/customers?search=${encodeURIComponent(searchQuery)}`
-        ),
+        apiClient.get("/api/stats"),
+        apiClient.get("/api/orders", {
+          params: {
+            status: filterStatus,
+            category: filterCategory,
+            search: searchQuery,
+          },
+        }),
+        apiClient.get("/api/customers", {
+          params: { search: searchQuery },
+        }),
       ]);
-      if (statsRes.ok) {
-        const statsData = await statsRes.json();
-        setStats(statsData);
-        try {
-          localStorage.setItem("tf_dashboard_stats", JSON.stringify(statsData));
-        } catch {}
-      }
-      if (ordersRes.ok) setOrders(await ordersRes.json());
-      if (custRes.ok) setCustomers(await custRes.json());
+      setStats(statsRes.data);
+      try {
+        localStorage.setItem("tf_dashboard_stats", JSON.stringify(statsRes.data));
+      } catch {}
+      setOrders(ordersRes.data);
+      setCustomers(custRes.data);
     } catch (err) {
       console.error("Gagal memuat data dari backend:", err);
     } finally {
@@ -366,15 +361,11 @@ export default function App() {
     if (!rawChat.trim()) return;
     setAiAnalyzing(true);
     try {
-      const res = await fetch(`${API_BASE}/api/v1/ai/analyze-order`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          raw_message: rawChat,
-          generate_greeting_card: true,
-        }),
+      const res = await apiClient.post("/api/v1/ai/analyze-order", {
+        raw_message: rawChat,
+        generate_greeting_card: true,
       });
-      const data = await res.json();
+      const data = res.data;
       setAiResultMeta({
         prediction: data.prediction,
         meta: data.meta,
@@ -437,27 +428,28 @@ export default function App() {
     const url = editingOrderId
       ? `${API_BASE}/api/orders/${editingOrderId}`
       : `${API_BASE}/api/orders`;
-    const method = editingOrderId ? "PUT" : "POST";
+    const path = editingOrderId
+      ? `/api/orders/${editingOrderId}`
+      : `/api/orders`;
+    const payload = {
+      ...orderForm,
+      raw_message: rawChat,
+    };
 
     try {
-      const res = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...orderForm,
-          raw_message: rawChat,
-        }),
-      });
-      if (res.ok) {
-        showToast(
-          editingOrderId
-            ? "Pesanan berhasil diperbarui"
-            : "Pesanan baru berhasil disimpan"
-        );
-        setEditingOrderId(null);
-        await fetchAllData();
-        setActiveTab("dashboard");
+      if (editingOrderId) {
+        await apiClient.put(path, payload);
+      } else {
+        await apiClient.post(path, payload);
       }
+      showToast(
+        editingOrderId
+          ? "Pesanan berhasil diperbarui"
+          : "Pesanan baru berhasil disimpan"
+      );
+      setEditingOrderId(null);
+      await fetchAllData();
+      setActiveTab("dashboard");
     } catch {
       showToast("Gagal menyimpan pesanan", "error");
     }
@@ -465,15 +457,11 @@ export default function App() {
 
   const handleAdvanceStatus = async (orderId, nextStatus) => {
     try {
-      const res = await fetch(`${API_BASE}/api/orders/${orderId}/status`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: nextStatus }),
+      await apiClient.patch(`/api/orders/${orderId}/status`, {
+        status: nextStatus,
       });
-      if (res.ok) {
-        showToast(`Status pesanan diubah ke ${nextStatus}`);
-        fetchAllData();
-      }
+      showToast(`Status pesanan diubah ke ${nextStatus}`);
+      fetchAllData();
     } catch {
       showToast("Gagal mengubah status", "error");
     }
@@ -488,7 +476,7 @@ export default function App() {
       return;
     }
     try {
-      await fetch(`${API_BASE}/api/orders/${orderId}`, { method: "DELETE" });
+      await apiClient.delete(`/api/orders/${orderId}`);
       showToast("Pesanan dihapus");
       fetchAllData();
     } catch {
@@ -559,30 +547,27 @@ export default function App() {
   const handleSaveCustomer = async (e) => {
     e.preventDefault();
     const isEdit = Boolean(customerForm.id);
-    const url = isEdit
-      ? `${API_BASE}/api/customers/${customerForm.id}`
-      : `${API_BASE}/api/customers`;
-    const method = isEdit ? "PUT" : "POST";
+    const path = isEdit
+      ? `/api/customers/${customerForm.id}`
+      : `/api/customers`;
 
     try {
-      const res = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(customerForm),
-      });
-      if (res.ok) {
-        showToast(
-          isEdit ? "Data pelanggan diperbarui" : "Pelanggan ditambahkan"
-        );
-        setCustomerForm({
-          id: null,
-          name: "",
-          phone: "",
-          email: "",
-          address: "",
-        });
-        fetchAllData();
+      if (isEdit) {
+        await apiClient.put(path, customerForm);
+      } else {
+        await apiClient.post(path, customerForm);
       }
+      showToast(
+        isEdit ? "Data pelanggan diperbarui" : "Pelanggan ditambahkan"
+      );
+      setCustomerForm({
+        id: null,
+        name: "",
+        phone: "",
+        email: "",
+        address: "",
+      });
+      fetchAllData();
     } catch {
       showToast("Gagal menyimpan pelanggan", "error");
     }
@@ -596,9 +581,13 @@ export default function App() {
       );
       return;
     }
-    await fetch(`${API_BASE}/api/customers/${id}`, { method: "DELETE" });
-    showToast("Pelanggan dihapus");
-    fetchAllData();
+    try {
+      await apiClient.delete(`/api/customers/${id}`);
+      showToast("Pelanggan dihapus");
+      fetchAllData();
+    } catch {
+      showToast("Gagal menghapus pelanggan", "error");
+    }
   };
 
   // RAG Query
@@ -608,14 +597,11 @@ export default function App() {
     if (!qToUse.trim()) return;
     setRagLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/v1/ai/rag-catalog`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: qToUse, top_k: 3 }),
+      const res = await apiClient.post("/api/v1/ai/rag-catalog", {
+        query: qToUse,
+        top_k: 3,
       });
-      if (res.ok) {
-        setRagResult(await res.json());
-      }
+      setRagResult(res.data);
     } catch {
       showToast("Gagal memanggil RAG Engine", "error");
     } finally {
@@ -652,35 +638,28 @@ export default function App() {
     setAuthError("");
     setAuthLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: loginForm.username.trim(),
-          password: loginForm.password,
-        }),
+      const res = await apiClient.post("/api/auth/login", {
+        username: loginForm.username.trim(),
+        password: loginForm.password,
       });
-      if (res.ok) {
-        const data = await res.json();
-        const matched = DEMO_ACCOUNTS.find(
-          (a) => a.username === data.user.username
-        );
-        const userObj = matched
-          ? {
-              ...data.user,
-              full_name: matched.full_name,
-              role: matched.role,
-            }
-          : data.user;
-        finishLogin(userObj);
-        return;
-      }
-      if (res.status === 401) {
+      const data = res.data;
+      const matched = DEMO_ACCOUNTS.find(
+        (a) => a.username === data.user.username
+      );
+      const userObj = matched
+        ? {
+            ...data.user,
+            full_name: matched.full_name,
+            role: matched.role,
+          }
+        : data.user;
+      finishLogin(userObj);
+      return;
+    } catch (err) {
+      if (err?.response?.status === 401) {
         setAuthError("Username atau password tidak sesuai.");
         return;
       }
-      throw new Error("Fallback");
-    } catch {
       const ident = loginForm.username.trim().toLowerCase();
       const matched = DEMO_ACCOUNTS.find(
         (acc) =>
@@ -706,7 +685,7 @@ export default function App() {
 
   const handleLogout = async () => {
     try {
-      await fetch(`${API_BASE}/api/auth/logout`, { method: "POST" });
+      await apiClient.post("/api/auth/logout");
     } catch {
       // ignore
     }
