@@ -137,10 +137,8 @@ export default function Header({
         <button
           type="button"
           onClick={toggleSidebar}
-          className={`p-2.5 rounded-2xl bg-white shadow-soft text-neutral-600 hover:text-black transition-all shrink-0 ${
-            sidebarOpen ? "hidden" : "inline-flex"
-          }`}
-          title="Buka Sidebar"
+          className="p-2.5 rounded-2xl bg-white border border-slate-200/80 shadow-sm text-slate-600 hover:text-slate-900 transition-all shrink-0 md:hidden"
+          title="Buka Menu"
         >
           <Menu className="w-4 h-4" />
         </button>
@@ -149,22 +147,22 @@ export default function Header({
             <button
               type="button"
               onClick={() => setActiveTab("dashboard")}
-              className="inline-flex items-center gap-1.5 text-[11px] font-bold text-neutral-400 hover:text-[#111111] mb-0.5 transition-colors"
+              className="inline-flex items-center gap-1.5 text-[11px] font-bold text-slate-400 hover:text-slate-900 mb-0.5 transition-colors"
             >
               <span>← Dashboard Utama</span>
             </button>
           )}
           <div className="flex items-center gap-2.5">
-            <h1 className="text-[22px] sm:text-[24px] font-extrabold tracking-tight text-[#111111] leading-snug">
+            <h1 className="text-[22px] sm:text-[24px] font-extrabold tracking-tight text-slate-900 leading-snug">
               {currentPageInfo.title}
             </h1>
             {activeTab !== "dashboard" && (
-              <span className="hidden sm:inline-flex items-center px-2.5 py-0.5 text-[10px] font-extrabold rounded-full bg-[#0A0A0A] text-white tracking-wide uppercase">
+              <span className="hidden sm:inline-flex items-center px-2.5 py-0.5 text-[10px] font-extrabold rounded-full bg-slate-900 text-white tracking-wide uppercase">
                 Halaman
               </span>
             )}
           </div>
-          <p className="text-xs font-medium text-neutral-400 mt-0.5">
+          <p className="text-xs font-medium text-slate-400 mt-0.5">
             {currentPageInfo.subtitle}
           </p>
         </div>
@@ -184,7 +182,7 @@ export default function Header({
               setIsSearchOpen(true);
             }}
             placeholder="Search order, pelanggan, atau kode..."
-            className="w-full h-11 rounded-full bg-white pl-5 pr-12 text-xs font-medium text-[#111111] placeholder:text-neutral-400 shadow-soft focus:outline-none focus:ring-2 focus:ring-black/10 transition-all"
+            className="w-full h-11 rounded-full bg-white border border-slate-200/80 pl-5 pr-12 text-xs font-medium text-slate-900 placeholder:text-slate-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all"
           />
 
           <div className="absolute right-3 top-2.5 flex items-center gap-1">
@@ -195,7 +193,7 @@ export default function Header({
                   setSearchQuery("");
                   setIsSearchOpen(false);
                 }}
-                className="p-1 text-neutral-400 hover:text-black transition-colors"
+                className="p-1 text-slate-400 hover:text-slate-900 transition-colors"
                 title="Hapus pencarian"
               >
                 <X className="w-3.5 h-3.5" />
@@ -203,10 +201,10 @@ export default function Header({
             )}
             <button
               type="submit"
-              className="p-1 text-neutral-400 hover:text-black transition-colors"
+              className="p-1 text-slate-400 hover:text-slate-900 transition-colors"
               title="Cari"
             >
-              <Search className="w-4 h-4 text-neutral-500" />
+              <Search className="w-4 h-4 text-slate-500" />
             </button>
           </div>
         </form>

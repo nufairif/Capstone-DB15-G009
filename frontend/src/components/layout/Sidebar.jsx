@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  PanelLeftClose,
-  PanelLeftOpen,
-  LogOut,
-} from "lucide-react";
+import { LogOut } from "lucide-react";
 
 export default function Sidebar({
   sidebarOpen,
@@ -20,157 +16,107 @@ export default function Sidebar({
 }) {
   return (
     <>
-      {/* Mobile Backdrop Overlay */}
+      {/* Mobile Drawer Overlay */}
       {sidebarOpen && (
         <div
           onClick={() => setSidebarOpen(false)}
-          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 md:hidden transition-opacity"
+          className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 md:hidden transition-opacity"
         />
       )}
 
-      {/* Expandable Sidebar */}
+      {/* Modern Icon-Only Minimalist Sidebar (76px) */}
       <aside
-        className={`fixed md:sticky top-0 left-0 h-screen z-50 md:z-20 bg-[#F8F9FC] border-r border-neutral-200/70 flex flex-col justify-between py-6 select-none transition-all duration-300 ease-in-out shrink-0 ${
-          sidebarOpen
-            ? "translate-x-0 w-[240px] px-4 shadow-2xl md:shadow-none"
-            : "-translate-x-full md:translate-x-0 md:w-[84px] px-2.5"
+        className={`fixed md:sticky top-0 left-0 h-screen z-50 md:z-20 bg-white border-r border-slate-200/80 flex flex-col justify-between items-center py-6 px-2.5 select-none transition-transform duration-300 ease-in-out shrink-0 w-[76px] ${
+          sidebarOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full md:translate-x-0"
         }`}
       >
-        <div className="w-full flex flex-col gap-6">
-          {/* Top Logo & Sidebar Toggle Button */}
-          {sidebarOpen ? (
-            <div className="flex items-center justify-between">
-              <button
-                type="button"
-                onClick={() => {
-                  setActiveTab("dashboard");
-                  if (typeof window !== "undefined" && window.innerWidth < 768) {
-                    setSidebarOpen(false);
-                  }
-                }}
-                className="flex items-center gap-3 overflow-hidden text-left group"
-                title="Toko Firaza (DB15-G009)"
-              >
-                <div className="w-10 h-10 rounded-full bg-[#0A0A0A] text-white flex items-center justify-center font-extrabold text-sm tracking-tighter shadow-md shrink-0 group-hover:scale-105 transition-transform">
-                  tf
-                </div>
-                <div className="min-w-0">
-                  <p className="font-extrabold text-sm text-[#111111] leading-tight truncate">
-                    Toko Firaza
-                  </p>
-                  <p className="text-[11px] text-neutral-400 font-medium truncate">
-                    AI Order System
-                  </p>
-                </div>
-              </button>
+        <div className="w-full flex flex-col items-center gap-7">
+          {/* Brand Logo tf */}
+          <button
+            type="button"
+            onClick={() => {
+              setActiveTab("dashboard");
+              if (typeof window !== "undefined" && window.innerWidth < 768) {
+                setSidebarOpen(false);
+              }
+            }}
+            className="w-11 h-11 rounded-full bg-[#0F172A] text-white flex items-center justify-center font-extrabold text-sm tracking-tighter shadow-md hover:scale-105 active:scale-95 transition-all"
+            title="Toko Firaza — AI Custom Order System"
+          >
+            tf
+          </button>
 
-              <button
-                type="button"
-                onClick={toggleSidebar}
-                className="p-2 rounded-xl text-neutral-400 hover:text-black hover:bg-white shadow-none hover:shadow-soft transition-all shrink-0"
-                title="Tutup Sidebar"
-              >
-                <PanelLeftClose className="w-4 h-4" />
-              </button>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center gap-3.5 w-full">
-              <button
-                type="button"
-                onClick={() => setActiveTab("dashboard")}
-                className="w-10 h-10 rounded-full bg-[#0A0A0A] text-white flex items-center justify-center font-extrabold text-sm tracking-tighter shadow-md shrink-0 hover:scale-105 transition-transform mx-auto"
-                title="Toko Firaza (DB15-G009)"
-              >
-                tf
-              </button>
-
-              <button
-                type="button"
-                onClick={toggleSidebar}
-                className="p-2 rounded-xl text-neutral-400 hover:text-black hover:bg-white shadow-none hover:shadow-soft transition-all shrink-0 mx-auto"
-                title="Buka Sidebar"
-              >
-                <PanelLeftOpen className="w-4 h-4" />
-              </button>
-            </div>
-          )}
-
-          {/* Navigation Icons & Labels */}
-          <nav className="w-full flex flex-col gap-2">
+          {/* Navigation Icons Stack */}
+          <nav className="w-full flex flex-col items-center gap-2.5">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.id;
               return (
-                <button
-                  key={item.id}
-                  onClick={() => {
-                    if (item.id === "create-order") setEditingOrderId(null);
-                    setActiveTab(item.id);
-                    if (item.id === "rag" && !ragResult) handleAskRAG();
-                    if (item.id === "datasets") fetchDatasetOverview();
-                    if (typeof window !== "undefined" && window.innerWidth < 768) {
-                      setSidebarOpen(false);
-                    }
-                  }}
-                  title={item.label}
-                  className={`relative w-full h-11 flex items-center rounded-2xl transition-all ${
-                    sidebarOpen
-                      ? "px-3.5 justify-start gap-3.5"
-                      : "justify-center"
-                  } ${
-                    isActive
-                      ? "text-[#0A0A0A] font-bold bg-white shadow-soft"
-                      : "text-neutral-400 hover:text-[#0A0A0A] hover:bg-white/60 font-medium"
-                  }`}
-                >
-                  {/* Vertical Left Indicator Bar */}
-                  {isActive && (
-                    <span
-                      className={`absolute left-0 w-[3.5px] h-6 bg-[#0A0A0A] rounded-r-full ${
-                        sidebarOpen ? "-left-4" : "left-0"
-                      }`}
+                <div key={item.id} className="relative group flex items-center justify-center w-full">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (item.id === "create-order") setEditingOrderId(null);
+                      setActiveTab(item.id);
+                      if (item.id === "rag" && !ragResult) handleAskRAG();
+                      if (item.id === "datasets") fetchDatasetOverview();
+                      if (typeof window !== "undefined" && window.innerWidth < 768) {
+                        setSidebarOpen(false);
+                      }
+                    }}
+                    aria-label={item.label}
+                    className={`relative w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${
+                      isActive
+                        ? "text-[#0F172A] font-bold bg-slate-100 shadow-sm ring-1 ring-slate-200/70"
+                        : "text-slate-400 hover:text-[#0F172A] hover:bg-slate-50 font-medium"
+                    }`}
+                  >
+                    {/* Clean Left Vertical Indicator */}
+                    {isActive && (
+                      <span className="absolute -left-2.5 top-2.5 bottom-2.5 w-[3.5px] bg-[#0F172A] rounded-r-full" />
+                    )}
+
+                    <Icon
+                      className="w-5 h-5 shrink-0 transition-transform group-hover:scale-105"
+                      strokeWidth={isActive ? 2.2 : 1.8}
                     />
-                  )}
-                  <Icon
-                    className="w-[20px] h-[20px] shrink-0"
-                    strokeWidth={isActive ? 2.2 : 1.75}
-                  />
-                  {sidebarOpen && (
-                    <span className="text-xs truncate tracking-tight font-semibold">
-                      {item.label}
-                    </span>
-                  )}
-                </button>
+                  </button>
+
+                  {/* Floating Tooltip On Hover */}
+                  <div className="absolute left-[66px] px-3 py-1.5 bg-[#0F172A] text-white text-[11px] font-semibold rounded-xl whitespace-nowrap shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 z-50 flex items-center gap-1.5">
+                    <span>{item.label}</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  </div>
+                </div>
               );
             })}
           </nav>
         </div>
 
-        {/* Bottom Logout */}
-        <div className="w-full pt-4 border-t border-neutral-200/60">
-          <button
-            type="button"
-            onClick={() => {
-              handleLogout();
-              if (typeof window !== "undefined" && window.innerWidth < 768) {
-                setSidebarOpen(false);
-              }
-            }}
-            title="Keluar (Logout)"
-            className={`w-full h-11 flex items-center rounded-2xl text-neutral-500 hover:text-red-600 hover:bg-white transition-all ${
-              sidebarOpen
-                ? "px-3.5 justify-start gap-3.5"
-                : "justify-center"
-            }`}
-          >
-            <LogOut className="w-[19px] h-[19px] shrink-0" strokeWidth={1.8} />
-            {sidebarOpen && (
-              <span className="text-xs font-bold truncate">Keluar</span>
-            )}
-          </button>
+        {/* Bottom Logout Button */}
+        <div className="w-full pt-4 border-t border-slate-100 flex flex-col items-center">
+          <div className="relative group flex items-center justify-center w-full">
+            <button
+              type="button"
+              onClick={() => {
+                handleLogout();
+                if (typeof window !== "undefined" && window.innerWidth < 768) {
+                  setSidebarOpen(false);
+                }
+              }}
+              aria-label="Keluar (Logout)"
+              className="w-12 h-12 rounded-2xl text-slate-400 hover:text-red-600 hover:bg-red-50 flex items-center justify-center transition-all"
+            >
+              <LogOut className="w-5 h-5 shrink-0" strokeWidth={1.8} />
+            </button>
+
+            {/* Logout Tooltip */}
+            <div className="absolute left-[66px] px-3 py-1.5 bg-[#0F172A] text-white text-[11px] font-semibold rounded-xl whitespace-nowrap shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 z-50 flex items-center gap-1.5">
+              <span>Keluar (Logout)</span>
+            </div>
+          </div>
         </div>
       </aside>
     </>
   );
 }
-

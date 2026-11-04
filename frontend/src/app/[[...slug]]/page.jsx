@@ -17,3 +17,4 @@ const App = dynamic(() => import('../../App'), {
 export default function Page() {
   return <App />;
 }
+
