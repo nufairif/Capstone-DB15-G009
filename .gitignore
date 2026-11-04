@@ -8,6 +8,8 @@ node_modules/
 dist/
 */dist/
 build/
+.next/
+*/.next/
 
 # Python cache & virtual environments
 __pycache__/

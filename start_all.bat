@@ -1,7 +1,7 @@
 @echo off
 echo ========================================================
 echo Menjalankan Sistem Toko Firaza dalam 1 Jendela Terminal
-echo - Web Dashboard (React): http://localhost:5173
+echo - Web Dashboard (Next.js): http://localhost:5173
 echo - Backend & AI API     : http://localhost:8000/docs
 echo (Tekan Ctrl + C untuk menghentikan keduanya)
 echo ========================================================
