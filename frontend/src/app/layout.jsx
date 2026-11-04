@@ -4,6 +4,9 @@ export const metadata = {
   title: "Toko Firaza - AI-Assisted Custom Order Management",
   description:
     "AI-Assisted Custom Order Management System untuk Efisiensi Operasional Toko Firaza (DB15-G009)",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({ children }) {
