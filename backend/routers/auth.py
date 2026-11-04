@@ -3,7 +3,7 @@ from database import get_db_connection
 from models.schemas import LoginPayload
 from services.auth_service import hash_password, generate_session_token
 
-router = APIRouter(prefix="/api/auth", tags=["auth"])
+router = APIRouter(prefix="/auth", tags=["auth"])
 
 
 @router.post("/login")

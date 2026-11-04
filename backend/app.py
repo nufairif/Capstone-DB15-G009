@@ -39,10 +39,16 @@ app.add_middleware(
 )
 
 
-# Registrasi Router Modular (Best Practice)
+# Registrasi Router RESTful API Standard Convention (/api/v1/...)
 app.include_router(health_router)
-app.include_router(auth_router)
-app.include_router(stats_router)
-app.include_router(customers_router)
-app.include_router(orders_router)
+app.include_router(auth_router, prefix="/api/v1")
+app.include_router(stats_router, prefix="/api/v1")
+app.include_router(customers_router, prefix="/api/v1")
+app.include_router(orders_router, prefix="/api/v1")
 app.include_router(ai_router)
+
+# Dukungan rute /api/... (backward-compatibility)
+app.include_router(auth_router, prefix="/api")
+app.include_router(stats_router, prefix="/api")
+app.include_router(customers_router, prefix="/api")
+app.include_router(orders_router, prefix="/api")

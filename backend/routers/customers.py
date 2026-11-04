@@ -3,7 +3,7 @@ from fastapi import APIRouter, HTTPException
 from database import get_db_connection
 from models.schemas import CustomerPayload
 
-router = APIRouter(prefix="/api/customers", tags=["customers"])
+router = APIRouter(prefix="/customers", tags=["customers"])
 
 
 @router.get("")

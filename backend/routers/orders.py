@@ -7,7 +7,7 @@ from config import VALID_STATUSES
 from database import get_db_connection
 from models.schemas import OrderCreatePayload, OrderItemPayload, StatusUpdatePayload
 
-router = APIRouter(prefix="/api/orders", tags=["orders"])
+router = APIRouter(prefix="/orders", tags=["orders"])
 
 
 def fetch_order_with_items(conn: sqlite3.Connection, order_row: sqlite3.Row) -> Dict[str, object]:

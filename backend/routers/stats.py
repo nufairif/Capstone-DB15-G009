@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from config import VALID_STATUSES, VALID_CATEGORIES
 from database import get_db_connection
 
-router = APIRouter(prefix="/api/stats", tags=["stats"])
+router = APIRouter(prefix="/stats", tags=["stats"])
 
 
 @router.get("")

@@ -325,15 +325,15 @@ export default function App() {
     setLoading(true);
     try {
       const [statsRes, ordersRes, custRes] = await Promise.all([
-        apiClient.get("/api/stats"),
-        apiClient.get("/api/orders", {
+        apiClient.get("/api/v1/stats"),
+        apiClient.get("/api/v1/orders", {
           params: {
             status: filterStatus,
             category: filterCategory,
             search: searchQuery,
           },
         }),
-        apiClient.get("/api/customers", {
+        apiClient.get("/api/v1/customers", {
           params: { search: searchQuery },
         }),
       ]);
@@ -427,12 +427,9 @@ export default function App() {
       );
       return;
     }
-    const url = editingOrderId
-      ? `${API_BASE}/api/orders/${editingOrderId}`
-      : `${API_BASE}/api/orders`;
     const path = editingOrderId
-      ? `/api/orders/${editingOrderId}`
-      : `/api/orders`;
+      ? `/api/v1/orders/${editingOrderId}`
+      : `/api/v1/orders`;
     const payload = {
       ...orderForm,
       raw_message: rawChat,
@@ -459,7 +456,7 @@ export default function App() {
 
   const handleAdvanceStatus = async (orderId, nextStatus) => {
     try {
-      await apiClient.patch(`/api/orders/${orderId}/status`, {
+      await apiClient.patch(`/api/v1/orders/${orderId}/status`, {
         status: nextStatus,
       });
       showToast(`Status pesanan diubah ke ${nextStatus}`);
@@ -478,7 +475,7 @@ export default function App() {
       return;
     }
     try {
-      await apiClient.delete(`/api/orders/${orderId}`);
+      await apiClient.delete(`/api/v1/orders/${orderId}`);
       showToast("Pesanan dihapus");
       fetchAllData();
     } catch {
@@ -550,8 +547,8 @@ export default function App() {
     e.preventDefault();
     const isEdit = Boolean(customerForm.id);
     const path = isEdit
-      ? `/api/customers/${customerForm.id}`
-      : `/api/customers`;
+      ? `/api/v1/customers/${customerForm.id}`
+      : `/api/v1/customers`;
 
     try {
       if (isEdit) {
@@ -584,7 +581,7 @@ export default function App() {
       return;
     }
     try {
-      await apiClient.delete(`/api/customers/${id}`);
+      await apiClient.delete(`/api/v1/customers/${id}`);
       showToast("Pelanggan dihapus");
       fetchAllData();
     } catch {
@@ -640,7 +637,7 @@ export default function App() {
     setAuthError("");
     setAuthLoading(true);
     try {
-      const res = await apiClient.post("/api/auth/login", {
+      const res = await apiClient.post("/api/v1/auth/login", {
         username: loginForm.username.trim(),
         password: loginForm.password,
       });
@@ -687,7 +684,7 @@ export default function App() {
 
   const handleLogout = async () => {
     try {
-      await apiClient.post("/api/auth/logout");
+      await apiClient.post("/api/v1/auth/logout");
     } catch {
       // ignore
     }
