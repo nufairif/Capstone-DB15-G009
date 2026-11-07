@@ -37,9 +37,7 @@ export default function LoginView({
             </p>
           </div>
         </div>
-        <span className="px-4 py-1.5 rounded-full apple-glass-pill text-xs font-semibold text-slate-600 border border-white/80 shadow-xs">
-          100% Local AI Engine
-        </span>
+
       </div>
 
       {/* Center Login Card */}
