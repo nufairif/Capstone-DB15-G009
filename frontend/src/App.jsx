@@ -28,27 +28,36 @@ import RagCatalogView from "./components/views/RagCatalogView";
 import DatasetsView from "./components/views/DatasetsView";
 
 export default function App() {
-  const [authUser, setAuthUser] = useState(() => {
-    if (typeof window === "undefined") return null;
+  const [mounted, setMounted] = useState(false);
+  const [authUser, setAuthUser] = useState(null);
+
+  useEffect(() => {
     try {
       const saved = localStorage.getItem("firaza_auth_user");
-      if (!saved) return null;
-      const parsed = JSON.parse(saved);
-      const matched = DEMO_ACCOUNTS.find((a) => a.username === parsed.username);
-      if (matched) {
-        const updated = {
-          ...parsed,
-          full_name: matched.full_name,
-          role: matched.role,
-        };
-        localStorage.setItem("firaza_auth_user", JSON.stringify(updated));
-        return updated;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const matched = DEMO_ACCOUNTS.find((a) => a.username === parsed.username);
+        if (matched) {
+          const updated = {
+            ...parsed,
+            full_name: matched.full_name,
+            role: matched.role,
+          };
+          localStorage.setItem("firaza_auth_user", JSON.stringify(updated));
+          setAuthUser(updated);
+        } else {
+          setAuthUser(parsed);
+        }
       }
-      return parsed;
-    } catch {
-      return null;
-    }
-  });
+      const savedSidebar = localStorage.getItem("firaza_sidebar_open");
+      if (savedSidebar !== null) {
+        setSidebarOpen(savedSidebar === "true");
+      } else if (window.innerWidth < 768) {
+        setSidebarOpen(false);
+      }
+    } catch {}
+    setMounted(true);
+  }, []);
 
   const [loginForm, setLoginForm] = useState({
     username: "admin",
@@ -109,6 +118,7 @@ export default function App() {
 
   // If user is not logged in, enforce clean /login URL
   useEffect(() => {
+    if (!mounted) return;
     if (!authUser) {
       if (typeof window !== "undefined" && window.location.pathname !== "/login") {
         const prev = window.location.pathname;
@@ -802,6 +812,18 @@ export default function App() {
 
   const activeBars =
     chartMode === "monthly" ? monthlyChartData : categoryChartData;
+
+  // Prevent SSR hydration mismatch
+  if (!mounted) {
+    return (
+      <div className="flex h-screen w-screen items-center justify-center bg-[#F1F4F9] select-none">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 rounded-full border-2 border-slate-900 border-t-transparent animate-spin" />
+          <p className="text-xs font-semibold text-slate-400">Memuat Toko Firaza...</p>
+        </div>
+      </div>
+    );
+  }
 
   // Unauthenticated view
   if (!authUser) {
