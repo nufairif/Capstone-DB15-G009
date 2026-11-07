@@ -16,6 +16,8 @@ echo ""
 
 # Pastikan Ollama serve berjalan di background jika terinstal
 if command -v ollama &> /dev/null; then
+    export OLLAMA_MAX_LOADED_MODELS=3
+    export OLLAMA_NUM_PARALLEL=2
     ollama serve >/dev/null 2>&1 &
 fi
 

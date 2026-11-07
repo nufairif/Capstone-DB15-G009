@@ -22,7 +22,8 @@ def classify_order_endpoint(payload: AnalyzeOrderRequest):
 @router.post("/analyze-order", response_model=AnalyzeOrderResponse)
 def analyze_order_endpoint(payload: AnalyzeOrderRequest):
     prediction = classifier.predict(payload.raw_message)
-    retrieved_docs = rag_engine.retrieve(payload.raw_message, top_k=2)
+    # Gunakan fast retrieval agar tidak men-trigger model swap di Ollama saat ekstraksi pesanan
+    retrieved_docs = rag_engine.retrieve(payload.raw_message, top_k=2, use_neural=False)
     rag_context_str = "\n".join([f"- {d['title']}: {d['content']}" for d in retrieved_docs])
 
     extraction, used_fallback = extractor.extract(

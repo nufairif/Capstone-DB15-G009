@@ -164,7 +164,7 @@ class LocalOpenSourceRAGEngine:
             self.faiss_index = None
             self.vector_backend = "scikit-cosine-vector-store"
 
-    def retrieve(self, query: str, top_k: int = 3) -> List[Dict[str, Any]]:
+    def retrieve(self, query: str, top_k: int = 3, use_neural: bool = True) -> List[Dict[str, Any]]:
         """Mencari dokumen katalog/SOP paling relevan dari Vector Database FAISS."""
         if self.doc_vectors is None or self.embedding_pipeline is None:
             self.build_or_load_index()
@@ -176,11 +176,17 @@ class LocalOpenSourceRAGEngine:
         q_arr = q_raw.toarray() if hasattr(q_raw, "toarray") else q_raw
         lexical_q = np.asarray(q_arr, dtype=np.float32)
 
-        if self.has_neural_embeddings:
+        if self.has_neural_embeddings and use_neural:
             neural_q = self._encode_neural_batch([query])
             if neural_q is None:
                 neural_q = np.zeros((1, 384), dtype=np.float32)
             q_vec = np.hstack([neural_q * np.sqrt(0.5), lexical_q * np.sqrt(0.5)]).astype(np.float32)
+            norm = np.linalg.norm(q_vec, axis=1, keepdims=True)
+            norm[norm == 0] = 1.0
+            q_vec = q_vec / norm
+        elif self.has_neural_embeddings:
+            neural_dummy = np.zeros((1, 384), dtype=np.float32)
+            q_vec = np.hstack([neural_dummy, lexical_q]).astype(np.float32)
             norm = np.linalg.norm(q_vec, axis=1, keepdims=True)
             norm[norm == 0] = 1.0
             q_vec = q_vec / norm

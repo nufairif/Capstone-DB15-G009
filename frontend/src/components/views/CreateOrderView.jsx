@@ -1,5 +1,5 @@
 import React from "react";
-import { Wand2, Plus, Gift, ChevronDown } from "lucide-react";
+import { Wand2, Plus, Gift, ChevronDown, Loader2 } from "lucide-react";
 import { PRESET_CHATS, CATEGORIES, inputSoftClass } from "../../constants";
 
 export default function CreateOrderView({
@@ -74,15 +74,26 @@ export default function CreateOrderView({
             type="button"
             onClick={handleRunAIExtraction}
             disabled={aiAnalyzing}
-            className="w-full py-3.5 px-6 rounded-2xl bg-slate-950 hover:bg-black text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-black/10 active:scale-[0.99] transition-all disabled:opacity-60"
+            className="w-full py-3.5 px-6 rounded-2xl bg-slate-950 hover:bg-black text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-black/10 active:scale-[0.99] transition-all disabled:opacity-75"
           >
-            <Wand2 className="w-4 h-4 text-emerald-400" />
+            {aiAnalyzing ? (
+              <Loader2 className="w-4 h-4 text-emerald-400 animate-spin" />
+            ) : (
+              <Wand2 className="w-4 h-4 text-emerald-400" />
+            )}
             <span>
               {aiAnalyzing
-                ? "Mengekstrak dengan Pipeline AI..."
+                ? "Mengekstrak dengan Llama 3.2 3B..."
                 : "Ekstrak Otomatis ke Form (AI)"}
             </span>
           </button>
+
+          {aiAnalyzing && (
+            <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 text-[11px] font-medium flex items-center gap-2.5 animate-pulse">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+              <span>Memproses chat dengan model LLM lokal di CPU (estimasi 15-25 detik)...</span>
+            </div>
+          )}
         </div>
 
         {aiResultMeta && (

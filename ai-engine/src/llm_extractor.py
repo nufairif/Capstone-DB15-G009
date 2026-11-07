@@ -18,13 +18,8 @@ from src.schemas import (
 DEFAULT_OLLAMA_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 DEFAULT_LLM_MODEL = os.getenv("OLLAMA_MODEL", "llama3.2:3b")
 
-SYSTEM_PROMPT = """Anda adalah AI Order Extractor resmi untuk Toko Firaza (spesialis penjualan Sajadah, Handuk Custom Bordir, dan Hampers).
-Tugas Anda:
-1. Mengekstrak pesan/chat pelanggan yang tidak terstruktur (termasuk singkatan seperti wrn, uk, pcs, bdr, sjdh, hndk) menjadi JSON terstruktur sesuai skema.
-2. Jika pelanggan memesan Hampers atau meminta kartu ucapan (greeting card), buatkan `draft_message` kartu ucapan yang sopan, hangat, dan menyentuh hati dalam Bahasa Indonesia.
-3. WAJIB hanya mengembalikan JSON valid tanpa teks pengantar atau markdown tambahan.
-
-Format JSON yang WAJIB diikuti:
+SYSTEM_PROMPT = """Anda adalah AI Order Extractor resmi Toko Firaza.
+Tugas Anda mengekstrak chat pelanggan (termasuk singkatan wrn, uk, pcs, bdr, sjdh, hndk) menjadi JSON valid sesuai skema ini:
 {
   "customer_name": "string atau null",
   "customer_phone": "string atau null",
@@ -48,12 +43,13 @@ Format JSON yang WAJIB diikuti:
     "draft_message": "string atau null"
   },
   "additional_notes": "string atau null"
-}"""
+}
+Hanya balas dengan JSON valid tanpa penjelasan atau markdown."""
 
 FEW_SHOT_EXAMPLES = [
     {
         "role": "user",
-        "content": "Assalamualaikum kak, saya Rina mau pesen hampers pernikahan 2 paket wrn navy. Isinya handuk custom uk dewasa bdr nama 'Nabila & Dimas' font sambung di tengah bawah. Sekalian kartu ucapan selamat menikah dari Rina ya.",
+        "content": "Halo, saya Rina mau pesen hampers pernikahan 2 paket wrn navy uk dewasa bdr nama 'Nabila' font sambung. Sekalian kartu ucapan selamat menikah ya.",
     },
     {
         "role": "assistant",
@@ -68,53 +64,19 @@ FEW_SHOT_EXAMPLES = [
                         "quantity": 2,
                         "color": "Navy",
                         "size": "Dewasa",
-                        "custom_text": "Nabila & Dimas",
+                        "custom_text": "Nabila",
                         "font_style": "Sambung",
-                        "layout_notes": "Tengah bawah",
+                        "layout_notes": "Tengah",
                     }
                 ],
                 "greeting_card": {
                     "is_requested": True,
                     "occasion": "Pernikahan",
                     "sender_name": "Rina",
-                    "recipient_name": "Nabila & Dimas",
-                    "draft_message": "Selamat menempuh hidup baru, Nabila & Dimas. Semoga menjadi keluarga yang sakinah, mawaddah, warahmah, serta selalu diberkahi kebahagiaan. Salam hangat dari Rina.",
+                    "recipient_name": "Nabila",
+                    "draft_message": "Selamat menempuh hidup baru untuk Nabila. Semoga menjadi keluarga sakinah mawaddah warahmah.",
                 },
                 "additional_notes": "Hampers pernikahan 2 paket",
-            },
-            ensure_ascii=False,
-        ),
-    },
-    {
-        "role": "user",
-        "content": "Halo min, mau order sjdh custom dewasa 3 pcs wrn hijau emerald. Bdr nama 'H. Ahmad Dahlan' pake font kaligrafi arab di pojok kanan bawah ya. Atas nama Farhan.",
-    },
-    {
-        "role": "assistant",
-        "content": json.dumps(
-            {
-                "customer_name": "Farhan",
-                "customer_phone": None,
-                "order_status": "New",
-                "items": [
-                    {
-                        "product_type": "Sajadah Custom",
-                        "quantity": 3,
-                        "color": "Hijau Emerald",
-                        "size": "Dewasa",
-                        "custom_text": "H. Ahmad Dahlan",
-                        "font_style": "Kaligrafi Arab",
-                        "layout_notes": "Pojok kanan bawah",
-                    }
-                ],
-                "greeting_card": {
-                    "is_requested": False,
-                    "occasion": None,
-                    "sender_name": None,
-                    "recipient_name": None,
-                    "draft_message": None,
-                },
-                "additional_notes": None,
             },
             ensure_ascii=False,
         ),
@@ -164,32 +126,17 @@ def regex_fallback_extractor(
     generate_card: bool = True,
 ) -> StructuredOrderSummary:
     """
-    Fallback handler deterministik (Mitigasi Risiko 3):
-    Jika server LLM lokal (Ollama) sedang mati atau menghasilkan JSON rusak setelah retry,
-    ekstraktor berbasis aturan/regex ini memastikan Backend tetap menerima JSON valid.
+    Deterministic rule-based extractor sebagai fallback yang andal
+    jika model LLM lokal sedang sibuk atau timeout.
     """
     msg_lower = raw_message.lower()
 
-    if predicted_category == "Other":
-        return StructuredOrderSummary(
-            customer_name=None,
-            order_status="New",
-            items=[],
-            greeting_card=GreetingCardSchema(is_requested=False),
-            additional_notes="Pertanyaan umum / non-order",
-        )
-
-    # 1. Ekstrak Quantity (hindari menangkap angka ukuran seperti 70x140)
     qty_match = re.search(
         r"(\d+)\s*(?:pcs|biji|buah|paket|box|set|lembar)\b|(?:jumlah|qty|sebanyak)\s*[:=-]?\s*(\d+)",
         msg_lower,
     )
-    if qty_match:
-        qty = int(qty_match.group(1) or qty_match.group(2))
-    else:
-        qty = 1
+    qty = int(qty_match.group(1) or qty_match.group(2)) if qty_match else 1
 
-    # 2. Ekstrak Warna
     known_colors = [
         "hijau emerald", "putih tulang", "coklat susu", "dusty pink", "sage green",
         "biru muda", "ungu lilac", "terracotta", "burgundy", "olive", "mocca",
@@ -201,7 +148,6 @@ def regex_fallback_extractor(
             detected_color = c.title()
             break
 
-    # 3. Ekstrak Ukuran
     known_sizes = ["70x140", "50x100", "30x70", "70x110", "dewasa", "travel", "anak", "bayi", "jumbo", "reguler"]
     detected_size = None
     for s in known_sizes:
@@ -209,7 +155,6 @@ def regex_fallback_extractor(
             detected_size = s.title() if not any(ch.isdigit() for ch in s) else s
             break
 
-    # 4. Ekstrak Custom Text (biasanya di dalam tanda kutip atau setelah kata 'nama')
     custom_text = None
     quote_match = re.search(r"['\"]([^'\"]{2,40})['\"]", raw_message)
     if quote_match:
@@ -219,7 +164,6 @@ def regex_fallback_extractor(
         if name_match:
             custom_text = name_match.group(1).strip()
 
-    # 5. Ekstrak Font Style
     known_fonts = [
         "kaligrafi arab", "huruf balok", "serif klasik", "latin tegak",
         "sambung", "script", "kapital", "monoline", "elegan", "arab",
@@ -230,7 +174,6 @@ def regex_fallback_extractor(
             detected_font = f_name.title()
             break
 
-    # 6. Ekstrak Layout
     known_layouts = [
         "pojok kanan bawah", "pojok kiri bawah", "tengah atas", "bawah tengah",
         "tengah bawah", "kubah sajadah", "list bawah handuk", "tengah",
@@ -241,7 +184,6 @@ def regex_fallback_extractor(
             detected_layout = l_name.capitalize()
             break
 
-    # 7. Ekstrak Nama Pemesan (customer_name)
     customer_name = None
     cust_match = re.search(
         r"(?:atas nama|saya|aku|dari|pemesan\s*[:=-]?)\s+([a-zA-Z][a-zA-Z\s]{1,25}?)(?=\s+(?:mau|pesen|pesan|order|beli|butuh|minta|buat|untuk)|[\.,\n]|$)",
@@ -253,33 +195,31 @@ def regex_fallback_extractor(
     elif custom_text and "&" not in custom_text:
         customer_name = custom_text
 
-    # 8. Tentukan Product Type
     if predicted_category == "Hampers":
         product_type = "Hampers Custom Firaza"
     elif predicted_category == "Custom Sajadah":
         product_type = "Sajadah Custom"
     elif predicted_category == "Custom Handuk":
-        product_type = "Handuk Custom"
+        product_type = "Handuk Bordir Custom"
+    elif predicted_category == "Ready Stock":
+        product_type = "Produk Ready Stock"
     else:
-        product_type = "Sajadah Travel" if "sajadah" in msg_lower or "sjdh" in msg_lower else "Handuk Ready Stock"
+        product_type = "Item Custom"
 
-    # 9. Kartu Ucapan
-    card_requested = (
-        predicted_category == "Hampers"
-        or "kartu" in msg_lower
-        or "ucapan" in msg_lower
-        or "greeting" in msg_lower
-    )
+    card_keywords = ["kartu ucapan", "greeting card", "ucapan", "kartu", "selamat"]
+    card_requested = any(kw in msg_lower for kw in card_keywords) or (predicted_category == "Hampers")
 
     occasion = None
-    known_occasions = [
-        "tasyakuran pernikahan", "pernikahan", "ulang tahun", "lebaran idul fitri",
-        "lebaran", "umroh", "haji", "aqiqah", "wisuda", "anniversary", "tasyakuran",
-    ]
-    for occ in known_occasions:
-        if occ in msg_lower:
-            occasion = occ.title()
-            break
+    if "nikah" in msg_lower or "wedding" in msg_lower:
+        occasion = "Pernikahan"
+    elif "lebaran" in msg_lower or "idul fitri" in msg_lower:
+        occasion = "Idul Fitri"
+    elif "ulang tahun" in msg_lower or "ultah" in msg_lower or "birthday" in msg_lower:
+        occasion = "Ulang Tahun"
+    elif "haji" in msg_lower or "umroh" in msg_lower:
+        occasion = "Ibadah Haji/Umroh"
+    elif card_requested:
+        occasion = "Spesial"
 
     draft_msg = None
     if card_requested and generate_card:
@@ -296,7 +236,7 @@ def regex_fallback_extractor(
         items=[
             OrderItemSchema(
                 product_type=product_type,
-                quantity=qty,
+                quantity=max(1, qty),
                 color=detected_color,
                 size=detected_size,
                 custom_text=custom_text if predicted_category != "Ready Stock" else None,
@@ -325,8 +265,8 @@ class LocalLLMOrderExtractor:
         self,
         ollama_url: str = DEFAULT_OLLAMA_URL,
         model_name: str = DEFAULT_LLM_MODEL,
-        max_retries: int = 2,
-        timeout_seconds: int = 60,
+        max_retries: int = 1,
+        timeout_seconds: int = 45,
     ):
         self.ollama_url = ollama_url.rstrip("/")
         self.model_name = model_name
@@ -334,10 +274,10 @@ class LocalLLMOrderExtractor:
         self.timeout_seconds = timeout_seconds
 
     def _call_ollama_chat(self, raw_message: str, rag_context: Optional[str] = None) -> str:
-        """Memanggil endpoint /api/chat milik Ollama lokal dengan mode format JSON + konteks RAG."""
+        """Memanggil endpoint /api/chat milik Ollama lokal dengan mode format JSON ringkas & cepat."""
         sys_prompt = SYSTEM_PROMPT
         if rag_context:
-            sys_prompt += f"\n\nKonteks Katalog & Standar Produk Toko Firaza (Hasil Retrieval RAG):\n{rag_context}"
+            sys_prompt += f"\n\nReferensi Standar Produk Toko Firaza:\n{rag_context}"
 
         messages = [{"role": "system", "content": sys_prompt}]
         messages.extend(FEW_SHOT_EXAMPLES)
@@ -349,8 +289,9 @@ class LocalLLMOrderExtractor:
             "format": "json",
             "stream": False,
             "options": {
-                "temperature": 0.1,  # Rendah agar ekstraksi konsisten & bebas halusinasi
-                "num_predict": 512,
+                "temperature": 0.0,
+                "num_predict": 220,
+                "num_ctx": 1024,
             },
         }
 
@@ -375,8 +316,6 @@ class LocalLLMOrderExtractor:
         Mengekstrak pesan pelanggan menjadi `StructuredOrderSummary`.
         Mengembalikan tuple: `(StructuredOrderSummary, used_fallback: bool)`.
         """
-        # Optimasi beban kerja (Mitigasi Risiko 1):
-        # Jika pesan diklasifikasikan sebagai 'Other' (bukan order), tidak perlu memanggil LLM berat.
         if predicted_category == "Other":
             return (
                 StructuredOrderSummary(
@@ -389,14 +328,13 @@ class LocalLLMOrderExtractor:
                 False,
             )
 
-        # Coba panggil LLM lokal dengan mekanisme retry jika JSON rusak (Mitigasi Risiko 3)
         for attempt in range(1, self.max_retries + 1):
             try:
                 raw_json_str = self._call_ollama_chat(raw_message, rag_context=rag_context)
                 parsed_dict = json.loads(raw_json_str)
                 validated = StructuredOrderSummary.model_validate(parsed_dict)
 
-                # Jika nama pemesan diketik huruf kecil semua (misal: "saya asep") dan terlewat oleh LLM, bantu dengan deteksi case-insensitive
+                # Koreksi case-insensitive nama pemesan jika terlewat
                 if not validated.customer_name:
                     cname_match = re.search(
                         r"(?:atas nama|saya|aku|dari|pemesan\s*[:=-]?)\s+([a-zA-Z][a-zA-Z\s]{1,20}?)(?=\s+(?:mau|pesen|pesan|order|beli|butuh|minta|buat|untuk)|[\.,\n]|$)",
@@ -406,7 +344,7 @@ class LocalLLMOrderExtractor:
                     if cname_match:
                         validated.customer_name = cname_match.group(1).strip().title()
 
-                # Pastikan draf kartu ucapan terisi jika diminta namun LLM mengosongkannya
+                # Lengkapi draft kartu ucapan jika diminta tapi kosong
                 if (
                     generate_greeting_card
                     and validated.greeting_card.is_requested
@@ -419,13 +357,12 @@ class LocalLLMOrderExtractor:
                     )
                 return validated, False
             except (urllib.error.URLError, TimeoutError, ConnectionError):
-                # Server Ollama lokal belum dijalankan, langsung gunakan fallback deterministik
                 break
             except (json.JSONDecodeError, ValidationError, KeyError):
                 if attempt == self.max_retries:
                     break
 
-        # Fallback handler jika Ollama tidak aktif atau gagal validasi Pydantic
+        # Fallback deterministik jika timeout / error
         fallback_result = regex_fallback_extractor(
             raw_message=raw_message,
             predicted_category=predicted_category,

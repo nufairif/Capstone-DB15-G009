@@ -11,6 +11,8 @@ echo.
 
 where ollama >nul 2>nul
 if %errorlevel% equ 0 (
+    set OLLAMA_MAX_LOADED_MODELS=3
+    set OLLAMA_NUM_PARALLEL=2
     start /b "" ollama serve >nul 2>nul
 )
 
