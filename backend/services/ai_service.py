@@ -1,5 +1,6 @@
 import csv
 import json
+import subprocess
 import urllib.request
 from config import CAPSTONE_AI_DIR
 
@@ -20,12 +21,6 @@ def query_rag_catalog(query: str, top_k: int = 4):
     return fresh_rag.generate_rag_answer(user_query=query, top_k=top_k)
 
 
-def init_ai_models():
-    """Memuat pipeline model klasifikasi dan indeks vektor RAG saat server startup."""
-    classifier.load()
-    rag_engine.build_or_load_index()
-
-
 def check_ollama_running() -> bool:
     """Mengecek apakah service Ollama lokal aktif."""
     try:
@@ -33,6 +28,27 @@ def check_ollama_running() -> bool:
             return resp.status == 200
     except Exception:
         return False
+
+
+def ensure_ollama_running():
+    """Menyalakan server 'ollama serve' secara otomatis di background jika belum aktif."""
+    if check_ollama_running():
+        return
+    try:
+        subprocess.Popen(
+            ["ollama", "serve"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+    except Exception:
+        pass
+
+
+def init_ai_models():
+    """Memuat pipeline model klasifikasi, indeks vektor RAG, dan menyalakan Ollama saat server startup."""
+    ensure_ollama_running()
+    classifier.load()
+    rag_engine.build_or_load_index()
 
 
 def get_dataset_overview(sample_limit: int = 15):

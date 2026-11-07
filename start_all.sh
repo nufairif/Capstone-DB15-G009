@@ -8,9 +8,15 @@ echo "========================================================"
 echo "Menjalankan Sistem Toko Firaza dalam 1 Terminal (Bash)"
 echo "- Web Dashboard (Next.js): http://localhost:3000"
 echo "- Backend & AI API     : http://localhost:8000/docs"
+echo "- Local LLM (Ollama)   : http://localhost:11434 (llama3.2:3b)"
 echo "(Tekan Ctrl + C untuk menghentikan server)"
 echo "========================================================"
 echo ""
+
+# Pastikan Ollama serve berjalan di background jika terinstal
+if command -v ollama &> /dev/null; then
+    ollama serve >/dev/null 2>&1 &
+fi
 
 # Deteksi perintah python yang tersedia (python, python3, py)
 PYTHON_CMD="python"
