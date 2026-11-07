@@ -94,7 +94,7 @@ Pilih sesuai terminal yang sedang Anda gunakan di root folder:
   `
 
 Script otomatis menyalakan kedua server secara bersamaan:
-- **Web Dashboard (Next.js):** http://localhost:5173
+- **Web Dashboard (Next.js):** http://localhost:3000
 - **Backend & AI API (Swagger Docs):** http://localhost:8000/docs
 
 
@@ -125,7 +125,7 @@ npm run dev
 # Atau mode Vite:
 npm run vite:dev
 ```
-Aplikasi dapat diakses melalui browser di `http://localhost:5173`.
+Aplikasi dapat diakses melalui browser di `http://localhost:3000`.
 
 ---
 

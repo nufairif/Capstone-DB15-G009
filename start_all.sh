@@ -6,7 +6,7 @@ ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo "========================================================"
 echo "Menjalankan Sistem Toko Firaza dalam 1 Terminal (Bash)"
-echo "- Web Dashboard (Next.js): http://localhost:5173"
+echo "- Web Dashboard (Next.js): http://localhost:3000"
 echo "- Backend & AI API     : http://localhost:8000/docs"
 echo "(Tekan Ctrl + C untuk menghentikan server)"
 echo "========================================================"
@@ -36,6 +36,6 @@ cleanup() {
 }
 trap cleanup SIGINT SIGTERM EXIT
 
-# Jalankan Frontend Next.js di foreground
+# Jalankan Frontend Next.js di foreground (port 3000 bebas collision)
 cd "$ROOT_DIR/frontend"
 npm run dev
