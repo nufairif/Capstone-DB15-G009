@@ -77,15 +77,26 @@ Database SQLite & Kanban Produksi
 ## 🚀 Panduan Menjalankan Aplikasi
 
 ### Cara Termudah (One-Click Runner)
-Cukup jalankan file batch di root folder:
-```cmd
-start_all.bat
-```
-Script akan secara otomatis menyalakan:
-- **Backend API & Swagger:** `http://localhost:8000/docs`
-- **Frontend Dashboard:** `http://localhost:5173`
 
----
+Pilih sesuai terminal yang sedang Anda gunakan di root folder:
+
+* **Di Git Bash / MSYS2 / UCRT64 (Linux/macOS):**
+  `ash
+  ./start_all.sh
+  `
+* **Di Windows Command Prompt (CMD):**
+  `cmd
+  start_all.bat
+  `
+* **Di Windows PowerShell:**
+  `powershell
+  .\start_all.bat
+  `
+
+Script otomatis menyalakan kedua server secara bersamaan:
+- **Web Dashboard (Next.js):** http://localhost:5173
+- **Backend & AI API (Swagger Docs):** http://localhost:8000/docs
+
 
 ### Cara Manual
 
