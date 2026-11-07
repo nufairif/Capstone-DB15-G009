@@ -1,5 +1,5 @@
 import React from "react";
-import { Wand2, Plus, Gift } from "lucide-react";
+import { Wand2, Plus, Gift, ChevronDown } from "lucide-react";
 import { PRESET_CHATS, CATEGORIES, inputSoftClass } from "../../constants";
 
 export default function CreateOrderView({
@@ -178,22 +178,25 @@ export default function CreateOrderView({
             <label className="block text-xs font-semibold text-slate-600 mb-1.5">
               Kategori AI
             </label>
-            <select
-              value={orderForm.category}
-              onChange={(e) =>
-                setOrderForm({
-                  ...orderForm,
-                  category: e.target.value,
-                })
-              }
-              className={inputSoftClass}
-            >
-              {CATEGORIES.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
+            <div className="relative">
+              <select
+                value={orderForm.category}
+                onChange={(e) =>
+                  setOrderForm({
+                    ...orderForm,
+                    category: e.target.value,
+                  })
+                }
+                className={`${inputSoftClass} appearance-none pr-10 cursor-pointer`}
+              >
+                {CATEGORIES.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="w-4 h-4 text-slate-400 pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2" />
+            </div>
           </div>
         </div>
 

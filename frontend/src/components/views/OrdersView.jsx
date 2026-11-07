@@ -1,5 +1,5 @@
 import React from "react";
-import { Edit3, Trash2, ArrowRight, CheckCircle2, Search, X } from "lucide-react";
+import { Edit3, Trash2, ArrowRight, CheckCircle2, Search, X, ChevronDown } from "lucide-react";
 import { STATUS_FLOW, CATEGORIES } from "../../constants";
 
 export default function OrdersView({
@@ -77,18 +77,21 @@ export default function OrdersView({
           ))}
         </div>
 
-        <select
-          value={filterCategory}
-          onChange={(e) => setFilterCategory(e.target.value)}
-          className="px-4 py-2 rounded-full apple-glass-input text-xs font-bold text-slate-700 shadow-sm focus:outline-none cursor-pointer"
-        >
-          <option value="ALL">Semua Kategori AI</option>
-          {CATEGORIES.map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
-        </select>
+        <div className="relative inline-flex items-center">
+          <select
+            value={filterCategory}
+            onChange={(e) => setFilterCategory(e.target.value)}
+            className="appearance-none pl-4 pr-9 py-2 rounded-full apple-glass-pill text-xs font-bold text-slate-700 hover:text-slate-950 hover:bg-white border border-white/80 shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 cursor-pointer transition-all"
+          >
+            <option value="ALL">Semua Kategori AI</option>
+            {CATEGORIES.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+          <ChevronDown className="w-3.5 h-3.5 text-slate-400 pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2" />
+        </div>
       </div>
 
       {/* 4-Column Apple Bento Glass Kanban Board */}
