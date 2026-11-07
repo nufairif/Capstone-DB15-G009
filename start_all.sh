@@ -8,7 +8,8 @@ echo "========================================================"
 echo "Menjalankan Sistem Toko Firaza dalam 1 Terminal (Bash)"
 echo "- Web Dashboard (Next.js): http://localhost:3000"
 echo "- Backend & AI API     : http://localhost:8000/docs"
-echo "- Local LLM (Ollama)   : http://localhost:11434 (llama3.2:3b)"
+echo "- Local LLM & Embedding: Ollama (llama3.2:3b + all-minilm)"
+echo "- Vector Database      : FAISS (faiss-cpu-IndexFlatIP)"
 echo "(Tekan Ctrl + C untuk menghentikan server)"
 echo "========================================================"
 echo ""
@@ -18,19 +19,15 @@ if command -v ollama &> /dev/null; then
     ollama serve >/dev/null 2>&1 &
 fi
 
-# Deteksi perintah python yang tersedia (python, python3, py)
-PYTHON_CMD="python"
-if command -v python &> /dev/null; then
-    PYTHON_CMD="python"
-elif command -v python3 &> /dev/null; then
-    PYTHON_CMD="python3"
-elif command -v py &> /dev/null; then
-    PYTHON_CMD="py"
-fi
-
-# Jalankan Backend FastAPI di background
+# Utamakan Python 3.12 (yang memiliki wheel resmi faiss-cpu) jika tersedia melalui py launcher
 cd "$ROOT_DIR/backend"
-$PYTHON_CMD -m uvicorn app:app --reload --reload-dir "$ROOT_DIR/backend" --reload-dir "$ROOT_DIR/ai-engine" --port 8000 &
+if command -v py &> /dev/null && py -3.12 --version &> /dev/null; then
+    py -3.12 -m uvicorn app:app --reload --reload-dir "$ROOT_DIR/backend" --reload-dir "$ROOT_DIR/ai-engine" --port 8000 &
+elif command -v python &> /dev/null; then
+    python -m uvicorn app:app --reload --reload-dir "$ROOT_DIR/backend" --reload-dir "$ROOT_DIR/ai-engine" --port 8000 &
+else
+    python3 -m uvicorn app:app --reload --reload-dir "$ROOT_DIR/backend" --reload-dir "$ROOT_DIR/ai-engine" --port 8000 &
+fi
 BACKEND_PID=$!
 
 # Trap Ctrl+C atau exit agar proses backend ikut dimatikan

@@ -16,7 +16,7 @@ export default function RagCatalogView({
             Asisten Katalog, Harga & SOP Bordir (Local RAG)
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
-            Pencarian vektor lokal ke 75 dokumen Knowledge Base Toko Firaza
+            Pencarian vektor lokal (FAISS + Neural Embedding all-MiniLM-L6-v2 + Llama 3.2 3B On-Premise) ke 75 dokumen Knowledge Base Toko Firaza
           </p>
         </div>
 
@@ -67,18 +67,34 @@ export default function RagCatalogView({
       {ragResult && (
         <div className="apple-glass-card rounded-[32px] p-6 sm:p-8 space-y-6 relative overflow-hidden">
           <div className="apple-glass-dark text-white rounded-[28px] p-6 space-y-3 shadow-2xl">
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-300">
-                Jawaban Sintesis Asisten RAG
-              </span>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-300">
+                  Jawaban Sintesis Asisten RAG
+                </span>
+              </div>
+              {ragResult.meta && (
+                <div className="flex flex-wrap items-center gap-1.5 text-[10px]">
+                  <span className="px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-slate-200 font-mono">
+                    Vector DB: {ragResult.meta.vector_db_backend || "faiss-cpu-IndexFlatIP"}
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-slate-200 font-mono">
+                    Embedding: {ragResult.meta.embedding_model || "all-minilm (all-MiniLM-L6-v2)"}
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 font-mono">
+                    LLM: {ragResult.meta.generation_model || "llama3.2:3b"}{" "}
+                    {ragResult.meta.used_on_premise_llm ? "(Ollama On-Premise)" : "(Offline Fallback)"}
+                  </span>
+                </div>
+              )}
             </div>
             <p className="text-sm leading-relaxed text-slate-100">{ragResult.answer}</p>
           </div>
 
           <div className="space-y-3">
             <p className="text-xs font-bold text-slate-900 tracking-tight">
-              Dokumen Referensi Terambil (Vector Similarity):
+              Dokumen Referensi Terambil (FAISS Vector Similarity):
             </p>
             <div className="space-y-2.5">
               {(ragResult.retrieved_documents || []).map((doc) => (
@@ -104,4 +120,3 @@ export default function RagCatalogView({
     </div>
   );
 }
-
