@@ -49,7 +49,7 @@ export default function BarChartCard({
                 : "text-slate-500 hover:text-zinc-900"
             }`}
           >
-            5 Kategori AI
+            Kategori Produk
           </button>
         </div>
       </div>

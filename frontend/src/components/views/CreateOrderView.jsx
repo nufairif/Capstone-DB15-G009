@@ -187,7 +187,7 @@ export default function CreateOrderView({
           </div>
           <div>
             <label className="block text-xs font-semibold text-slate-600 mb-1.5">
-              Kategori AI
+              Kategori Produk
             </label>
             <div className="relative">
               <select

@@ -40,7 +40,7 @@ export default function OrderHistoryTable({
               <ChevronsUpDown className="w-3.5 h-3.5 text-slate-400" />
             </div>
             <div className="col-span-2 flex items-center gap-1">
-              <span>Kategori AI</span>
+              <span>Kategori Produk</span>
               <ChevronsUpDown className="w-3.5 h-3.5 text-slate-400" />
             </div>
             <div className="col-span-2 flex items-center gap-1">
@@ -87,9 +87,13 @@ export default function OrderHistoryTable({
                           STATUS_PILL[ord.status] || STATUS_PILL.New
                         }`}
                       >
-                        {ord.status === "Design/Preparation"
-                          ? "Design"
-                          : ord.status}
+                        {ord.status === "New"
+                          ? "Baru"
+                          : ord.status === "Design/Preparation"
+                          ? "Desain"
+                          : ord.status === "Production"
+                          ? "Bordir"
+                          : "Selesai"}
                       </span>
                     </div>
                     <div className="col-span-2 text-right font-bold text-slate-900">
