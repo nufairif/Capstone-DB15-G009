@@ -98,6 +98,10 @@ export default function OrdersView({
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
         {STATUS_FLOW.map((stage, stageIdx) => {
           const stageOrders = orders.filter((o) => o.status === stage);
+          const stageTotalPcs = stageOrders.reduce(
+            (acc, o) => acc + (o.items || []).reduce((s, it) => s + (Number(it.quantity) || 1), 0),
+            0
+          );
           const nextStage = STATUS_FLOW[stageIdx + 1];
 
           return (
@@ -112,8 +116,8 @@ export default function OrdersView({
                     {stage === "Design/Preparation" ? "Desain / Persiapan" : stage}
                   </span>
                 </div>
-                <span className="px-2.5 py-0.5 rounded-full apple-glass-pill text-[11px] font-bold text-slate-700 border border-white/80 shadow-xs">
-                  {stageOrders.length}
+                <span className="px-2.5 py-0.5 rounded-full apple-glass-pill text-[10px] font-bold text-slate-700 border border-white/80 shadow-xs">
+                  {stageOrders.length} Order • {stageTotalPcs} Pcs
                 </span>
               </div>
 
@@ -123,15 +127,25 @@ export default function OrdersView({
                     Belum ada pesanan
                   </div>
                 ) : (
-                  stageOrders.map((ord) => (
+                  stageOrders.map((ord) => {
+                    const ordPcs = (ord.items || []).reduce(
+                      (s, it) => s + (Number(it.quantity) || 1),
+                      0
+                    );
+                    return (
                     <div
                       key={ord.id}
                       className="apple-glass-card rounded-[24px] p-4 space-y-3 relative group transition-all duration-200 border border-white/80"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-mono text-[11px] font-semibold text-slate-400">
-                          {ord.order_code}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-[11px] font-semibold text-slate-400">
+                            {ord.order_code}
+                          </span>
+                          <span className="px-2 py-0.5 rounded-md bg-slate-900/5 text-slate-700 font-bold text-[10px] border border-slate-200/50">
+                            {ordPcs} Pcs
+                          </span>
+                        </div>
                         <div className="flex items-center gap-1 opacity-80 group-hover:opacity-100 transition-opacity">
                           <button
                             onClick={() => handleStartEditOrder(ord)}
@@ -193,7 +207,8 @@ export default function OrdersView({
                         </div>
                       )}
                     </div>
-                  ))
+                    );
+                  })
                 )}
               </div>
             </div>
