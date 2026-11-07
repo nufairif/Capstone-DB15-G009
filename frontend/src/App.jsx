@@ -29,6 +29,7 @@ import DatasetsView from "./components/views/DatasetsView";
 
 export default function App() {
   const [authUser, setAuthUser] = useState(() => {
+    if (typeof window === "undefined") return null;
     try {
       const saved = localStorage.getItem("firaza_auth_user");
       if (!saved) return null;
@@ -57,7 +58,8 @@ export default function App() {
   const [authError, setAuthError] = useState("");
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(() => {
-    if (typeof window !== "undefined" && window.innerWidth < 768) return false;
+    if (typeof window === "undefined") return true;
+    if (window.innerWidth < 768) return false;
     const saved = localStorage.getItem("firaza_sidebar_open");
     return saved !== null ? saved === "true" : true;
   });
@@ -165,6 +167,7 @@ export default function App() {
   }, []);
 
   const [stats, setStats] = useState(() => {
+    if (typeof window === "undefined") return null;
     try {
       const cached = localStorage.getItem("tf_dashboard_stats");
       return cached ? JSON.parse(cached) : null;
@@ -233,6 +236,7 @@ export default function App() {
   const [ragResult, setRagResult] = useState(null);
   const [ragLoading, setRagLoading] = useState(false);
   const [datasetInfo, setDatasetInfo] = useState(() => {
+    if (typeof window === "undefined") return null;
     try {
       const cached = localStorage.getItem("tf_dataset_info");
       return cached ? JSON.parse(cached) : null;
@@ -815,8 +819,13 @@ export default function App() {
 
   // Authenticated workspace shell
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-[#F4F5F9] text-slate-900 select-none">
-      {/* Sidebar Navigation */}
+    <div className="flex h-screen w-screen overflow-hidden bg-[#F0F3F8] text-slate-900 select-none relative">
+      {/* Ambient Apple Spatial Mesh Orbs for Frosted Glass Depth */}
+      <div className="fixed pointer-events-none -top-32 -left-32 w-96 h-96 bg-blue-200/40 rounded-full blur-3xl z-0" />
+      <div className="fixed pointer-events-none top-1/4 -right-24 w-[500px] h-[500px] bg-indigo-200/35 rounded-full blur-3xl z-0" />
+      <div className="fixed pointer-events-none -bottom-36 left-1/3 w-[600px] h-[600px] bg-emerald-200/25 rounded-full blur-3xl z-0" />
+
+      {/* Glass Sidebar Navigation */}
       <Sidebar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
@@ -832,7 +841,7 @@ export default function App() {
       />
 
       {/* Main Content Scroll Area */}
-      <div className="flex-1 flex flex-col min-w-0 h-full overflow-y-auto select-auto">
+      <div className="flex-1 flex flex-col min-w-0 h-full overflow-y-auto select-auto relative z-10">
         <div className="w-full max-w-[1520px] mx-auto px-4 sm:px-8 xl:px-10 py-6 sm:py-8 flex-1 flex flex-col">
           {/* Top Header */}
           <Header

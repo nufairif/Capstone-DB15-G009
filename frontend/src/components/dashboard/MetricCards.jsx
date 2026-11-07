@@ -13,70 +13,77 @@ export default function MetricCards({
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6">
-      {/* Card 1: Total Pcs */}
+      {/* Bento Card 1: Total Pcs */}
       <div
         onClick={() => setActiveTab("orders")}
-        className="bg-white rounded-[28px] p-6 sm:p-7 border border-slate-200/80 shadow-[0_10px_30px_-5px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-slate-300 transition-all cursor-pointer group"
+        className="apple-glass-card rounded-[32px] p-6 sm:p-7 relative overflow-hidden group cursor-pointer"
       >
-        <div className="flex items-center justify-between">
-          <div className="w-11 h-11 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center border border-amber-100/80 group-hover:scale-105 transition-transform">
-            <PackageCheck className="w-5 h-5" strokeWidth={1.9} />
+        <div className="flex items-center justify-between relative z-10">
+          <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 border border-amber-500/20 backdrop-blur-md flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
+            <PackageCheck className="w-5 h-5" strokeWidth={2} />
           </div>
-          <span className="w-6 h-6 rounded-full border border-slate-200 flex items-center justify-center text-[10px] text-slate-400 font-bold">
-            %
+          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-700 border border-amber-500/20 shadow-sm">
+            +18% MoM
           </span>
         </div>
-        <p className="text-[30px] font-extrabold tracking-tight text-slate-900 mt-4 group-hover:text-amber-700 transition-colors">
-          {totalPcsCount} Pcs
-        </p>
-        <p className="text-xs font-medium text-slate-400 mt-1">
-          Total unit produk custom dipesan
-        </p>
+        <div className="relative z-10 mt-5">
+          <p className="text-[32px] sm:text-[34px] font-extrabold tracking-tight text-zinc-900 leading-none">
+            {totalPcsCount} <span className="text-xl font-bold text-slate-500">Pcs</span>
+          </p>
+          <p className="text-xs font-medium text-slate-500 mt-2">
+            Total volume unit bordir aktif
+          </p>
+        </div>
       </div>
 
-      {/* Card 2: Jumlah Transaksi Aktif */}
+      {/* Bento Card 2: Jumlah Transaksi Aktif */}
       <div
         onClick={() => setActiveTab("orders")}
-        className="bg-white rounded-[28px] p-6 sm:p-7 border border-slate-200/80 shadow-[0_10px_30px_-5px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-slate-300 transition-all cursor-pointer group"
+        className="apple-glass-card rounded-[32px] p-6 sm:p-7 relative overflow-hidden group cursor-pointer"
       >
-        <div className="flex items-center justify-between">
-          <div className="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center border border-emerald-100/80 group-hover:scale-105 transition-transform">
-            <Sparkles className="w-5 h-5" strokeWidth={1.9} />
+        <div className="flex items-center justify-between relative z-10">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 backdrop-blur-md flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
+            <Sparkles className="w-5 h-5" strokeWidth={2} />
           </div>
-          <span className="w-6 h-6 rounded-full border border-slate-200 flex items-center justify-center text-[10px] text-slate-400 font-bold">
-            %
+          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-700 border border-emerald-500/20 shadow-sm flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            Aktif
           </span>
         </div>
-        <p className="text-[30px] font-extrabold tracking-tight text-slate-900 mt-4 group-hover:text-emerald-700 transition-colors">
-          {totalOrdersCount}
-        </p>
-        <p className="text-xs font-medium text-slate-400 mt-1">
-          Jumlah transaksi pesanan aktif
-        </p>
+        <div className="relative z-10 mt-5">
+          <p className="text-[32px] sm:text-[34px] font-extrabold tracking-tight text-zinc-900 leading-none">
+            {totalOrdersCount} <span className="text-xl font-bold text-slate-500">Pesanan</span>
+          </p>
+          <p className="text-xs font-medium text-slate-500 mt-2">
+            Transaksi berjalan di seluruh saluran
+          </p>
+        </div>
       </div>
 
-      {/* Card 3: Total Dataset AI */}
+      {/* Bento Card 3: Total Dataset AI */}
       <div
         onClick={() => {
           setActiveTab("datasets");
           fetchDatasetOverview();
         }}
-        className="bg-white rounded-[28px] p-6 sm:p-7 border border-slate-200/80 shadow-[0_10px_30px_-5px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-slate-300 transition-all cursor-pointer group"
+        className="apple-glass-card rounded-[32px] p-6 sm:p-7 relative overflow-hidden group cursor-pointer"
       >
-        <div className="flex items-center justify-between">
-          <div className="w-11 h-11 rounded-2xl bg-indigo-50 text-indigo-700 flex items-center justify-center border border-indigo-100/80 group-hover:scale-105 transition-transform">
-            <BarChart3 className="w-5 h-5" strokeWidth={1.9} />
+        <div className="flex items-center justify-between relative z-10">
+          <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-600 border border-indigo-500/20 backdrop-blur-md flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
+            <BarChart3 className="w-5 h-5" strokeWidth={2} />
           </div>
-          <span className="w-6 h-6 rounded-full border border-slate-200 flex items-center justify-center text-[10px] text-slate-400 font-bold">
-            %
+          <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-indigo-500/10 text-indigo-700 border border-indigo-500/20 shadow-sm">
+            AI 98.3%
           </span>
         </div>
-        <p className="text-[30px] font-extrabold tracking-tight text-slate-900 mt-4 group-hover:text-indigo-700 transition-colors">
-          {datasetTotal}
-        </p>
-        <p className="text-xs font-medium text-slate-400 mt-1">
-          Total dataset AI & dokumen RAG
-        </p>
+        <div className="relative z-10 mt-5">
+          <p className="text-[32px] sm:text-[34px] font-extrabold tracking-tight text-zinc-900 leading-none">
+            {datasetTotal} <span className="text-xl font-bold text-slate-500">Data</span>
+          </p>
+          <p className="text-xs font-medium text-slate-500 mt-2">
+            Dataset pelatihan AI & korpus RAG
+          </p>
+        </div>
       </div>
     </div>
   );

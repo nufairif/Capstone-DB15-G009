@@ -17,10 +17,13 @@ export default function StatusPanel({
 }) {
   return (
     <div className="col-span-12 xl:col-span-4 space-y-6">
-      {/* Prominent Solid Dark Status Card */}
-      <div className="bg-[#0B0F19] text-white rounded-[28px] p-6 sm:p-7 shadow-lg border border-slate-800 text-center space-y-5">
-        <div className="space-y-1">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-emerald-400 text-[11px] font-semibold tracking-wide uppercase">
+      {/* Bento Apple Dark Glass Status Card */}
+      <div className="apple-glass-dark rounded-[32px] p-6 sm:p-7 text-center space-y-5 relative overflow-hidden">
+        {/* Subtle emerald radial glow in background */}
+        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-48 h-48 bg-emerald-500/15 rounded-full blur-2xl pointer-events-none" />
+
+        <div className="space-y-1.5 relative z-10">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[11px] font-bold tracking-wide uppercase backdrop-blur-md shadow-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             Live Pipeline
           </div>
@@ -28,25 +31,25 @@ export default function StatusPanel({
             Status Produksi Bordir
           </h3>
           <p className="text-xs font-medium text-slate-300">
-            {inProgressCount} Pesanan Sedang Berjalan
+            {inProgressCount} Pesanan Sedang Diproses
           </p>
         </div>
 
-        {/* Thick Modern Progress Bar */}
-        <div className="space-y-2">
-          <div className="w-full h-3 bg-white/15 rounded-full overflow-hidden p-0.5">
+        {/* Thick Apple Style Glowing Progress Bar */}
+        <div className="space-y-2 relative z-10">
+          <div className="w-full h-3.5 bg-white/10 rounded-full overflow-hidden p-0.5 border border-white/10 backdrop-blur-sm">
             <div
-              className="h-full bg-gradient-to-r from-emerald-400 via-teal-300 to-white rounded-full transition-all duration-500 shadow-sm"
+              className="h-full bg-gradient-to-r from-emerald-400 via-teal-300 to-white rounded-full transition-all duration-500 shadow-[0_0_12px_rgba(52,211,153,0.4)]"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
           <div className="flex justify-between items-center text-[11px] text-slate-400 font-medium px-1">
-            <span>Progres Antrean</span>
-            <span className="font-bold text-white">{progressPercent}%</span>
+            <span>Kapasitas Antrean</span>
+            <span className="font-bold text-white font-mono">{progressPercent}%</span>
           </div>
         </div>
 
-        <div className="pt-1 pb-1 border-t border-white/10">
+        <div className="pt-2 pb-1 border-t border-white/10 relative z-10">
           <p className="text-xs font-semibold text-white">
             Estimasi Selesai: 1–2 Hari Kerja
           </p>
@@ -65,24 +68,24 @@ export default function StatusPanel({
               setActiveTab("create-order");
             }
           }}
-          className="w-full py-3 px-5 rounded-2xl bg-white hover:bg-slate-100 text-[#0B0F19] font-bold text-xs tracking-tight transition-all shadow-md active:scale-[0.99]"
+          className="w-full py-3.5 px-5 rounded-2xl bg-white hover:bg-slate-100 text-zinc-950 font-bold text-xs tracking-tight transition-all shadow-[0_4px_20px_rgba(255,255,255,0.25)] active:scale-[0.98] relative z-10"
         >
           {isProduksi ? "Buka Kanban Produksi →" : "+ Ekstrak Chat Order Baru"}
         </button>
       </div>
 
-      {/* Middle Card: Antrean Produksi Aktif */}
-      <div className="bg-white rounded-[28px] border border-slate-200/80 p-6 shadow-sm space-y-4">
+      {/* Middle Bento Card: Antrean Produksi Aktif */}
+      <div className="apple-glass-card rounded-[32px] p-6 space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-sm font-bold text-slate-900">
+            <h3 className="text-sm font-bold text-zinc-900">
               Antrean Produksi Aktif
             </h3>
             <p className="text-[11px] text-slate-400">
               Klik kartu untuk memajukan tahap
             </p>
           </div>
-          <span className="text-[11px] font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full">
+          <span className="text-[11px] font-bold text-indigo-700 bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-1 rounded-full">
             {orders.filter((o) => o.status !== "Completed").length} Aktif
           </span>
         </div>
@@ -101,25 +104,25 @@ export default function StatusPanel({
                   key={ord.id}
                   onClick={() => handleAdvanceStatus(ord.id, nextStage)}
                   title={`Klik untuk memindahkan ke tahap ${nextStage}`}
-                  className="flex items-center justify-between gap-3 p-3 rounded-2xl border border-slate-100 hover:border-indigo-200 hover:bg-indigo-50/40 cursor-pointer transition-all group"
+                  className="apple-glass-pill p-3 rounded-2xl hover:bg-white/95 border border-white/80 cursor-pointer transition-all group flex items-center justify-between gap-3 shadow-sm"
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-700 shrink-0 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                    <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-600 shrink-0 group-hover:scale-105 transition-transform">
                       <Clock className="w-4 h-4" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-xs font-bold text-slate-800 truncate">
+                      <p className="text-xs font-bold text-zinc-900 truncate">
                         {ord.customer_name}
                       </p>
-                      <p className="text-[11px] text-slate-400 truncate">
+                      <p className="text-[11px] text-slate-400 truncate mt-0.5">
                         {firstItem.product_type || ord.category} •{" "}
-                        <span className="text-indigo-600 font-medium">
+                        <span className="text-indigo-600 font-semibold">
                           {ord.status} → {nextStage}
                         </span>
                       </p>
                     </div>
                   </div>
-                  <span className="text-xs font-bold text-slate-700 shrink-0 bg-slate-100 px-2 py-1 rounded-lg">
+                  <span className="text-xs font-bold text-slate-700 shrink-0 bg-slate-100/80 px-2.5 py-1 rounded-lg">
                     {firstItem.quantity || 1} Pcs
                   </span>
                 </div>
@@ -128,10 +131,10 @@ export default function StatusPanel({
         </div>
       </div>
 
-      {/* Bottom Card: Kartu Ucapan & Katalog AI */}
-      <div className="bg-white rounded-[28px] border border-slate-200/80 p-6 shadow-sm space-y-4">
+      {/* Bottom Bento Card: Kartu Ucapan & Asisten RAG */}
+      <div className="apple-glass-card rounded-[32px] p-6 space-y-4">
         <div>
-          <h3 className="text-sm font-bold text-slate-900">
+          <h3 className="text-sm font-bold text-zinc-900">
             Kartu Ucapan & Asisten RAG
           </h3>
           <p className="text-[11px] text-slate-400 mt-0.5">
@@ -149,14 +152,14 @@ export default function StatusPanel({
                 onClick={() =>
                   handleCopyText(ord.greeting_draft || "", ord.id)
                 }
-                className="flex items-center justify-between gap-3 p-3 rounded-2xl border border-slate-100 hover:border-amber-200 hover:bg-amber-50/40 cursor-pointer transition-all group"
+                className="apple-glass-pill p-3 rounded-2xl hover:bg-white/95 border border-white/80 cursor-pointer transition-all group flex items-center justify-between gap-3 shadow-sm"
               >
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 shrink-0 group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-600 shrink-0 group-hover:scale-105 transition-transform">
                     <Gift className="w-4 h-4" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-xs font-bold text-slate-800 truncate">
+                    <p className="text-xs font-bold text-zinc-900 truncate">
                       Kartu: {ord.greeting_occasion || "Spesial"}
                     </p>
                     <p className="text-[11px] text-slate-400 truncate mt-0.5">
@@ -166,7 +169,7 @@ export default function StatusPanel({
                     </p>
                   </div>
                 </div>
-                <span className="text-[11px] font-bold text-amber-700 bg-amber-100/80 px-2.5 py-1 rounded-lg shrink-0">
+                <span className="text-[11px] font-bold text-amber-700 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-lg shrink-0">
                   Salin
                 </span>
               </div>
@@ -177,14 +180,14 @@ export default function StatusPanel({
               setActiveTab("rag");
               if (!ragResult) handleAskRAG();
             }}
-            className="flex items-center justify-between gap-3 p-3 rounded-2xl border border-slate-100 hover:border-emerald-200 hover:bg-emerald-50/40 cursor-pointer transition-all group"
+            className="apple-glass-pill p-3 rounded-2xl hover:bg-white/95 border border-white/80 cursor-pointer transition-all group flex items-center justify-between gap-3 shadow-sm"
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-600 shrink-0 group-hover:scale-105 transition-transform">
                 <HelpCircle className="w-4 h-4" />
               </div>
               <div>
-                <p className="text-xs font-bold text-slate-800">
+                <p className="text-xs font-bold text-zinc-900">
                   Tanya Katalog Bordir (RAG)
                 </p>
                 <p className="text-[11px] text-slate-400 mt-0.5">

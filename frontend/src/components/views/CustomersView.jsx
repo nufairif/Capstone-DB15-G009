@@ -31,21 +31,21 @@ export default function CustomersView({
     <div className="page-transition space-y-6">
       {/* Active Search Filter Banner */}
       {searchQuery && (
-        <div className="flex items-center justify-between px-5 py-3 rounded-2xl bg-white shadow-soft text-xs">
+        <div className="flex items-center justify-between px-5 py-3 rounded-2xl apple-glass-card border border-white/80 shadow-sm text-xs">
           <div className="flex items-center gap-2">
-            <Search className="w-3.5 h-3.5 text-neutral-400" />
+            <Search className="w-3.5 h-3.5 text-slate-400" />
             <span>
               Menampilkan pelanggan untuk pencarian:{" "}
-              <strong className="text-black">&ldquo;{searchQuery}&rdquo;</strong>
+              <strong className="text-slate-900">&ldquo;{searchQuery}&rdquo;</strong>
             </span>
-            <span className="px-2 py-0.5 rounded-full bg-[#F4F5F9] font-mono text-[10px] text-neutral-500 font-bold">
+            <span className="px-2.5 py-0.5 rounded-full apple-glass-pill font-mono text-[10px] text-slate-700 font-bold border border-white/80">
               {filteredCustomers.length} pelanggan
             </span>
           </div>
           {setSearchQuery && (
             <button
               onClick={() => setSearchQuery("")}
-              className="text-xs font-bold text-neutral-500 hover:text-black flex items-center gap-1"
+              className="text-xs font-bold text-slate-500 hover:text-slate-900 flex items-center gap-1 transition-colors"
             >
               <X className="w-3.5 h-3.5" />
               <span>Reset Pencarian</span>
@@ -57,10 +57,10 @@ export default function CustomersView({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
         <form
           onSubmit={handleSaveCustomer}
-          className="lg:col-span-4 bg-white rounded-[28px] border border-slate-200/80 p-6 sm:p-7 shadow-sm space-y-4"
+          className="lg:col-span-4 apple-glass-card rounded-[32px] p-6 sm:p-7 space-y-4 relative overflow-hidden"
         >
           <div>
-            <h2 className="text-base font-bold text-slate-900">
+            <h2 className="text-base font-bold text-slate-900 tracking-tight">
               {customerForm.id ? "Edit Data Pelanggan" : "Tambah Pelanggan Baru"}
             </h2>
             <p className="text-xs text-slate-400 mt-0.5">
@@ -130,13 +130,13 @@ export default function CustomersView({
                 })
               }
               placeholder="Alamat lengkap tujuan kirim..."
-              className={inputSoftClass}
+              className={`${inputSoftClass} resize-none`}
             />
           </div>
           <div className="flex gap-2 pt-2">
             <button
               type="submit"
-              className="flex-1 py-3 rounded-2xl bg-[#0B0F19] hover:bg-slate-800 text-white font-bold text-xs shadow-md active:scale-[0.99] transition-all"
+              className="flex-1 py-3 rounded-2xl bg-slate-950 hover:bg-black text-white font-bold text-xs shadow-md shadow-black/10 active:scale-[0.99] transition-all"
             >
               {customerForm.id ? "Perbarui Data" : "Simpan Pelanggan"}
             </button>
@@ -152,7 +152,7 @@ export default function CustomersView({
                     address: "",
                   })
                 }
-                className="px-4 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200/80 text-xs font-bold text-slate-600 transition-colors"
+                className="px-4 py-3 rounded-2xl apple-glass-pill hover:bg-white text-xs font-bold text-slate-600 transition-all border border-white/80"
               >
                 Batal
               </button>
@@ -160,17 +160,17 @@ export default function CustomersView({
           </div>
         </form>
 
-        <div className="lg:col-span-8 bg-white rounded-[28px] border border-slate-200/80 p-6 sm:p-7 shadow-sm">
+        <div className="lg:col-span-8 apple-glass-card rounded-[32px] p-6 sm:p-7 relative overflow-hidden">
           <div className="flex items-center justify-between mb-5">
             <div>
-              <h2 className="text-base font-bold text-slate-900">
+              <h2 className="text-base font-bold text-slate-900 tracking-tight">
                 Database Pelanggan Toko Firaza
               </h2>
               <p className="text-xs text-slate-400 mt-0.5">
                 Daftar kontak terverifikasi untuk pengiriman bordir & hampers
               </p>
             </div>
-            <span className="text-xs font-bold text-slate-700 bg-slate-100 px-3 py-1 rounded-full">
+            <span className="text-xs font-bold text-slate-800 apple-glass-pill px-3 py-1 rounded-full border border-white/80 shadow-xs">
               {filteredCustomers.length} Pelanggan
             </span>
           </div>
@@ -191,10 +191,10 @@ export default function CustomersView({
               filteredCustomers.map((c) => (
                 <div
                   key={c.id}
-                  className="flex items-center justify-between p-3.5 sm:p-4 rounded-2xl border border-slate-100 hover:border-slate-300 hover:bg-slate-50/60 transition-all group"
+                  className="flex items-center justify-between p-3.5 sm:p-4 rounded-2xl apple-glass-pill hover:bg-white/95 hover:shadow-md hover:scale-[1.005] transition-all group border border-white/80"
                 >
                   <div className="flex items-center gap-3.5 min-w-0">
-                    <div className="w-10 h-10 rounded-full bg-[#0B0F19] text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-sm">
+                    <div className="w-10 h-10 rounded-full bg-slate-950 text-white font-bold text-xs flex items-center justify-center shrink-0 shadow-sm">
                       {(c.name || "P").charAt(0).toUpperCase()}
                     </div>
                     <div className="min-w-0">
@@ -207,7 +207,7 @@ export default function CustomersView({
                     </div>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-xs font-bold">
+                    <span className="px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-800 border border-emerald-500/30 text-xs font-bold">
                       {c.total_orders || 0} Order
                     </span>
                     <button
@@ -220,14 +220,14 @@ export default function CustomersView({
                           address: c.address || "",
                         })
                       }
-                      className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 transition-colors"
+                      className="p-2 rounded-xl apple-glass-pill hover:bg-white text-slate-600 hover:text-black transition-all border border-white/80"
                       title="Edit"
                     >
                       <Edit3 className="w-3.5 h-3.5" />
                     </button>
                     <button
                       onClick={() => handleDeleteCustomer(c.id)}
-                      className="p-2 rounded-xl bg-slate-100 hover:bg-red-50 text-slate-400 hover:text-red-600 transition-colors"
+                      className="p-2 rounded-xl apple-glass-pill hover:bg-rose-50 text-slate-400 hover:text-rose-600 transition-all border border-white/80"
                       title="Hapus"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
