@@ -1,19 +1,27 @@
 from fastapi import APIRouter
-from services.ai_service import classifier, rag_engine, extractor, check_ollama_running
+from services.ai_service import (
+    check_llm_running,
+    extractor,
+    is_langfuse_configured,
+    rag_engine,
+)
 
 router = APIRouter(tags=["health"])
 
 
 @router.get("/health")
 def health_check():
-    ollama_alive = check_ollama_running()
+    llm_alive = check_llm_running()
     return {
         "status": "ok",
         "team_id": "DB15-G009",
-        "predictive_ai_local": classifier.pipeline is not None,
-        "rag_vector_db_local": rag_engine.vector_backend,
-        "ollama_llm_running": ollama_alive,
+        "separate_5class_classifier": False,
+        "system1_decision_active": True,
+        "structured_output_engine": "instructor-pydantic",
+        "rag_vector_db": rag_engine.vector_backend,
+        "langfuse_enabled": is_langfuse_configured(),
+        "llm_endpoint": extractor.base_url,
+        "llm_running": llm_alive,
         "llm_model": extractor.model_name,
         "proprietary_api_used": False,
     }
-

@@ -16,7 +16,7 @@ export default function RagCatalogView({
             Asisten Katalog, Harga & SOP Bordir (Local RAG)
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
-            Pencarian vektor lokal (FAISS + Neural Embedding all-MiniLM-L6-v2 + Llama 3.2 3B On-Premise) ke 75 dokumen Knowledge Base Toko Firaza
+            Pencarian vektor menggunakan LlamaIndex + ChromaDB + vLLM/Ollama ke 75 dokumen Knowledge Base Toko Firaza
           </p>
         </div>
 
@@ -77,7 +77,7 @@ export default function RagCatalogView({
               {ragResult.meta && (
                 <div className="flex flex-wrap items-center gap-1.5 text-[10px]">
                   <span className="px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-slate-200 font-mono">
-                    Vector DB: {ragResult.meta.vector_db_backend || "faiss-cpu-IndexFlatIP"}
+                    Vector DB: {ragResult.meta.vector_db_backend || "llamaindex-chromadb"}
                   </span>
                   <span className="px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-slate-200 font-mono">
                     Embedding: {ragResult.meta.embedding_model || "all-minilm (all-MiniLM-L6-v2)"}
@@ -94,7 +94,7 @@ export default function RagCatalogView({
 
           <div className="space-y-3">
             <p className="text-xs font-bold text-slate-900 tracking-tight">
-              Dokumen Referensi Terambil (FAISS Vector Similarity):
+              Dokumen Referensi Terambil (LlamaIndex + ChromaDB):
             </p>
             <div className="space-y-2.5">
               {(ragResult.retrieved_documents || []).map((doc) => (

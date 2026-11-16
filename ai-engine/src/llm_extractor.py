@@ -1,87 +1,51 @@
-import json
 import os
 import re
-import urllib.error
-import urllib.request
-from typing import Optional, Tuple
+import time
+from typing import Any, Dict, Optional, Tuple
 
+import instructor
+from instructor.core import InstructorRetryException
+from openai import APIConnectionError, APIStatusError, APITimeoutError, OpenAI
 from pydantic import ValidationError
 
+from src.observability import (
+    estimate_llm_cost,
+    observe_span,
+    telemetry_store,
+    update_langfuse_observation,
+)
 from src.schemas import (
     GreetingCardSchema,
     OrderCategory,
     OrderItemSchema,
     StructuredOrderSummary,
 )
+from src.system1_decision import System1DecisionModel
 
-# Default menggunakan model terkuantisasi 4-bit (GGUF via Ollama) sesuai Project Plan
-DEFAULT_OLLAMA_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-DEFAULT_LLM_MODEL = os.getenv("OLLAMA_MODEL", "llama3.2:3b")
+DEFAULT_LLM_BASE_URL = os.getenv("LLM_BASE_URL", os.getenv("OLLAMA_BASE_URL", "http://localhost:11434").rstrip("/") + "/v1")
+if not DEFAULT_LLM_BASE_URL.rstrip("/").endswith("/v1"):
+    DEFAULT_LLM_BASE_URL = DEFAULT_LLM_BASE_URL.rstrip("/") + "/v1"
 
-SYSTEM_PROMPT = """Anda adalah AI Order Extractor resmi Toko Firaza.
-Tugas Anda mengekstrak chat pelanggan (termasuk singkatan wrn, uk, pcs, bdr, sjdh, hndk) menjadi JSON valid sesuai skema ini:
-{
-  "customer_name": "string atau null",
-  "customer_phone": "string atau null",
-  "order_status": "New",
-  "items": [
-    {
-      "product_type": "string",
-      "quantity": 1,
-      "color": "string atau null",
-      "size": "string atau null",
-      "custom_text": "string atau null",
-      "font_style": "string atau null",
-      "layout_notes": "string atau null"
-    }
-  ],
-  "greeting_card": {
-    "is_requested": true/false,
-    "occasion": "string atau null",
-    "sender_name": "string atau null",
-    "recipient_name": "string atau null",
-    "draft_message": "string atau null"
-  },
-  "additional_notes": "string atau null"
-}
-Hanya balas dengan JSON valid tanpa penjelasan atau markdown."""
+DEFAULT_LLM_API_KEY = os.getenv("LLM_API_KEY", "ollama")
+DEFAULT_LLM_MODEL = os.getenv("LLM_MODEL", os.getenv("OLLAMA_MODEL", "llama3.2:3b"))
 
-FEW_SHOT_EXAMPLES = [
-    {
-        "role": "user",
-        "content": "Halo, saya Rina mau pesen hampers pernikahan 2 paket wrn navy uk dewasa bdr nama 'Nabila' font sambung. Sekalian kartu ucapan selamat menikah ya.",
-    },
-    {
-        "role": "assistant",
-        "content": json.dumps(
-            {
-                "customer_name": "Rina",
-                "customer_phone": None,
-                "order_status": "New",
-                "items": [
-                    {
-                        "product_type": "Hampers Handuk Custom",
-                        "quantity": 2,
-                        "color": "Navy",
-                        "size": "Dewasa",
-                        "custom_text": "Nabila",
-                        "font_style": "Sambung",
-                        "layout_notes": "Tengah",
-                    }
-                ],
-                "greeting_card": {
-                    "is_requested": True,
-                    "occasion": "Pernikahan",
-                    "sender_name": "Rina",
-                    "recipient_name": "Nabila",
-                    "draft_message": "Selamat menempuh hidup baru untuk Nabila. Semoga menjadi keluarga sakinah mawaddah warahmah.",
-                },
-                "additional_notes": "Hampers pernikahan 2 paket",
-            },
-            ensure_ascii=False,
-        ),
-    },
-]
+SYSTEM_PROMPT = """Anda adalah AI Order Extractor resmi Toko Firaza (custom bordir sajadah, handuk, dan hampers).
+Tugas Anda mengekstrak chat pelanggan Indonesia (termasuk singkatan wrn=warna, uk=ukuran, bdr=bordir, sjdh=sajadah, hndk=handuk) dan menentukan kategori pesanan ke dalam JSON valid sesuai kontrak skema Pydantic.
+
+Aturan ketat:
+1. Tentukan `order_category` yang paling akurat: 'Hampers', 'Custom Sajadah', 'Custom Handuk', 'Ready Stock', atau 'Other'.
+2. Jika `order_category` adalah 'Hampers', set `greeting_card.is_requested = true` dan buatkan `draft_message` kartu ucapan yang hangat dalam bahasa Indonesia.
+3. Jangan mengarang data pelanggan (nama/telepon) jika tidak tertulis di chat; isi null.
+4. Pastikan `quantity` berupa integer >= 1. Jika tidak disebutkan, gunakan 1.
+5. Kembalikan hanya JSON sesuai skema tanpa teks tambahan."""
+
+
+class StructuredContractError(RuntimeError):
+    """Dilemparkan ketika output LLM gagal memenuhi kontrak Pydantic setelah batas retry Instructor."""
+
+
+class LLMServiceUnavailableError(RuntimeError):
+    """Dilemparkan ketika server LLM (vLLM via Ngrok / Ollama lokal) tidak dapat dijangkau."""
 
 
 def generate_greeting_card_template(
@@ -120,16 +84,29 @@ def generate_greeting_card_template(
     )
 
 
+def _infer_category_heuristic(msg_lower: str) -> OrderCategory:
+    """Heuristik kategori cepat khusus untuk mode offline saat server LLM tidak aktif."""
+    if any(k in msg_lower for k in ["hamper", "hampers", "hmpers", "kado", "souvenir", "gift", "seserahan"]):
+        return "Hampers"
+    if any(k in msg_lower for k in ["polos", "ready", "rdy", "tanpa bordir", "ga usah bordir", "tidak usah bordir"]):
+        return "Ready Stock"
+    if any(k in msg_lower for k in ["handuk", "hndk", "handk", "anduk"]):
+        return "Custom Handuk"
+    if any(k in msg_lower for k in ["sajadah", "sjdh", "sajdah", "sejadah"]):
+        return "Custom Sajadah"
+    return "Other"
+
+
 def regex_fallback_extractor(
     raw_message: str,
-    predicted_category: OrderCategory,
     generate_card: bool = True,
 ) -> StructuredOrderSummary:
     """
-    Deterministic rule-based extractor sebagai fallback yang andal
-    jika model LLM lokal sedang sibuk atau timeout.
+    Fallback deterministik HANYA ketika server LLM tidak dapat dihubungi (offline/timeout),
+    bukan untuk menerima output LLM yang melanggar kontrak Pydantic.
     """
     msg_lower = raw_message.lower()
+    inferred_category = _infer_category_heuristic(msg_lower)
 
     qty_match = re.search(
         r"(\d+)\s*(?:pcs|biji|buah|paket|box|set|lembar)\b|(?:jumlah|qty|sebanyak)\s*[:=-]?\s*(\d+)",
@@ -142,11 +119,7 @@ def regex_fallback_extractor(
         "biru muda", "ungu lilac", "terracotta", "burgundy", "olive", "mocca",
         "navy", "maroon", "hitam", "cream", "abu-abu", "gold", "tosca", "biru", "merah", "hijau", "putih",
     ]
-    detected_color = None
-    for c in known_colors:
-        if c in msg_lower:
-            detected_color = c.title()
-            break
+    detected_color = next((c.title() for c in known_colors if c in msg_lower), None)
 
     known_sizes = ["70x140", "50x100", "30x70", "70x110", "dewasa", "travel", "anak", "bayi", "jumbo", "reguler"]
     detected_size = None
@@ -168,21 +141,13 @@ def regex_fallback_extractor(
         "kaligrafi arab", "huruf balok", "serif klasik", "latin tegak",
         "sambung", "script", "kapital", "monoline", "elegan", "arab",
     ]
-    detected_font = None
-    for f_name in known_fonts:
-        if f_name in msg_lower:
-            detected_font = f_name.title()
-            break
+    detected_font = next((f_name.title() for f_name in known_fonts if f_name in msg_lower), None)
 
     known_layouts = [
         "pojok kanan bawah", "pojok kiri bawah", "tengah atas", "bawah tengah",
         "tengah bawah", "kubah sajadah", "list bawah handuk", "tengah",
     ]
-    detected_layout = None
-    for l_name in known_layouts:
-        if l_name in msg_lower:
-            detected_layout = l_name.capitalize()
-            break
+    detected_layout = next((l_name.capitalize() for l_name in known_layouts if l_name in msg_lower), None)
 
     customer_name = None
     cust_match = re.search(
@@ -195,19 +160,17 @@ def regex_fallback_extractor(
     elif custom_text and "&" not in custom_text:
         customer_name = custom_text
 
-    if predicted_category == "Hampers":
-        product_type = "Hampers Custom Firaza"
-    elif predicted_category == "Custom Sajadah":
-        product_type = "Sajadah Custom"
-    elif predicted_category == "Custom Handuk":
-        product_type = "Handuk Bordir Custom"
-    elif predicted_category == "Ready Stock":
-        product_type = "Produk Ready Stock"
-    else:
-        product_type = "Item Custom"
+    product_type_map = {
+        "Hampers": "Hampers Custom Firaza",
+        "Custom Sajadah": "Sajadah Custom",
+        "Custom Handuk": "Handuk Bordir Custom",
+        "Ready Stock": "Produk Ready Stock",
+        "Other": "Item Custom",
+    }
+    product_type = product_type_map[inferred_category]
 
     card_keywords = ["kartu ucapan", "greeting card", "ucapan", "kartu", "selamat"]
-    card_requested = any(kw in msg_lower for kw in card_keywords) or (predicted_category == "Hampers")
+    card_requested = any(kw in msg_lower for kw in card_keywords) or (inferred_category == "Hampers")
 
     occasion = None
     if "nikah" in msg_lower or "wedding" in msg_lower:
@@ -229,21 +192,27 @@ def regex_fallback_extractor(
             sender=customer_name,
         )
 
-    return StructuredOrderSummary(
-        customer_name=customer_name,
-        customer_phone=None,
-        order_status="New",
-        items=[
+    items = []
+    if inferred_category != "Other":
+        items.append(
             OrderItemSchema(
                 product_type=product_type,
                 quantity=max(1, qty),
                 color=detected_color,
                 size=detected_size,
-                custom_text=custom_text if predicted_category != "Ready Stock" else None,
-                font_style=detected_font if predicted_category != "Ready Stock" else None,
+                custom_text=custom_text if inferred_category != "Ready Stock" else None,
+                font_style=detected_font if inferred_category != "Ready Stock" else None,
                 layout_notes=detected_layout,
             )
-        ],
+        )
+
+    return StructuredOrderSummary(
+        order_category=inferred_category,
+        category_confidence=0.82,
+        customer_name=customer_name,
+        customer_phone=None,
+        order_status="New",
+        items=items,
         greeting_card=GreetingCardSchema(
             is_requested=card_requested,
             occasion=occasion,
@@ -257,115 +226,208 @@ def regex_fallback_extractor(
 
 class LocalLLMOrderExtractor:
     """
-    Ekstraktor Generative AI yang memanggil Open-Source LLM lokal (Ollama GGUF 4-bit)
-    dengan Strict Few-Shot Prompting, validasi Pydantic, dan Retry/Fallback otomatis.
+    Ekstraktor Generative AI berbasis `Instructor` + `Pydantic` yang terhubung langsung
+    ke endpoint OpenAI-compatible (vLLM di Google Colab via Ngrok tanpa 9router,
+    atau Ollama lokal sebagai cadangan).
     """
 
     def __init__(
         self,
-        ollama_url: str = DEFAULT_OLLAMA_URL,
-        model_name: str = DEFAULT_LLM_MODEL,
-        max_retries: int = 1,
+        base_url: Optional[str] = None,
+        api_key: Optional[str] = None,
+        model_name: Optional[str] = None,
+        max_retries: Optional[int] = None,
         timeout_seconds: int = 45,
+        client: Optional[Any] = None,
     ):
-        self.ollama_url = ollama_url.rstrip("/")
-        self.model_name = model_name
-        self.max_retries = max_retries
+        raw_url = (base_url or os.getenv("LLM_BASE_URL") or DEFAULT_LLM_BASE_URL).rstrip("/")
+        if not raw_url.endswith("/v1"):
+            raw_url = f"{raw_url}/v1"
+        self.base_url = raw_url
+        self.ollama_url = self.base_url[:-3] if self.base_url.endswith("/v1") else self.base_url
+        self.api_key = api_key or os.getenv("LLM_API_KEY", DEFAULT_LLM_API_KEY)
+        self.model_name = model_name or os.getenv("LLM_MODEL", DEFAULT_LLM_MODEL)
+        self.max_retries = max_retries if max_retries is not None else int(os.getenv("INSTRUCTOR_MAX_RETRIES", "2"))
         self.timeout_seconds = timeout_seconds
+        self.system1 = System1DecisionModel()
 
-    def _call_ollama_chat(self, raw_message: str, rag_context: Optional[str] = None) -> str:
-        """Memanggil endpoint /api/chat milik Ollama lokal dengan mode format JSON ringkas & cepat."""
-        sys_prompt = SYSTEM_PROMPT
-        if rag_context:
-            sys_prompt += f"\n\nReferensi Standar Produk Toko Firaza:\n{rag_context}"
+        if client is not None:
+            self.instructor_client = client
+        else:
+            openai_client = OpenAI(
+                base_url=self.base_url,
+                api_key=self.api_key,
+                timeout=float(os.getenv("LLM_TIMEOUT_SECONDS", str(self.timeout_seconds))),
+                max_retries=0,
+                default_headers={"ngrok-skip-browser-warning": "true"},
+            )
+            mode_name = os.getenv("INSTRUCTOR_MODE", "json").lower()
+            mode = instructor.Mode.TOOLS if mode_name == "tools" else instructor.Mode.JSON
+            self.instructor_client = instructor.from_openai(openai_client, mode=mode)
 
-        messages = [{"role": "system", "content": sys_prompt}]
-        messages.extend(FEW_SHOT_EXAMPLES)
-        messages.append({"role": "user", "content": raw_message})
-
-        payload = {
-            "model": self.model_name,
-            "messages": messages,
-            "format": "json",
-            "stream": False,
-            "options": {
-                "temperature": 0.0,
-                "num_predict": 220,
-                "num_ctx": 1024,
-            },
-        }
-
-        req = urllib.request.Request(
-            url=f"{self.ollama_url}/api/chat",
-            data=json.dumps(payload).encode("utf-8"),
-            headers={"Content-Type": "application/json"},
-            method="POST",
-        )
-        with urllib.request.urlopen(req, timeout=self.timeout_seconds) as resp:
-            body = json.loads(resp.read().decode("utf-8"))
-            return body["message"]["content"]
-
+    @observe_span(name="extract-order-instructor", as_type="generation")
     def extract(
         self,
         raw_message: str,
-        predicted_category: OrderCategory,
         generate_greeting_card: bool = True,
         rag_context: Optional[str] = None,
-    ) -> Tuple[StructuredOrderSummary, bool]:
+        allow_offline_fallback: Optional[bool] = None,
+    ) -> Tuple[StructuredOrderSummary, Dict[str, Any]]:
         """
-        Mengekstrak pesan pelanggan menjadi `StructuredOrderSummary`.
-        Mengembalikan tuple: `(StructuredOrderSummary, used_fallback: bool)`.
+        Mengekstrak pesan pelanggan menjadi `StructuredOrderSummary` (termasuk `order_category`).
+        Mengembalikan tuple `(StructuredOrderSummary, telemetry_meta)`.
         """
-        if predicted_category == "Other":
-            return (
-                StructuredOrderSummary(
-                    customer_name=None,
-                    order_status="New",
-                    items=[],
-                    greeting_card=GreetingCardSchema(is_requested=False),
-                    additional_notes="Pesan dikategorikan sebagai pertanyaan umum (Other).",
-                ),
-                False,
+        t_start = time.perf_counter()
+        if allow_offline_fallback is None:
+            allow_offline_fallback = os.getenv("ALLOW_OFFLINE_FALLBACK", "true").lower() == "true"
+
+        # Tahap 1: System 1 Decision Model (< 2ms fast triage)
+        s1_decision = self.system1.evaluate(raw_message)
+        if not s1_decision["route_to_llm"]:
+            elapsed_ms = round((time.perf_counter() - t_start) * 1000.0, 2)
+            summary = StructuredOrderSummary(
+                order_category="Other",
+                category_confidence=float(s1_decision["confidence"]),
+                customer_name=None,
+                order_status="New",
+                items=[],
+                greeting_card=GreetingCardSchema(is_requested=False),
+                additional_notes=s1_decision["reason"],
             )
+            cost_info = estimate_llm_cost(0, 0)
+            meta = {
+                **cost_info,
+                "latency_ms": elapsed_ms,
+                "used_fallback": False,
+                "system1_short_circuit": True,
+                "instructor_validated": True,
+                "llm_endpoint": self.base_url,
+            }
+            telemetry_store.record({**meta, "validation_passed": True})
+            update_langfuse_observation(output=summary.model_dump(), metadata=meta)
+            return summary, meta
 
-        for attempt in range(1, self.max_retries + 1):
-            try:
-                raw_json_str = self._call_ollama_chat(raw_message, rag_context=rag_context)
-                parsed_dict = json.loads(raw_json_str)
-                validated = StructuredOrderSummary.model_validate(parsed_dict)
+        # Tahap 2: System 2 (GenAI via Instructor + Pydantic Contract)
+        sys_prompt = SYSTEM_PROMPT
+        if rag_context:
+            sys_prompt += f"\n\nReferensi Katalog & SOP Toko Firaza:\n{rag_context}"
 
-                # Koreksi case-insensitive nama pemesan jika terlewat
-                if not validated.customer_name:
-                    cname_match = re.search(
-                        r"(?:atas nama|saya|aku|dari|pemesan\s*[:=-]?)\s+([a-zA-Z][a-zA-Z\s]{1,20}?)(?=\s+(?:mau|pesen|pesan|order|beli|butuh|minta|buat|untuk)|[\.,\n]|$)",
-                        raw_message,
-                        re.IGNORECASE,
-                    )
-                    if cname_match:
-                        validated.customer_name = cname_match.group(1).strip().title()
+        messages = [
+            {"role": "system", "content": sys_prompt},
+            {"role": "user", "content": raw_message},
+        ]
 
-                # Lengkapi draft kartu ucapan jika diminta tapi kosong
-                if (
-                    generate_greeting_card
-                    and validated.greeting_card.is_requested
-                    and not validated.greeting_card.draft_message
-                ):
-                    validated.greeting_card.draft_message = generate_greeting_card_template(
-                        occasion=validated.greeting_card.occasion,
-                        recipient=validated.greeting_card.recipient_name,
-                        sender=validated.greeting_card.sender_name,
-                    )
-                return validated, False
-            except (urllib.error.URLError, TimeoutError, ConnectionError):
-                break
-            except (json.JSONDecodeError, ValidationError, KeyError):
-                if attempt == self.max_retries:
-                    break
+        try:
+            if hasattr(self.instructor_client.chat.completions, "create_with_completion"):
+                validated, completion = self.instructor_client.chat.completions.create_with_completion(
+                    model=self.model_name,
+                    messages=messages,
+                    response_model=StructuredOrderSummary,
+                    max_retries=self.max_retries,
+                    temperature=0.0,
+                )
+            else:
+                validated = self.instructor_client.chat.completions.create(
+                    model=self.model_name,
+                    messages=messages,
+                    response_model=StructuredOrderSummary,
+                    max_retries=self.max_retries,
+                    temperature=0.0,
+                )
+                completion = None
 
-        # Fallback deterministik jika timeout / error
-        fallback_result = regex_fallback_extractor(
-            raw_message=raw_message,
-            predicted_category=predicted_category,
-            generate_card=generate_greeting_card,
-        )
-        return fallback_result, True
+            if not validated.customer_name:
+                cname_match = re.search(
+                    r"(?:atas nama|saya|aku|dari|pemesan\s*[:=-]?)\s+([a-zA-Z][a-zA-Z\s]{1,20}?)(?=\s+(?:mau|pesen|pesan|order|beli|butuh|minta|buat|untuk)|[\.,\n]|$)",
+                    raw_message,
+                    re.IGNORECASE,
+                )
+                if cname_match:
+                    validated.customer_name = cname_match.group(1).strip().title()
+
+            if (
+                generate_greeting_card
+                and validated.greeting_card.is_requested
+                and not validated.greeting_card.draft_message
+            ):
+                validated.greeting_card.draft_message = generate_greeting_card_template(
+                    occasion=validated.greeting_card.occasion,
+                    recipient=validated.greeting_card.recipient_name,
+                    sender=validated.greeting_card.sender_name or validated.customer_name,
+                )
+
+            usage = getattr(completion, "usage", None)
+            prompt_tokens = int(getattr(usage, "prompt_tokens", 0) or 0)
+            completion_tokens = int(getattr(usage, "completion_tokens", 0) or 0)
+            elapsed_ms = round((time.perf_counter() - t_start) * 1000.0, 2)
+            cost_info = estimate_llm_cost(prompt_tokens, completion_tokens)
+            meta = {
+                **cost_info,
+                "latency_ms": elapsed_ms,
+                "used_fallback": False,
+                "system1_short_circuit": False,
+                "instructor_validated": True,
+                "llm_endpoint": self.base_url,
+            }
+            telemetry_store.record({**meta, "validation_passed": True})
+            update_langfuse_observation(
+                output=validated.model_dump(),
+                model=self.model_name,
+                prompt_tokens=prompt_tokens,
+                completion_tokens=completion_tokens,
+                metadata=meta,
+            )
+            return validated, meta
+
+        except (InstructorRetryException, ValidationError) as exc:
+            elapsed_ms = round((time.perf_counter() - t_start) * 1000.0, 2)
+            telemetry_store.record({
+                "latency_ms": elapsed_ms,
+                "total_tokens": 0,
+                "estimated_cost_idr": 0.0,
+                "validation_passed": False,
+                "system1_short_circuit": False,
+            })
+            update_langfuse_observation(
+                level="ERROR",
+                status_message=f"Pydantic contract validation failed: {exc}",
+                model=self.model_name,
+            )
+            raise StructuredContractError(
+                f"Output LLM tidak memenuhi kontrak Pydantic StructuredOrderSummary setelah {self.max_retries}x retry: {exc}"
+            ) from exc
+
+        except (APIConnectionError, APITimeoutError, APIStatusError) as exc:
+            elapsed_ms = round((time.perf_counter() - t_start) * 1000.0, 2)
+            if not allow_offline_fallback:
+                update_langfuse_observation(
+                    level="ERROR",
+                    status_message=f"LLM server unreachable: {exc}",
+                    model=self.model_name,
+                )
+                raise LLMServiceUnavailableError(
+                    f"Server LLM di {self.base_url} tidak dapat dijangkau: {exc}"
+                ) from exc
+
+            fallback_result = regex_fallback_extractor(
+                raw_message=raw_message,
+                generate_card=generate_greeting_card,
+            )
+            cost_info = estimate_llm_cost(0, 0)
+            meta = {
+                **cost_info,
+                "latency_ms": elapsed_ms,
+                "used_fallback": True,
+                "fallback_reason": "llm_unreachable",
+                "system1_short_circuit": False,
+                "instructor_validated": True,
+                "llm_endpoint": self.base_url,
+            }
+            telemetry_store.record({**meta, "validation_passed": True})
+            update_langfuse_observation(
+                output=fallback_result.model_dump(),
+                metadata=meta,
+                level="WARNING",
+                status_message="LLM unreachable, used offline deterministic fallback",
+            )
+            return fallback_result, meta

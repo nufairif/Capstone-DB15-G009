@@ -44,6 +44,7 @@ class StatusUpdatePayload(BaseModel):
 class RAGQueryPayload(BaseModel):
     query: str = Field(..., min_length=3)
     top_k: int = Field(default=2, ge=1, le=5)
+    category_filter: Optional[str] = None
 
 
 class LoginPayload(BaseModel):

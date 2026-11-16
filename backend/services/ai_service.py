@@ -2,36 +2,70 @@ import csv
 import json
 import subprocess
 import urllib.request
-from config import CAPSTONE_AI_DIR
+from config import CAPSTONE_AI_DIR, LLM_API_KEY, LLM_BASE_URL
 
-from src.llm_extractor import LocalLLMOrderExtractor
+from src.llm_extractor import (
+    LLMServiceUnavailableError,
+    LocalLLMOrderExtractor,
+    StructuredContractError,
+)
+from src.observability import is_langfuse_configured, telemetry_store
 from src.rag_engine import LocalOpenSourceRAGEngine
 from src.schemas import AnalyzeOrderRequest, AnalyzeOrderResponse, ClassificationResult
-from src.train_classifier import OrderClassifier
+from src.system1_decision import (
+    OrderAggregationService,
+    System1DecisionModel,
+    build_classification_result,
+)
 
-# Inisialisasi engine AI dari proyek Gen AI lokal
-classifier = OrderClassifier()
+# Inisialisasi engine AI terbaru (tanpa model klasifikasi 5 kategori terpisah & tanpa 9router)
 extractor = LocalLLMOrderExtractor()
 rag_engine = LocalOpenSourceRAGEngine()
+system1_model = System1DecisionModel()
+aggregator = OrderAggregationService()
 
 
-def query_rag_catalog(query: str, top_k: int = 4):
-    """Menjalankan query ke RAG katalog produk Toko Firaza."""
-    fresh_rag = LocalOpenSourceRAGEngine().build_or_load_index()
-    return fresh_rag.generate_rag_answer(user_query=query, top_k=top_k)
+def query_rag_catalog(query: str, top_k: int = 4, category_filter: str | None = None):
+    """Menjalankan query ke RAG katalog produk Toko Firaza (LlamaIndex + ChromaDB)."""
+    if rag_engine.index is None:
+        rag_engine.build_or_load_index()
+    return rag_engine.generate_rag_answer(
+        user_query=query,
+        top_k=top_k,
+        category_filter=category_filter,
+    )
+
+
+def check_llm_running() -> bool:
+    """Mengecek apakah endpoint LLM (vLLM via Ngrok atau Ollama lokal) aktif."""
+    models_url = f"{extractor.base_url.rstrip('/')}/models"
+    try:
+        req = urllib.request.Request(
+            models_url,
+            headers={
+                "Authorization": f"Bearer {LLM_API_KEY}",
+                "ngrok-skip-browser-warning": "true",
+            },
+        )
+        with urllib.request.urlopen(req, timeout=2.0) as resp:
+            return resp.status == 200
+    except Exception:
+        return False
 
 
 def check_ollama_running() -> bool:
-    """Mengecek apakah service Ollama lokal aktif."""
+    """Alias kompatibilitas untuk pengecekan server LLM lokal Ollama."""
     try:
-        with urllib.request.urlopen(f"{extractor.ollama_url}/api/tags", timeout=1.5) as resp:
+        with urllib.request.urlopen("http://localhost:11434/api/tags", timeout=1.5) as resp:
             return resp.status == 200
     except Exception:
         return False
 
 
 def ensure_ollama_running():
-    """Menyalakan server 'ollama serve' secara otomatis di background jika belum aktif."""
+    """Menyalakan 'ollama serve' lokal hanya jika LLM_BASE_URL mengarah ke localhost:11434."""
+    if "localhost:11434" not in LLM_BASE_URL and "127.0.0.1:11434" not in LLM_BASE_URL:
+        return
     if check_ollama_running():
         return
     try:
@@ -45,17 +79,15 @@ def ensure_ollama_running():
 
 
 def init_ai_models():
-    """Memuat pipeline model klasifikasi, indeks vektor RAG, dan menyalakan Ollama saat server startup."""
+    """Memuat indeks vektor ChromaDB (LlamaIndex) dan mengecek kesiapan endpoint LLM."""
     ensure_ollama_running()
-    classifier.load()
     rag_engine.build_or_load_index()
 
 
 def get_dataset_overview(sample_limit: int = 15):
     """
-    Menampilkan bukti nyata penggunaan seluruh dataset (3.675 baris/dokumen)
-    beserta metrik evaluasi model (Precision, Recall, F1-Score, Confusion Matrix)
-    dan sampel langsung dari file dataset di folder capstone/data.
+    Menampilkan ringkasan dataset (3.675 baris/dokumen), hasil agregasi Scikit-Learn
+    (`OrderAggregationService`), dan telemetri observabilitas (Langfuse / Cost Metric).
     """
     data_dir = CAPSTONE_AI_DIR / "data"
     models_dir = CAPSTONE_AI_DIR / "models"
@@ -95,6 +127,7 @@ def get_dataset_overview(sample_limit: int = 15):
 
     kb_count = 0
     kb_samples = []
+    kb_data = []
     if kb_json.exists():
         with open(kb_json, "r", encoding="utf-8") as f:
             kb_data = json.load(f)
@@ -106,20 +139,11 @@ def get_dataset_overview(sample_limit: int = 15):
         with open(metrics_json, "r", encoding="utf-8") as f:
             metrics = json.load(f)
 
-    # Informasi jumlah fitur kosakata TF-IDF yang dipelajari dari 2.400 data latih
-    vocab_info = {}
-    if classifier.pipeline is not None:
-        try:
-            fu = classifier.pipeline.named_steps["features"]
-            word_vec = dict(fu.transformer_list)["word_tfidf"]
-            char_vec = dict(fu.transformer_list)["char_tfidf"]
-            vocab_info = {
-                "word_ngrams_learned": len(word_vec.vocabulary_),
-                "char_ngrams_learned": len(char_vec.vocabulary_),
-                "total_features_in_svm": len(word_vec.vocabulary_) + len(char_vec.vocabulary_),
-            }
-        except Exception:
-            pass
+    # Fungsi agregasi Scikit-Learn pada sampel dataset & knowledge base
+    aggregation_summary = aggregator.aggregate_records(
+        [{"text": r.get("text", ""), "category": r.get("category", "Other")} for r in train_samples]
+        + [{"text": d.get("content", ""), "category": d.get("category", "Other")} for d in kb_data]
+    )
 
     return {
         "counts": {
@@ -130,7 +154,17 @@ def get_dataset_overview(sample_limit: int = 15):
             "rag_knowledge_base_json": kb_count,
             "grand_total_records": train_count + test_count + ext_train_count + ext_test_count + kb_count,
         },
-        "model_vocabulary_proof": vocab_info,
+        "sklearn_aggregation": aggregation_summary,
+        "telemetry": telemetry_store.summary(),
+        "architecture_info": {
+            "structured_output": "Instructor + Pydantic v2",
+            "rag_framework": "LlamaIndex + ChromaDB",
+            "observability": "Langfuse" if is_langfuse_configured() else "Local Telemetry (Langfuse ready)",
+            "decision_routing": "System 1 Decision Model + GenAI System 2",
+            "separate_5class_classifier": False,
+            "llm_endpoint": extractor.base_url,
+            "llm_model": extractor.model_name,
+        },
         "evaluation_metrics": metrics,
         "samples": {
             "classification": train_samples,
@@ -138,4 +172,3 @@ def get_dataset_overview(sample_limit: int = 15):
             "knowledge_base": kb_samples,
         },
     }
-

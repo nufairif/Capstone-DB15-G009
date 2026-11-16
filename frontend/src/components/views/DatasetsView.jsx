@@ -103,10 +103,10 @@ export default function DatasetsView({ datasetInfo, fetchDatasetOverview }) {
             <div className="apple-glass-card rounded-[32px] p-6 sm:p-7 space-y-4 relative overflow-hidden">
               <div>
                 <h3 className="text-base font-bold text-slate-900 tracking-tight">
-                  Bukti Pembelajaran Fitur (`order_classifier.joblib`)
+                  Agregasi Data Scikit-Learn & Telemetri AI
                 </h3>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  Model klasifikasi lokal dilatih langsung dari 2.400 baris CSV
+                  Ringkasan agregasi kata kunci Scikit-Learn dan pemantauan kontrak Instructor
                 </p>
               </div>
 
@@ -114,48 +114,46 @@ export default function DatasetsView({ datasetInfo, fetchDatasetOverview }) {
                 <div className="p-4 rounded-2xl apple-glass-pill border border-white/80 flex items-center justify-between">
                   <div>
                     <p className="text-xs font-bold text-slate-800">
-                      Word N-Grams (Fitur Kata)
+                      Kosakata Agregasi (`CountVectorizer`)
                     </p>
                     <p className="text-[11px] text-slate-400">
-                      Dipelajari dari teks chat pemesanan
+                      Diekstrak otomatis dari teks pesanan & katalog
                     </p>
                   </div>
                   <span className="font-mono text-sm font-bold text-slate-900">
-                    {datasetInfo.model_vocabulary_proof?.word_ngrams_learned
-                      ? `${datasetInfo.model_vocabulary_proof.word_ngrams_learned.toLocaleString("id-ID")} fitur`
-                      : "5.420 fitur"}
+                    {datasetInfo.sklearn_aggregation?.vocabulary_size
+                      ? `${datasetInfo.sklearn_aggregation.vocabulary_size.toLocaleString("id-ID")} istilah`
+                      : "-"}
                   </span>
                 </div>
 
                 <div className="p-4 rounded-2xl apple-glass-pill border border-white/80 flex items-center justify-between">
                   <div>
                     <p className="text-xs font-bold text-slate-800">
-                      Char N-Grams (Anti-Typo)
+                      Rata-Rata Latensi & Token (Observability)
                     </p>
                     <p className="text-[11px] text-slate-400">
-                      Mendeteksi singkatan chat pelanggan
+                      {datasetInfo.architecture_info?.observability || "Langfuse"}
                     </p>
                   </div>
                   <span className="font-mono text-sm font-bold text-slate-900">
-                    {datasetInfo.model_vocabulary_proof?.char_ngrams_learned
-                      ? `${datasetInfo.model_vocabulary_proof.char_ngrams_learned.toLocaleString("id-ID")} fitur`
-                      : "18.290 fitur"}
+                    {datasetInfo.telemetry?.avg_latency_ms
+                      ? `${datasetInfo.telemetry.avg_latency_ms} ms`
+                      : "Siap"}
                   </span>
                 </div>
 
                 <div className="p-4 rounded-2xl apple-glass-dark text-white flex items-center justify-between shadow-xl">
                   <div>
                     <p className="text-xs font-bold">
-                      Total Dimensi Bobot LinearSVC
+                      Arsitektur Ekstraksi & RAG Aktif
                     </p>
                     <p className="text-[11px] text-slate-400">
-                      Vektor fitur di dalam memori model
+                      {datasetInfo.architecture_info?.rag_framework || "LlamaIndex + ChromaDB"}
                     </p>
                   </div>
                   <span className="font-mono text-sm font-bold text-emerald-400">
-                    {datasetInfo.model_vocabulary_proof?.total_features_in_svm
-                      ? `${datasetInfo.model_vocabulary_proof.total_features_in_svm.toLocaleString("id-ID")} dimensi`
-                      : "23.710 dimensi"}
+                    {datasetInfo.architecture_info?.structured_output || "Instructor + Pydantic"}
                   </span>
                 </div>
               </div>

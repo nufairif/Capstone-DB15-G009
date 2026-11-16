@@ -2,9 +2,10 @@ import json
 from pathlib import Path
 
 from src.llm_extractor import LocalLLMOrderExtractor
+from src.observability import telemetry_store
 from src.rag_engine import LocalOpenSourceRAGEngine
 from src.schemas import AnalyzeOrderResponse
-from src.train_classifier import OrderClassifier
+from src.system1_decision import OrderAggregationService, build_classification_result
 
 
 def evaluate_end_to_end():
@@ -13,11 +14,12 @@ def evaluate_end_to_end():
 
     if not test_set_path.exists():
         from src.generate_dataset import main as gen_main
+
         gen_main()
 
-    clf = OrderClassifier().load()
     ext = LocalLLMOrderExtractor()
     rag = LocalOpenSourceRAGEngine().build_or_load_index(force_rebuild=True)
+    agg = OrderAggregationService()
 
     with open(test_set_path, "r", encoding="utf-8") as f:
         test_cases = json.load(f)
@@ -29,34 +31,37 @@ def evaluate_end_to_end():
     matched_custom_text = 0
 
     sample_outputs = []
+    agg_records = []
 
     for idx, case in enumerate(test_cases):
         raw_msg = case["raw_message"]
         exp_cat = case["expected_category"]
         exp_ext = case["expected_extraction"]
 
-        pred = clf.predict(raw_msg)
+        extracted, llm_meta = ext.extract(
+            raw_message=raw_msg,
+            generate_greeting_card=True,
+        )
+        pred = build_classification_result(
+            category=extracted.order_category,
+            confidence=extracted.category_confidence,
+        )
+
         if pred.category == exp_cat:
             correct_category += 1
 
-        extracted, used_fallback = ext.extract(
-            raw_message=raw_msg,
-            predicted_category=pred.category,
-            generate_greeting_card=True,
-        )
-
-        # Validasi bahwa keseluruhan response memenuhi API Contract
         full_response = AnalyzeOrderResponse(
             status="success",
             prediction=pred,
             extraction=extracted,
             meta={
-                "classifier_model": "tfidf-svm-calibrated-v1",
+                **llm_meta,
+                "extraction_engine": "instructor-pydantic",
                 "llm_model": ext.model_name,
-                "used_fallback": used_fallback,
             },
         )
         valid_json_schema += 1
+        agg_records.append({"text": raw_msg, "category": pred.category})
 
         exp_items = exp_ext.get("items", [])
         got_items = extracted.items
@@ -76,27 +81,32 @@ def evaluate_end_to_end():
                 matched_custom_text += 1
 
         if idx < 3:
-            sample_outputs.append({
-                "id": case["id"],
-                "raw_message": raw_msg,
-                "response": json.loads(full_response.model_dump_json()),
-            })
+            sample_outputs.append(
+                {
+                    "id": case["id"],
+                    "raw_message": raw_msg,
+                    "response": json.loads(full_response.model_dump_json()),
+                }
+            )
 
     total = len(test_cases)
+    agg_summary = agg.aggregate_records(agg_records)
     print(f"\n=== HASIL EVALUASI END-TO-END PIPELINE ({total} KASUS UJI) ===")
-    print(f"1. Validitas Skema JSON (Pydantic) : {valid_json_schema}/{total} ({valid_json_schema / total * 100:.1f}%)")
-    print(f"2. Akurasi Kategori Pesanan        : {correct_category}/{total} ({correct_category / total * 100:.1f}%)")
-    print(f"3. Akurasi Ekstraksi Jumlah (Qty)  : {matched_qty}/{total} ({matched_qty / total * 100:.1f}%)")
-    print(f"4. Akurasi Ekstraksi Warna         : {matched_color}/{total} ({matched_color / total * 100:.1f}%)")
-    print(f"5. Akurasi Ekstraksi Nama Custom   : {matched_custom_text}/{total} ({matched_custom_text / total * 100:.1f}%)")
+    print(f"1. Validitas Kontrak Pydantic (Instructor): {valid_json_schema}/{total} ({valid_json_schema / total * 100:.1f}%)")
+    print(f"2. Akurasi Kategori Pesanan (GenAI/Sys1)  : {correct_category}/{total} ({correct_category / total * 100:.1f}%)")
+    print(f"3. Akurasi Ekstraksi Jumlah (Qty)         : {matched_qty}/{total} ({matched_qty / total * 100:.1f}%)")
+    print(f"4. Akurasi Ekstraksi Warna                : {matched_color}/{total} ({matched_color / total * 100:.1f}%)")
+    print(f"5. Akurasi Ekstraksi Nama Custom          : {matched_custom_text}/{total} ({matched_custom_text / total * 100:.1f}%)")
+    print(f"6. Agregasi Scikit-Learn (Distribusi)     : {agg_summary['category_distribution']}")
+    print(f"7. Ringkasan Telemetri / Cost Metric      : {telemetry_store.summary()}")
 
     sample_out_path = base_dir / "models" / "sample_api_outputs.json"
     with open(sample_out_path, "w", encoding="utf-8") as f:
         json.dump(sample_outputs, f, indent=2, ensure_ascii=False)
-    print(f"\n[OK] Contoh output JSON untuk Mock Data Frontend disimpan di: {sample_out_path}")
+    print(f"\n[OK] Contoh output JSON disimpan di: {sample_out_path}")
 
     rag_test = rag.generate_rag_answer("Ukuran handuk custom dewasa berapa cm dan pilihan warnanya apa aja?")
-    print("\n=== HASIL UJI SISTEM RAG LOKAL (TANPA API PROPRIETARY) ===")
+    print("\n=== HASIL UJI SISTEM RAG (LLAMAINDEX + CHROMADB) ===")
     print(f"Vector DB Backend : {rag_test['meta']['vector_db_backend']}")
     print(f"Dokumen Terambil  : {[d['doc_id'] for d in rag_test['retrieved_documents']]}")
     print(f"Jawaban RAG       : {rag_test['answer']}")

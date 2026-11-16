@@ -83,7 +83,7 @@ export default function CreateOrderView({
             )}
             <span>
               {aiAnalyzing
-                ? "Mengekstrak dengan Llama 3.2 3B..."
+                ? "Mengekstrak dengan Instructor + LLM..."
                 : "Ekstrak Otomatis ke Form (AI)"}
             </span>
           </button>
@@ -91,7 +91,7 @@ export default function CreateOrderView({
           {aiAnalyzing && (
             <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 text-[11px] font-medium flex items-center gap-2.5 animate-pulse">
               <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
-              <span>Memproses chat dengan model LLM lokal di CPU (estimasi 15-25 detik)...</span>
+              <span>Memvalidasi kontrak Pydantic via Instructor & LLM...</span>
             </div>
           )}
         </div>
@@ -108,13 +108,13 @@ export default function CreateOrderView({
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-slate-400">Kategori Prediksi SVM</span>
+              <span className="text-slate-400">Kategori Pesanan (GenAI / System 1)</span>
               <span className="font-bold text-white bg-white/10 px-2.5 py-1 rounded-xl">
                 {aiResultMeta.prediction.category}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-slate-400">Referensi RAG Lokal</span>
+              <span className="text-slate-400">Referensi RAG (ChromaDB)</span>
               <span className="font-mono text-[11px] text-teal-300 bg-teal-500/10 px-2 py-0.5 rounded-lg border border-teal-500/20">
                 {(aiResultMeta.meta.rag_retrieved_doc_ids || []).join(", ") || "-"}
               </span>
@@ -124,7 +124,7 @@ export default function CreateOrderView({
               <span className="font-mono text-[11px] text-slate-300">
                 {aiResultMeta.meta.used_fallback
                   ? "Rule-based Fallback"
-                  : aiResultMeta.meta.llm_model}
+                  : `${aiResultMeta.meta.llm_model} (Instructor)`}
               </span>
             </div>
           </div>

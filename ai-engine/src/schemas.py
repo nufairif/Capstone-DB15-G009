@@ -1,8 +1,8 @@
-from typing import Dict, List, Literal, Optional
-from pydantic import BaseModel, Field, field_validator
+from typing import Any, Dict, List, Literal, Optional
+from pydantic import BaseModel, Field
 
 
-# 5 Kategori Baku sesuai Project Plan DB15-G009
+# 5 Kategori Baku Pesanan Toko Firaza (Ditentukan langsung di Structured Output GenAI / System 1)
 OrderCategory = Literal[
     "Ready Stock",
     "Custom Sajadah",
@@ -25,45 +25,34 @@ class OrderItemSchema(BaseModel):
 
     product_type: str = Field(
         ...,
-        description="Jenis produk (misal: Sajadah Dewasa, Handuk Mandi, Hampers Sajadah, dll.)",
+        min_length=2,
+        description="Jenis produk (misal: Sajadah Turki Custom, Handuk Mandi Custom, Hampers Sajadah)",
     )
     quantity: int = Field(
         default=1,
         ge=1,
-        description="Jumlah item yang dipesan (minimal 1)",
+        description="Jumlah item yang dipesan (bilangan bulat minimal 1)",
     )
     color: Optional[str] = Field(
         default=None,
-        description="Warna produk yang diminta pelanggan (misal: Navy, Maroon, Emerald)",
+        description="Warna produk yang diminta pelanggan (misal: Navy, Maroon, Hijau Emerald)",
     )
     size: Optional[str] = Field(
         default=None,
-        description="Ukuran produk jika disebutkan (misal: 70x140 cm, Travel, Besar, Anak)",
+        description="Ukuran produk jika disebutkan (misal: 70x140 cm, Travel, Dewasa, Anak)",
     )
     custom_text: Optional[str] = Field(
         default=None,
-        description="Teks/nama custom yang akan dibordir atau dicetak pada produk",
+        description="Teks/nama custom yang akan dibordir pada produk, atau null jika Ready Stock polos",
     )
     font_style: Optional[str] = Field(
         default=None,
-        description="Jenis font yang diminta (misal: Sambung/Script, Kapital/Blok, Arab, Kaligrafi)",
+        description="Jenis font yang diminta (misal: Sambung/Script, Kapital, Arab, Kaligrafi)",
     )
     layout_notes: Optional[str] = Field(
         default=None,
         description="Catatan posisi/layout bordir atau desain (misal: pojok kanan bawah, tengah atas)",
     )
-
-    @field_validator("quantity", mode="before")
-    @classmethod
-    def coerce_quantity(cls, v):
-        """Pastikan quantity selalu berupa integer >= 1 meskipun LLM mengembalikan string/null."""
-        if v is None or v == "":
-            return 1
-        try:
-            val = int(v)
-            return max(1, val)
-        except (ValueError, TypeError):
-            return 1
 
 
 class GreetingCardSchema(BaseModel):
@@ -71,11 +60,11 @@ class GreetingCardSchema(BaseModel):
 
     is_requested: bool = Field(
         default=False,
-        description="True jika pelanggan meminta kartu ucapan atau memesan Hampers/kado",
+        description="True jika pelanggan meminta kartu ucapan atau memesan paket Hampers/kado",
     )
     occasion: Optional[str] = Field(
         default=None,
-        description="Momen/acara kartu ucapan (misal: Pernikahan, Ulang Tahun, Lebaran, Umroh)",
+        description="Momen/acara kartu ucapan (misal: Pernikahan, Ulang Tahun, Lebaran, Haji/Umroh)",
     )
     sender_name: Optional[str] = Field(
         default=None,
@@ -87,13 +76,33 @@ class GreetingCardSchema(BaseModel):
     )
     draft_message: Optional[str] = Field(
         default=None,
-        description="Draf teks kartu ucapan yang sopan, hangat, dan siap cetak",
+        description="Draf teks kartu ucapan bahasa Indonesia yang sopan, hangat, dan siap cetak",
     )
 
 
 class StructuredOrderSummary(BaseModel):
-    """Output terstruktur hasil ekstraksi LLM dari chat pelanggan."""
+    """
+    Kontrak data utama (Pydantic) hasil ekstraksi & kategorisasi oleh GenAI melalui Instructor.
+    Jika output LLM tidak valid terhadap skema ini setelah batas retry, hasil akan ditolak.
+    """
 
+    order_category: OrderCategory = Field(
+        ...,
+        description=(
+            "Kategori pesanan berdasarkan maksud pelanggan: "
+            "'Hampers' (paket kado/giftbox/souvenir), "
+            "'Custom Sajadah' (sajadah dengan bordir/custom), "
+            "'Custom Handuk' (handuk dengan bordir/custom), "
+            "'Ready Stock' (produk polos tanpa custom), atau "
+            "'Other' (pertanyaan umum/non-pesanan)."
+        ),
+    )
+    category_confidence: float = Field(
+        default=0.95,
+        ge=0.0,
+        le=1.0,
+        description="Estimasi keyakinan kategori pesanan antara 0.0 hingga 1.0",
+    )
     customer_name: Optional[str] = Field(
         default=None,
         description="Nama pemesan jika disebutkan dalam chat",
@@ -104,11 +113,11 @@ class StructuredOrderSummary(BaseModel):
     )
     order_status: OrderStatus = Field(
         default="New",
-        description="Status awal pesanan (default: New)",
+        description="Status awal pesanan (selalu 'New' untuk pesanan baru)",
     )
     items: List[OrderItemSchema] = Field(
         default_factory=list,
-        description="Daftar produk yang dipesan",
+        description="Daftar produk yang dipesan (kosong jika kategori 'Other')",
     )
     greeting_card: GreetingCardSchema = Field(
         default_factory=GreetingCardSchema,
@@ -116,16 +125,16 @@ class StructuredOrderSummary(BaseModel):
     )
     additional_notes: Optional[str] = Field(
         default=None,
-        description="Catatan tambahan seperti deadline pengiriman, request bungkus, dll.",
+        description="Catatan tambahan seperti deadline pengiriman, warna benang, atau request bungkus",
     )
 
 
 class ClassificationResult(BaseModel):
-    """Output dari model Predictive AI (Scikit-Learn)."""
+    """Ringkasan kategori & routing pesanan (dihasilkan dari System 1 / GenAI Structured Output)."""
 
     category: OrderCategory
     confidence: float = Field(..., ge=0.0, le=1.0)
-    all_probabilities: Dict[str, float]
+    all_probabilities: Dict[str, float] = Field(default_factory=dict)
 
 
 class AnalyzeOrderRequest(BaseModel):
@@ -148,4 +157,4 @@ class AnalyzeOrderResponse(BaseModel):
     status: str = "success"
     prediction: ClassificationResult
     extraction: StructuredOrderSummary
-    meta: Dict[str, object]
+    meta: Dict[str, Any]

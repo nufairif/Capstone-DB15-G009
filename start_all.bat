@@ -3,8 +3,10 @@ echo ========================================================
 echo Menjalankan Sistem Toko Firaza dalam 1 Jendela Terminal
 echo - Web Dashboard (Next.js): http://localhost:3000
 echo - Backend ^& AI API     : http://localhost:8000/docs
-echo - Local LLM ^& Embedding: Ollama (llama3.2:3b + all-minilm)
-echo - Vector Database      : FAISS (faiss-cpu-IndexFlatIP)
+echo - LLM Engine             : vLLM (Ngrok) / Ollama Fallback (.env)
+echo - Structured Output      : Instructor + Pydantic v2
+echo - RAG Vector Database    : LlamaIndex + ChromaDB
+echo - Observability          : Langfuse Tracing
 echo (Tekan Ctrl + C untuk menghentikan keduanya)
 echo ========================================================
 echo.
