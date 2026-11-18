@@ -48,6 +48,34 @@ class LLMServiceUnavailableError(RuntimeError):
     """Dilemparkan ketika server LLM (vLLM via Ngrok / Ollama lokal) tidak dapat dijangkau."""
 
 
+_TRANSPORT_ERROR_TYPES = (
+    APIConnectionError,
+    APITimeoutError,
+    APIStatusError,
+    TimeoutError,
+    ConnectionError,
+)
+
+
+def _is_transport_error(exc: BaseException) -> bool:
+    """Memeriksa apakah exception (atau penyebab di dalam InstructorRetryException) merupakan gangguan jaringan/timeout."""
+    candidates = [exc, exc.__cause__, exc.__context__]
+    for attempt in getattr(exc, "failed_attempts", None) or []:
+        attempt_exc = getattr(attempt, "exception", None)
+        if attempt_exc is not None:
+            candidates.append(attempt_exc)
+
+    for candidate in candidates:
+        if candidate is None:
+            continue
+        if isinstance(candidate, _TRANSPORT_ERROR_TYPES):
+            return True
+        msg = str(candidate).lower()
+        if "timed out" in msg or "connection error" in msg:
+            return True
+    return False
+
+
 def generate_greeting_card_template(
     occasion: Optional[str],
     recipient: Optional[str],
@@ -379,26 +407,31 @@ class LocalLLMOrderExtractor:
             )
             return validated, meta
 
-        except (InstructorRetryException, ValidationError) as exc:
+        except (
+            InstructorRetryException,
+            ValidationError,
+            APIConnectionError,
+            APITimeoutError,
+            APIStatusError,
+        ) as exc:
             elapsed_ms = round((time.perf_counter() - t_start) * 1000.0, 2)
-            telemetry_store.record({
-                "latency_ms": elapsed_ms,
-                "total_tokens": 0,
-                "estimated_cost_idr": 0.0,
-                "validation_passed": False,
-                "system1_short_circuit": False,
-            })
-            update_langfuse_observation(
-                level="ERROR",
-                status_message=f"Pydantic contract validation failed: {exc}",
-                model=self.model_name,
-            )
-            raise StructuredContractError(
-                f"Output LLM tidak memenuhi kontrak Pydantic StructuredOrderSummary setelah {self.max_retries}x retry: {exc}"
-            ) from exc
+            if not _is_transport_error(exc):
+                telemetry_store.record({
+                    "latency_ms": elapsed_ms,
+                    "total_tokens": 0,
+                    "estimated_cost_idr": 0.0,
+                    "validation_passed": False,
+                    "system1_short_circuit": False,
+                })
+                update_langfuse_observation(
+                    level="ERROR",
+                    status_message=f"Pydantic contract validation failed: {exc}",
+                    model=self.model_name,
+                )
+                raise StructuredContractError(
+                    f"Output LLM tidak memenuhi kontrak Pydantic StructuredOrderSummary setelah {self.max_retries}x retry: {exc}"
+                ) from exc
 
-        except (APIConnectionError, APITimeoutError, APIStatusError) as exc:
-            elapsed_ms = round((time.perf_counter() - t_start) * 1000.0, 2)
             if not allow_offline_fallback:
                 update_langfuse_observation(
                     level="ERROR",

@@ -2,6 +2,24 @@ import React from "react";
 import { Wand2, Plus, Gift, ChevronDown, Loader2 } from "lucide-react";
 import { PRESET_CHATS, CATEGORIES, inputSoftClass } from "../../constants";
 
+const FONT_PRESETS = [
+  "Kaligrafi Arab",
+  "Sambung (Script)",
+  "Huruf Balok",
+  "Serif Klasik",
+  "Monoline",
+  "Kapital",
+];
+
+const LAYOUT_PRESETS = [
+  "Pojok Kanan Bawah",
+  "Pojok Kiri Bawah",
+  "Tengah Bawah",
+  "Tengah Atas",
+  "Kubah Sajadah",
+  "List Bawah Handuk",
+];
+
 export default function CreateOrderView({
   rawChat,
   setRawChat,
@@ -334,6 +352,8 @@ export default function CreateOrderView({
                   </label>
                   <input
                     type="text"
+                    list={`font-presets-${idx}`}
+                    placeholder="Pilih atau ketik font..."
                     value={item.font_style || ""}
                     onChange={(e) => {
                       const updated = [...orderForm.items];
@@ -342,6 +362,34 @@ export default function CreateOrderView({
                     }}
                     className={`${inputSoftClass} !py-2`}
                   />
+                  <datalist id={`font-presets-${idx}`}>
+                    {FONT_PRESETS.map((preset) => (
+                      <option key={preset} value={preset} />
+                    ))}
+                  </datalist>
+                  <div className="flex flex-wrap gap-1 mt-1.5">
+                    {FONT_PRESETS.map((preset) => {
+                      const active = (item.font_style || "").toLowerCase() === preset.toLowerCase();
+                      return (
+                        <button
+                          key={preset}
+                          type="button"
+                          onClick={() => {
+                            const updated = [...orderForm.items];
+                            updated[idx].font_style = preset;
+                            setOrderForm({ ...orderForm, items: updated });
+                          }}
+                          className={`px-2 py-0.5 rounded-full text-[10px] font-semibold transition-all border ${
+                            active
+                              ? "bg-slate-900 text-white border-slate-900"
+                              : "bg-white/70 hover:bg-white text-slate-600 border-white/80"
+                          }`}
+                        >
+                          {preset}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
                 <div className="md:col-span-3">
                   <label className="block text-[11px] font-semibold text-slate-500 mb-1">
@@ -349,6 +397,8 @@ export default function CreateOrderView({
                   </label>
                   <input
                     type="text"
+                    list={`layout-presets-${idx}`}
+                    placeholder="Pilih atau ketik posisi layout bordir..."
                     value={item.layout_notes || ""}
                     onChange={(e) => {
                       const updated = [...orderForm.items];
@@ -357,6 +407,34 @@ export default function CreateOrderView({
                     }}
                     className={`${inputSoftClass} !py-2`}
                   />
+                  <datalist id={`layout-presets-${idx}`}>
+                    {LAYOUT_PRESETS.map((preset) => (
+                      <option key={preset} value={preset} />
+                    ))}
+                  </datalist>
+                  <div className="flex flex-wrap gap-1.5 mt-1.5">
+                    {LAYOUT_PRESETS.map((preset) => {
+                      const active = (item.layout_notes || "").toLowerCase() === preset.toLowerCase();
+                      return (
+                        <button
+                          key={preset}
+                          type="button"
+                          onClick={() => {
+                            const updated = [...orderForm.items];
+                            updated[idx].layout_notes = preset;
+                            setOrderForm({ ...orderForm, items: updated });
+                          }}
+                          className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold transition-all border ${
+                            active
+                              ? "bg-slate-900 text-white border-slate-900"
+                              : "bg-white/70 hover:bg-white text-slate-600 border-white/80"
+                          }`}
+                        >
+                          {preset}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>

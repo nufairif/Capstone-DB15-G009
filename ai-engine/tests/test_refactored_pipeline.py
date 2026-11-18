@@ -8,7 +8,7 @@ import httpx
 import pytest
 from fastapi.testclient import TestClient
 from instructor.core import InstructorRetryException
-from openai import APIConnectionError
+from openai import APIConnectionError, APITimeoutError
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
 AI_ENGINE_DIR = ROOT_DIR / "ai-engine"
@@ -129,6 +129,37 @@ def test_instructor_extractor_unreachable_strict_mode():
             "Pesen handuk custom 3 pcs warna maroon",
             allow_offline_fallback=False,
         )
+
+
+def test_instructor_wrapped_timeout_routes_to_unreachable_or_fallback():
+    req = httpx.Request("POST", "https://example.ngrok-free.app/v1/chat/completions")
+    timeout_err = APITimeoutError(request=req)
+    wrapped = InstructorRetryException(
+        "Request timed out.",
+        last_completion=None,
+        n_attempts=1,
+        total_usage=0,
+        messages=[],
+    )
+    wrapped.__cause__ = timeout_err
+
+    mock_client = MagicMock()
+    mock_client.chat.completions.create_with_completion.side_effect = wrapped
+
+    extractor = LocalLLMOrderExtractor(client=mock_client)
+    with pytest.raises(LLMServiceUnavailableError):
+        extractor.extract(
+            "Pesen handuk custom 3 pcs warna maroon",
+            allow_offline_fallback=False,
+        )
+
+    summary, meta = extractor.extract(
+        "Pesen handuk custom 3 pcs warna maroon",
+        allow_offline_fallback=True,
+    )
+    assert summary.order_category == "Custom Handuk"
+    assert meta["used_fallback"] is True
+    assert meta["fallback_reason"] == "llm_unreachable"
 
 
 def test_rag_llamaindex_chromadb(tmp_path, monkeypatch):
